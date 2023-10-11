@@ -1,4 +1,5 @@
-// 重新处理vite配置中的字符串
+// 重新处理vite配置中的字符串，主要是因为很多人对env文件的处理习惯不一样，有的在配置文件对字符串打引号，有的又习惯在配置文件里面不打引号。导致类型无法被直接推断。
+// 并且现在对env文件的支持不够，不能像yml文件那样方便做配置，所以用这个方法统一env文件编辑后的格式
 export function wrapperEnv(envConf: Recordable): ViteEnvPluginConfig {
   const ret: any = {};
 

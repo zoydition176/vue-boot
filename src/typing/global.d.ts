@@ -33,6 +33,8 @@ declare interface ViteEnvPluginConfig extends ViteEnv {
   VITE_REPORT: boolean;
   // 是否启动vite-pwa插件，据我所知pwa在项目不做seo的情况下应该没什么用
   VITE_PWA: boolean;
+  // 是否启动浏览器兼容性支持
+  VITE_LEGACY: boolean;
 }
 
 declare type Recordable<T = any> = Record<string, any>;

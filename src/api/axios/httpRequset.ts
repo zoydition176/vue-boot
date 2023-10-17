@@ -36,10 +36,10 @@ export class httpRequest {
       // 额外处理逻辑
 
       return config;
-    },undefined);
+    }, requestInterceptorsCatch);
 
     // 请求拦截错误捕获
-    requestInterceptorsCatch && this.requestInstance.interceptors.request.use(undefined, requestInterceptorsCatch);
+    // requestInterceptorsCatch && this.requestInstance.interceptors.request.use(undefined, requestInterceptorsCatch);
 
     // 响应拦截
     this.requestInstance.interceptors.response.use((response: AxiosResponse)=>{
@@ -49,10 +49,10 @@ export class httpRequest {
       // 额外处理逻辑
 
       return response;
-    },undefined);
+    }, responseInterceptorsCatch);
 
     // 响应拦截错误捕获
-    responseInterceptorsCatch && this.requestInstance.interceptors.request.use(undefined, responseInterceptorsCatch);
+    // responseInterceptorsCatch && this.requestInstance.interceptors.request.use(undefined, responseInterceptorsCatch);
   }
 }
 

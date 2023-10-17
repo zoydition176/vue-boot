@@ -54,5 +54,9 @@ export class httpRequest {
     // 响应拦截错误捕获
     // responseInterceptorsCatch && this.requestInstance.interceptors.request.use(undefined, responseInterceptorsCatch);
   }
+
+  get<T = any>(config:AxiosRequestConfig, options?:RequestOptions): Promise<T> {
+    return this.requestInstance.get()
+  }
 }
 

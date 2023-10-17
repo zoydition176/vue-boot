@@ -1,6 +1,7 @@
 import type {AxiosTransform} from "./axios/transform";
 import {AxiosError, AxiosResponse, InternalAxiosRequestConfig} from "axios";
 import {customAxiosRequestConfig} from "./axios/transform";
+
 const transform: AxiosTransform = {
   // 抽象类实现
   requestInterceptors: (config: InternalAxiosRequestConfig, options: customAxiosRequestConfig) => {

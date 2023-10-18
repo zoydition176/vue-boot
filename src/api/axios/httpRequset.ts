@@ -31,15 +31,13 @@ export class httpRequest {
     // 请求拦截
     this.requestInstance.interceptors.request.use((config: InternalAxiosRequestConfig) => {
       if(requestInterceptors){
+        // 通过this.options中的自定义配置，更改config配置里的值
         config = requestInterceptors(config, this.options);
       }
       // 额外处理逻辑
 
       return config;
     }, requestInterceptorsCatch);
-
-    // 请求拦截错误捕获
-    // requestInterceptorsCatch && this.requestInstance.interceptors.request.use(undefined, requestInterceptorsCatch);
 
     // 响应拦截
     this.requestInstance.interceptors.response.use((response: AxiosResponse)=>{
@@ -50,13 +48,27 @@ export class httpRequest {
 
       return response;
     }, responseInterceptorsCatch);
-
-    // 响应拦截错误捕获
-    // responseInterceptorsCatch && this.requestInstance.interceptors.request.use(undefined, responseInterceptorsCatch);
   }
 
-  get<T = any>(config:AxiosRequestConfig, options?:RequestOptions): Promise<T> {
-    return this.requestInstance.get()
+  get<T = any>(url: string, params?: object, config = {}): Promise<T>{
+    return this.requestInstance.get(url, {params, ...config});
+  }
+
+  post<T = any>(url: string, data?: object, config = {}): Promise<T>{
+    return this.requestInstance.post(url, data, {...config});
+  }
+
+  delete<T>(url: string, params?: any, _object = {}): Promise<T> {
+    return this.requestInstance.delete(url, { params, ..._object });
+  }
+
+  put<T>(url: string, params?: object, _object = {}): Promise<T> {
+    return this.requestInstance.put(url, params, _object);
+  }
+
+  // 需要重新封装
+  download(){
+    return Promise.reject();
   }
 }
 

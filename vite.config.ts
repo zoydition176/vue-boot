@@ -10,7 +10,6 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
   // 获取文件目录
   const root = process.cwd();
   console.log("项目文件目录：", root);
-
   // 加载vite配置
   const env = loadEnv(mode,root);
   const viteEnv = wrapperEnv(env);
@@ -24,6 +23,14 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
       alias: {
         '@': resolve(__dirname, "./src"),
         '#': resolve(__dirname, "./types"),
+      }
+    },
+    // css公共引入配置
+    css: {
+      preprocessorOptions: {
+        scss: {
+          additionalData: `@import "@/styles/main.scss";`
+        }
       }
     },
     // 服务器配置

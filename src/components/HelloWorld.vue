@@ -28,11 +28,17 @@ const count = ref(0)
     <a href="https://github.com/vuejs/language-tools" target="_blank">Volar</a>
     in your IDE for a better DX
   </p>
-  <p class="read-the-docs">Click on the Vite and Vue logos to learn more</p>
+  <p class="read-the-docs">
+    Click on the Vite and Vue logos to learn more
+    <a href="">21344551</a>
+  </p>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .read-the-docs {
   color: #888;
+  a{
+    background: #535bf2;
+  }
 }
 </style>

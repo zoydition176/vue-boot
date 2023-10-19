@@ -4,7 +4,10 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite --open",
-    "build": "vue-tsc --noEmit --skipLibCheck && vite build",
+    "build": "vue-tsc && vite build",
+    "build:dev": "vue-tsc --noEmit --skipLibCheck && vite build --mode development",
+    "build:test": "vue-tsc && vite build --mode test",
+    "build:prod": "vue-tsc --noEmit --skipLibCheck && vite build --mode production",
     "preview": "vite preview",
     "type:check": "vue-tsc --noEmit --skipLibCheck"
   },

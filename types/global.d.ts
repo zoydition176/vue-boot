@@ -27,7 +27,7 @@ declare interface ViteEnv {
 * */
 declare interface ViteEnvPluginConfig extends ViteEnv {
   // vite-plugin-compression插件配置 用于项目开启gzip brotli压缩资源
-  VITE_BUILD_COMPRESS: "gzip" | "brotli" | "gzip,brotli" | "none";
+  VITE_BUILD_COMPRESS: "gzip" | "brotli" | "none";
   VITE_BUILD_COMPRESS_DELETE_ORIGIN_FILE: boolean;
   // rollup-plugin-visualizer插件配置 用于项目资源的可视化分析
   VITE_REPORT: boolean;

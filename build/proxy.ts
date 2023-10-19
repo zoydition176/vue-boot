@@ -9,7 +9,7 @@ const httpsReg = /^https:\/\//;
 /*
 * 生成代理对象
 * */
-export function createProxy(list: ProxyList){
+export function createProxy(list: ProxyList = []){
   const result: ProxyTableList = {};
   for(let [prefix,target] of list){
     result[prefix] = {

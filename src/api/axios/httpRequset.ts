@@ -42,7 +42,7 @@ export class httpRequest {
     // 响应拦截
     this.requestInstance.interceptors.response.use((response: AxiosResponse)=>{
       if (responseInterceptors) {
-        response = responseInterceptors(response);
+        response = responseInterceptors(response, this.options);
       }
       // 额外处理逻辑
 

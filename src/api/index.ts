@@ -32,6 +32,7 @@ const transform: AxiosTransform = {
   },
   responseInterceptorsCatch: (error: AxiosError) => {
     console.log(error,'responseInterceptorsCatch');
+    const { response, code, message } = error;
     return Promise.reject(error);
   }
 }

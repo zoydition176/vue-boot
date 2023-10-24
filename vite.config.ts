@@ -52,15 +52,15 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
       target: 'es2015',
       cssTarget: 'chrome80',
       outDir: OUTPUT_DIR,
-      // minify模式改为terser时可打开，能去掉console和debugger 但是打包速度会降低，不适合调试时使用
-      // terserOptions: {
-      //   compress: {
-      //     keep_infinity: true,
-      //     // Used to delete console in production environment
-      //     drop_console: VITE_DROP_CONSOLE,
-      //     drop_debugger: true,
-      //   },
-      // },
+      // minify模式改为terser时可打开，能去掉console和debugger 但是打包速度会降低
+      /*terserOptions: {
+        compress: {
+          keep_infinity: true,
+          // Used to delete console in production environment
+          drop_console: VITE_DROP_CONSOLE,
+          drop_debugger: true,
+        },
+      },*/
       // Turning off brotliSize display can slightly reduce packaging time
       reportCompressedSize: false,
       chunkSizeWarningLimit: 2000,

@@ -22,17 +22,20 @@ const transform: AxiosTransform = {
     }
     return config;
   },
+  // 具体的逻辑看需求，后期逐步添加
   responseInterceptors: (res: AxiosResponse<any>, options: customAxiosRequestConfig) => {
     console.log(res, options, '响应拦截');
     return res;
   },
+  // 具体的逻辑看需求，后期逐步添加
   requestInterceptorsCatch: (error: AxiosError) => {
     console.log(error,'requestInterceptorsCatch');
     return Promise.reject(error);
   },
+  // 具体的逻辑看需求，后期逐步添加
   responseInterceptorsCatch: (error: AxiosError) => {
-    console.log(error,'responseInterceptorsCatch');
     const { response, code, message } = error;
+    console.log(response, code, message);
     return Promise.reject(error);
   }
 }

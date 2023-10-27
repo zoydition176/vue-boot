@@ -18,9 +18,6 @@ export interface customRequestOptions {
   // ignoreCancelToken?: boolean;
   //是否在标头中发送令牌
   withToken?: boolean;
-}
-
-export interface customResponseOptions {
   // 是否处理请求结果
   isTransformResponse?: boolean;
   // 是否返回本地响应头,需要获取响应头时使用此属性

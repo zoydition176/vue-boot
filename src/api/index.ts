@@ -4,6 +4,7 @@ import {customAxiosRequestConfig} from "./axios/transform";
 import {httpRequest} from "/@/api/axios/httpRequset";
 import {getUserStore} from "/@/stores/modules/user";
 // import {customResponseOptions} from "/@/api/interface/axios";
+// import {customResponseOptions} from "/@/api/interface/axios";
 
 // 抽象类实现
 const transform: AxiosTransform = {
@@ -23,8 +24,8 @@ const transform: AxiosTransform = {
     return config;
   },
   // 具体的逻辑看需求，后期逐步添加
-  responseInterceptors: (res: AxiosResponse<any>, options: customAxiosRequestConfig) => {
-    console.log(res, options, '响应拦截');
+  responseInterceptors: (res: AxiosResponse<any>) => {
+    console.log(res, '响应拦截');
     return res;
   },
   // 具体的逻辑看需求，后期逐步添加

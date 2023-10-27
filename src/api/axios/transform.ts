@@ -1,11 +1,18 @@
 import {AxiosError, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig} from "axios";
-import {customRequestOptions, customResponseOptions} from "/@/api/interface/axios";
+import {customRequestOptions} from "/@/api/interface/axios";
 export interface customAxiosRequestConfig extends AxiosRequestConfig{
   configMethods: AxiosTransform,
   requestOption?: customRequestOptions,
-  responseOption?: customResponseOptions
 }
 export abstract class AxiosTransform {
+  /**
+   * @description: 请求前处理
+   */
+  beforeReqHook?: (config: AxiosRequestConfig, options: customRequestOptions) => AxiosRequestConfig;
+  /**
+   * @description: 响应后处理
+   */
+  transformResHook?: (res: AxiosResponse<any>, options: customRequestOptions) => any;
   /**
    * @description: 请求之前的拦截器
    */
@@ -14,7 +21,7 @@ export abstract class AxiosTransform {
   /**
    * @description: 请求之后的拦截器
    */
-  responseInterceptors?: (res: AxiosResponse<any>, options: customAxiosRequestConfig) => AxiosResponse<any>;
+  responseInterceptors?: (res: AxiosResponse<any>) => AxiosResponse<any>;
 
   /**
    * @description: 请求之前的拦截器错误处理

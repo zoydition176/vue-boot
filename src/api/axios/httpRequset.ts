@@ -1,4 +1,4 @@
-import axios, {AxiosInstance, AxiosResponse, InternalAxiosRequestConfig} from "axios";
+import axios, {AxiosInstance, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig} from "axios";
 import {customAxiosRequestConfig} from "/@/api/axios/transform";
 
 /*
@@ -42,7 +42,7 @@ export class httpRequest {
     // 响应拦截
     this.requestInstance.interceptors.response.use((response: AxiosResponse)=>{
       if (responseInterceptors) {
-        response = responseInterceptors(response, this.options);
+        response = responseInterceptors(response);
       }
       // 额外处理逻辑
 
@@ -50,20 +50,8 @@ export class httpRequest {
     }, responseInterceptorsCatch);
   }
 
-  get<T = any>(url: string, params?: object, config = {}): Promise<T>{
-    return this.requestInstance.get(url, {params, ...config});
-  }
+  originRequest<T = any>(config: AxiosRequestConfig, options?: customAxiosRequestConfig): Promise<T>{
 
-  post<T = any>(url: string, data?: object, config = {}): Promise<T>{
-    return this.requestInstance.post(url, data, {...config});
-  }
-
-  delete<T>(url: string, params?: any, _object = {}): Promise<T> {
-    return this.requestInstance.delete(url, { params, ..._object });
-  }
-
-  put<T>(url: string, params?: object, _object = {}): Promise<T> {
-    return this.requestInstance.put(url, params, _object);
   }
 
   // 需要重新封装

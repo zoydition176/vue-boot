@@ -32,6 +32,7 @@ export function createVitePlugins(viteEnv: ViteEnvPluginConfig, isBuild: boolean
     vue(),
     vueJsx(),
     vueSetupExtend(),
+
     // @ts-ignore
     VitePluginCertificate({
       source: 'coding',

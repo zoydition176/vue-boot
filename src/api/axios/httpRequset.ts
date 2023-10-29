@@ -1,5 +1,7 @@
 import axios, {AxiosInstance, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig} from "axios";
 import {customAxiosRequestConfig} from "/@/api/axios/transform";
+import {customRequestOptions} from "/@/api/interface/axios";
+import {cloneD} from "/@/utils";
 
 /*
 * 请求类封装
@@ -50,7 +52,18 @@ export class httpRequest {
     }, responseInterceptorsCatch);
   }
 
-  originRequest<T = any>(config: AxiosRequestConfig, options?: customAxiosRequestConfig): Promise<T>{
+  originRequest<T = any>(config: AxiosRequestConfig, options?: customRequestOptions): Promise<T>{
+    let conf: customAxiosRequestConfig = cloneD(config);
+    const configMethods = this.getConfigMethods() || {};
+    const { beforeReqHook, transformResHook } = configMethods;
+    // 默认配置
+    const { requestOption } = this.options;
+    // 合并成新配置
+    const newOptions = Object.assign({},requestOption,options);
+    // 重新处理请求配置
+    if(beforeReqHook){
+      conf = beforeReqHook(conf, newOptions);
+    }
 
   }
 

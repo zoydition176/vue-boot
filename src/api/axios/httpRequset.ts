@@ -1,7 +1,8 @@
-import axios, {AxiosInstance, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig} from "axios";
+import axios, {AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig} from "axios";
 import {customAxiosRequestConfig} from "/@/api/axios/transform";
 import {customRequestOptions} from "/@/api/interface/axios";
 import {cloneD} from "/@/utils";
+import {isFunction} from "/@/utils/affirm/is";
 
 /*
 * 请求类封装
@@ -51,7 +52,10 @@ export class httpRequest {
       return response;
     }, responseInterceptorsCatch);
   }
-
+  /**
+   * @params config axios原生配置
+   * @params options 封装后的请求配置
+   */
   originRequest<T = any>(config: AxiosRequestConfig, options?: customRequestOptions): Promise<T>{
     let conf: customAxiosRequestConfig = cloneD(config);
     const configMethods = this.getConfigMethods() || {};
@@ -61,10 +65,31 @@ export class httpRequest {
     // 合并成新配置
     const newOptions = Object.assign({},requestOption,options);
     // 重新处理请求配置
-    if(beforeReqHook){
+    if(beforeReqHook && isFunction(beforeReqHook)){
       conf = beforeReqHook(conf, newOptions);
     }
+    conf.requestOption = newOptions;
 
+    return new Promise((resolve, reject)=>{
+      this.requestInstance.request<any, AxiosResponse<any>>(conf).then((result)=>{
+        if(transformResHook && isFunction(transformResHook)){
+          try {
+            const newRes = transformResHook(result, newOptions);
+            if(config.success){
+              config.success(result.data);
+            }
+            resolve(newRes);
+          } catch (err) {
+            reject(err || new Error('请求失败'));
+          }
+          return;
+        }
+        resolve(new Promise(()=>{}));
+      }).catch((e: Error | AxiosError)=>{
+        reject(e);
+        return;
+      })
+    })
   }
 
   // 需要重新封装

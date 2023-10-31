@@ -54,13 +54,13 @@ export class httpRequest {
   }
   /**
    * @params config axios原生配置
-   * @params options 封装后的请求配置
+   * @params options 封装后实时的请求配置
    */
   originRequest<T = any>(config: AxiosRequestConfig, options?: customRequestOptions): Promise<T>{
     let conf: customAxiosRequestConfig = cloneD(config);
     const configMethods = this.getConfigMethods() || {};
     const { beforeReqHook, transformResHook } = configMethods;
-    // 默认配置
+    // 获取默认配置
     const { requestOption } = this.options;
     // 合并成新配置
     const newOptions = Object.assign({},requestOption,options);
@@ -75,12 +75,12 @@ export class httpRequest {
         if(transformResHook && isFunction(transformResHook)){
           try {
             const newRes = transformResHook(result, newOptions);
-            if(config.success){
+            /*if(config.success){
               config.success(result.data);
-            }
+            }*/
             resolve(newRes);
           } catch (err) {
-            reject(err || new Error('请求失败'));
+            reject(err || new Error('request fail'));
           }
           return;
         }
@@ -91,7 +91,21 @@ export class httpRequest {
       })
     })
   }
+  get<T = any>(config: AxiosRequestConfig, options?: customRequestOptions): Promise<T> {
+    return this.originRequest({ ...config, method: 'GET' }, options);
+  }
 
+  post<T = any>(config: AxiosRequestConfig, options?: customRequestOptions): Promise<T> {
+    return this.originRequest({ ...config, method: 'POST' }, options);
+  }
+
+  put<T = any>(config: AxiosRequestConfig, options?: customRequestOptions): Promise<T> {
+    return this.originRequest({ ...config, method: 'PUT' }, options);
+  }
+
+  delete<T = any>(config: AxiosRequestConfig, options?: customRequestOptions): Promise<T> {
+    return this.originRequest({ ...config, method: 'DELETE' }, options);
+  }
   // 需要重新封装
   download(){
     return Promise.reject();

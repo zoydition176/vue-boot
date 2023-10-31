@@ -3,11 +3,21 @@ import {AxiosError, AxiosResponse, InternalAxiosRequestConfig} from "axios";
 import {customAxiosRequestConfig} from "./axios/transform";
 import {httpRequest} from "/@/api/axios/httpRequset";
 import {getUserStore} from "/@/stores/modules/user";
+import {AxiosRequestConfig} from "axios/index";
+import {customRequestOptions} from "/@/api/interface/axios";
 // import {customResponseOptions} from "/@/api/interface/axios";
 // import {customResponseOptions} from "/@/api/interface/axios";
 
 // 抽象类实现
 const transform: AxiosTransform = {
+  beforeReqHook: (config: AxiosRequestConfig, options: customRequestOptions) => {
+    console.log(config,options,'beforeReqHook');
+    return config;
+  },
+  transformResHook: (res: AxiosResponse<any>, options: customRequestOptions) => {
+    console.log(res,options,'transformResHook');
+    return res;
+  },
   /**
    * @description: 请求拦截配置
    * @params config axios配置（带headers）
@@ -41,6 +51,12 @@ const transform: AxiosTransform = {
   }
 }
 
+// 定义默认请求配置
 export default new httpRequest({
-  configMethods: transform
+  configMethods: transform,
+  requestOption: {
+    withToken: true,
+    isTransformResponse: true,
+    isReturnNativeResponse: false,
+  }
 });

@@ -3,7 +3,7 @@ import {AxiosError, AxiosResponse, InternalAxiosRequestConfig} from "axios";
 import {customAxiosRequestConfig} from "./axios/transform";
 import {httpRequest} from "/@/api/axios/httpRequset";
 import {getUserStore} from "/@/stores/modules/user";
-import {AxiosRequestConfig} from "axios/index";
+import {AxiosRequestConfig} from "axios";
 import {customRequestOptions} from "/@/api/interface/axios";
 // import {customResponseOptions} from "/@/api/interface/axios";
 // import {customResponseOptions} from "/@/api/interface/axios";

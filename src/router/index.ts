@@ -2,8 +2,8 @@ import {createRouter, createWebHashHistory, createWebHistory} from "vue-router";
 import {staticRouter} from "./modules/staticRouter";
 import {errorRouter} from "./modules/errorRouter";
 import {setNProgress} from "./plugin/nprogress";
-import {getUserStore} from "/@/stores/modules/user";
-import {LOGIN_URL} from "/@/router/constant";
+// import {getUserStore} from "/@/stores/modules/user";
+// import {LOGIN_URL} from "/@/router/constant";
 
 const routeMode = {
   hash: ()=> createWebHashHistory(),
@@ -16,11 +16,11 @@ const router = createRouter({
   scrollBehavior: () => ({ left: 0, top: 0 }),
 });
 router.beforeEach(async (to, from, next)=>{
-  console.log(to,from,next,'routerGuard');
-  const userStore = getUserStore();
-  const token = userStore.token;
+  console.log(to,from,'routerGuard');
+  // const userStore = getUserStore();
+  // const token = userStore.token;
   setNProgress().start();
-  if (!token) return next({ path: LOGIN_URL, replace: true });
+  // if (!token) return next({ path: LOGIN_URL, replace: true });
   next();
 });
 router.onError((err)=>{

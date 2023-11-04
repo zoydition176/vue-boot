@@ -11,18 +11,13 @@
 </template>
 <script setup lang="ts">
 import HelloWorld from './components/HelloWorld.vue';
-// import httpRequest from '/@/api/index';
+import httpRequest from '/@/api/index';
 import {onMounted} from "vue";
 
 onMounted(()=>{
-  // httpRequest.post({ url: '/login' }).then((res)=>{
-  //   console.log(res,'dasdd');
-  // });
-  fetch('/login',{
-    method: 'POST'
-  }).then((res)=>{
-    console.log(res,'asd');
-  })
+  httpRequest.get({ url: '/user' }).then((res)=>{
+    console.log(res,'dasdd');
+  });
 })
 </script>
 <style scoped>

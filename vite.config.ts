@@ -75,14 +75,15 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
       // 允许跨域
       cors: true,
       // 代理配置列表
-      // proxy: createProxy(VITE_PROXY)
-      proxy: {
-        '^/api': {
-          target: 'http://10.200.213.148:8080',
-          changeOrigin: true, //开启代理
-          rewrite: (path) => path.replace(/^\/api/, ''),
-        },
-      },
+      proxy: createProxy(VITE_PROXY)
+      // proxy: {
+      //   '^/api': {
+      //     target: 'http://localhost:9090',
+      //     changeOrigin: true, //开启代理
+      //     ws: true,
+      //     rewrite: (path) => path.replace(/^\/api/, ''),
+      //   },
+      // },
     },
     // 构建配置
     build: {

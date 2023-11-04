@@ -54,6 +54,7 @@ const transform: AxiosTransform = {
 // 定义默认请求配置
 export default new httpRequest({
   configMethods: transform,
+  baseURL: import.meta.env.VITE_API_URL as string,
   requestOption: {
     withToken: true,
     isTransformResponse: true,

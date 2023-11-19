@@ -53,7 +53,7 @@ export class httpRequest {
     }, responseInterceptorsCatch);
   }
   /**
-   * @params config axios原生配置
+   * @params config axios原生配置+默认配置
    * @params options 封装后实时的请求配置
    */
   originRequest<T = any>(config: AxiosRequestConfig, options?: customRequestOptions): Promise<T>{

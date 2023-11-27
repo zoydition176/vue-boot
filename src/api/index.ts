@@ -5,6 +5,8 @@ import {httpRequest} from "/@/api/axios/httpRequset";
 import {getUserStore} from "/@/stores/modules/user";
 import {AxiosRequestConfig} from "axios";
 import {customRequestOptions} from "/@/api/interface/axios";
+import {RequestEnum} from "@/api/enum/httpEnum";
+import {isStr} from "@/utils/affirm/is";
 // import {customResponseOptions} from "/@/api/interface/axios";
 // import {customResponseOptions} from "/@/api/interface/axios";
 
@@ -12,6 +14,37 @@ import {customRequestOptions} from "/@/api/interface/axios";
 const transform: AxiosTransform = {
   beforeReqHook: (config: AxiosRequestConfig, options: customRequestOptions) => {
     console.log(config,options,'beforeReqHook');
+    const { addPrefix, joinTime } = options;
+    const timestamp = joinTime ? new Date().getTime() : '';
+    if(!!addPrefix){
+      config.url = addPrefix + '' + config.url;
+    }
+    const params = config.params || {};
+    const data = config.data || false;
+    // get方法加入时间戳
+    if(config.method?.toUpperCase() === RequestEnum.GET){
+      if(isStr(params)){
+        // restful
+        config.params = `${config.url}${params}${timestamp}`;
+        config.params = undefined;
+      }else{
+        config.params = Object.assign(params || {}, { _t: timestamp });
+      }
+    }else{
+      if(isStr(params)){
+        // restful
+        config.params = `${config.url}${params}${timestamp}`;
+        config.params = undefined;
+      }else{
+        if(Reflect.has(config, 'data') && config.data && Object.keys(config.data).length > 0){
+          config.data = data;
+          config.params = params;
+        }else{
+          config.data = params;
+          config.params = undefined;
+        }
+      }
+    }
     return config;
   },
   transformResHook: (res: AxiosResponse<any>, options: customRequestOptions) => {
@@ -56,8 +89,16 @@ export default new httpRequest({
   configMethods: transform,
   baseURL: import.meta.env.VITE_API_URL as string,
   requestOption: {
+    // 是否夹带token
     withToken: true,
+    // 是否处理响应
     isTransformResponse: true,
+    // 是否返回原生网络响应
     isReturnNativeResponse: false,
+    // 是否添加前缀
+    // addPrefix: '',
+    // about FormData
+    isFormData: false,
+    joinTime: false
   }
 });

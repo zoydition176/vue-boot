@@ -22,4 +22,10 @@ export interface customRequestOptions {
   isTransformResponse?: boolean;
   // 是否返回本地响应头,需要获取响应头时使用此属性
   isReturnNativeResponse?: boolean;
+  // add prefix
+  addPrefix?: string;
+  // deal with formData
+  isFormData?: boolean;
+  // 是否添加时间戳
+  joinTime?: boolean;
 }

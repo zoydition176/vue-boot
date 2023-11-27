@@ -54,17 +54,17 @@ export class httpRequest {
   }
   /**
    * @params config axios原生配置+默认配置
-   * @params options 封装后实时的请求配置
+   * @params options 封装后实时的自定义请求配置
    */
   originRequest<T = any>(config: AxiosRequestConfig, options?: customRequestOptions): Promise<T>{
     let conf: customAxiosRequestConfig = cloneD(config);
     const configMethods = this.getConfigMethods() || {};
     const { beforeReqHook, transformResHook } = configMethods;
-    // 获取默认配置
+    // 获取提前配置设定的默认配置
     const { requestOption } = this.options;
     // 合并成新配置
     const newOptions = Object.assign({},requestOption,options);
-    // 重新处理请求配置
+    // 重新处理请求
     if(beforeReqHook && isFunction(beforeReqHook)){
       conf = beforeReqHook(conf, newOptions);
     }

@@ -12,6 +12,7 @@ import {isStr} from "@/utils/affirm/is";
 
 // 抽象类实现
 const transform: AxiosTransform = {
+  // before set requestInterceptors
   beforeReqHook: (config: AxiosRequestConfig, options: customRequestOptions) => {
     console.log(config,options,'beforeReqHook');
     const { addPrefix, joinTime } = options;
@@ -24,7 +25,7 @@ const transform: AxiosTransform = {
     // get方法加入时间戳
     if(config.method?.toUpperCase() === RequestEnum.GET){
       if(isStr(params)){
-        // restful
+        // restful style
         config.params = `${config.url}${params}${timestamp}`;
         config.params = undefined;
       }else{
@@ -32,7 +33,7 @@ const transform: AxiosTransform = {
       }
     }else{
       if(isStr(params)){
-        // restful
+        // restful style
         config.params = `${config.url}${params}${timestamp}`;
         config.params = undefined;
       }else{
@@ -47,6 +48,7 @@ const transform: AxiosTransform = {
     }
     return config;
   },
+  // after response interceptor
   transformResHook: (res: AxiosResponse<any>, options: customRequestOptions) => {
     console.log(res,options,'transformResHook');
     return res;
@@ -99,6 +101,7 @@ export default new httpRequest({
     // addPrefix: '',
     // about FormData
     isFormData: false,
-    joinTime: false
+    // add timeStamp
+    joinTime: true
   }
 });

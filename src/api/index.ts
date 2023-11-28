@@ -16,7 +16,7 @@ const transform: AxiosTransform = {
   beforeReqHook: (config: AxiosRequestConfig, options: customRequestOptions) => {
     console.log(config,options,'beforeReqHook');
     const { addPrefix, joinTime } = options;
-    const timestamp = joinTime ? new Date().getTime() : '';
+    const timestamp = new Date().getTime();
     if(!!addPrefix){
       config.url = addPrefix + '' + config.url;
     }
@@ -26,15 +26,15 @@ const transform: AxiosTransform = {
     if(config.method?.toUpperCase() === RequestEnum.GET){
       if(isStr(params)){
         // restful style
-        config.params = `${config.url}${params}${timestamp}`;
+        config.params = joinTime ? `${config.url}${params}${timestamp}` : `${config.url}${params}`;
         config.params = undefined;
       }else{
-        config.params = Object.assign(params || {}, { _t: timestamp });
+        config.params = Object.assign(params || {}, joinTime ? { _t: timestamp } : {});
       }
     }else{
       if(isStr(params)){
         // restful style
-        config.params = `${config.url}${params}${timestamp}`;
+        config.params = joinTime ? `${config.url}${params}${timestamp}` : `${config.url}${params}`;
         config.params = undefined;
       }else{
         if(Reflect.has(config, 'data') && config.data && Object.keys(config.data).length > 0){

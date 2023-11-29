@@ -4,7 +4,7 @@ import {customAxiosRequestConfig} from "./axios/transform";
 import {httpRequest} from "/@/api/axios/httpRequset";
 import {getUserStore} from "/@/stores/modules/user";
 import {AxiosRequestConfig} from "axios";
-import {customRequestOptions} from "/@/api/interface/axios";
+import {customRequestOptions, Result} from "/@/api/interface/axios";
 import {RequestEnum} from "@/api/enum/httpEnum";
 import {isStr} from "@/utils/affirm/is";
 // import {customResponseOptions} from "/@/api/interface/axios";
@@ -49,8 +49,20 @@ const transform: AxiosTransform = {
     return config;
   },
   // after response interceptor
-  transformResHook: (res: AxiosResponse<any>, options: customRequestOptions) => {
+  transformResHook: (res: AxiosResponse<Result>, options: customRequestOptions) => {
     console.log(res,options,'transformResHook');
+    const { isTransformResponse, isReturnNativeResponse } = options;
+    if(isReturnNativeResponse){
+      return res;
+    }
+    if (!isTransformResponse) {
+      return res.data;
+    }
+    const { data } = res;
+    if(!data){
+      throw new Error('request no data');
+    }
+    const { code, result, message, success } = data;
     return res;
   },
   /**

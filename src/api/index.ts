@@ -5,10 +5,28 @@ import {httpRequest} from "/@/api/axios/httpRequset";
 import {getUserStore} from "/@/stores/modules/user";
 import {AxiosRequestConfig} from "axios";
 import {customRequestOptions, Result} from "/@/api/interface/axios";
-import {RequestEnum} from "@/api/enum/httpEnum";
+import {RequestEnum, ResultEnum} from "@/api/enum/httpEnum";
 import {isStr} from "@/utils/affirm/is";
 // import {customResponseOptions} from "/@/api/interface/axios";
 // import {customResponseOptions} from "/@/api/interface/axios";
+
+function httpCheckError(code = 500, msg = ''){
+  let context = '';
+  switch (code) {
+    case ResultEnum.ERROR:
+      context = '请求失败了';
+      break;
+    case ResultEnum.TIMEOUT:
+      context = '请求超时了';
+      // 退出登录逻辑
+      break;
+    default:
+      if(msg){
+        context = msg;
+      }
+  }
+  throw new Error(context || 'this request\'s message does not exist');
+}
 
 // 抽象类实现
 const transform: AxiosTransform = {
@@ -17,7 +35,7 @@ const transform: AxiosTransform = {
     console.log(config,options,'beforeReqHook');
     const { addPrefix, joinTime } = options;
     const timestamp = new Date().getTime();
-    if(!!addPrefix){
+    if(addPrefix){
       config.url = addPrefix + '' + config.url;
     }
     const params = config.params || {};
@@ -63,6 +81,15 @@ const transform: AxiosTransform = {
       throw new Error('request no data');
     }
     const { code, result, message, success } = data;
+    if(!result){
+      throw new Error('后端格式不对！');
+    }
+    if(code === ResultEnum.SUCCESS){
+      return result;
+    }
+
+    success && message && console.log(message, 'response message');
+    httpCheckError(code, message);
     return res;
   },
   /**
@@ -93,7 +120,7 @@ const transform: AxiosTransform = {
   // 具体的逻辑看需求，后期逐步添加
   responseInterceptorsCatch: (error: AxiosError) => {
     const { response, code, message } = error;
-    console.log(response, code, message);
+    console.log(response, code, message, 'responseInterceptorsCatch');
     return Promise.reject(error);
   }
 }

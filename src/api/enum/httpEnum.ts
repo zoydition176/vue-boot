@@ -5,8 +5,8 @@ export enum RequestEnum {
   DELETE = 'DELETE',
 }
 export enum ResultEnum {
-  SUCCESS = 0,
-  ERROR = 1,
+  SUCCESS = 200,
+  ERROR = 500,
   TIMEOUT = 401,
   TYPE = 'success',
 }

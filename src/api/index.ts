@@ -2,11 +2,12 @@ import type {AxiosTransform} from "./axios/transform";
 import {AxiosError, AxiosResponse, InternalAxiosRequestConfig} from "axios";
 import {customAxiosRequestConfig} from "./axios/transform";
 import {httpRequest} from "/@/api/axios/httpRequset";
-import {getUserStore} from "/@/stores/modules/user";
+// import {getUserStore} from "/@/stores/modules/user";
 import {AxiosRequestConfig} from "axios";
 import {customRequestOptions, Result} from "/@/api/interface/axios";
-import {RequestEnum, ResultEnum} from "@/api/enum/httpEnum";
+import {ContentTypeEnum, RequestEnum, ResultEnum} from "@/api/enum/httpEnum";
 import {isStr} from "@/utils/affirm/is";
+import {getToken} from "@/utils/auth";
 // import {customResponseOptions} from "/@/api/interface/axios";
 // import {customResponseOptions} from "/@/api/interface/axios";
 
@@ -99,11 +100,25 @@ const transform: AxiosTransform = {
    */
   requestInterceptors: (config: InternalAxiosRequestConfig, options: customAxiosRequestConfig) => {
     console.log(config, options, '请求拦截');
-    const userStore = getUserStore();
-    const token = userStore.token;
+    const token = getToken();
+    const contentType = options.requestOption?.contentType;
+    if(contentType){
+      config.headers.set("Content-Type", contentType);
+    }else{
+      config.headers.set("Content-Type", ContentTypeEnum.JSON);
+    }
     // 自定义配置逻辑需要加在customAxiosRequestConfig这个接口里面
     if (options.requestOption?.withToken && token && config.headers && typeof config.headers.set === "function") {
+      config.headers.Authorization = options.authenticationScheme ? `${options.authenticationScheme} ${token}` : token;
+
       config.headers.set("x-access-token", token);
+
+      // 暂时不用加密
+      config.headers.set("X-TIMESTAMP", token + new Date().getTime());
+
+      // 暂时不用加密
+      config.headers.set("X-Sign", (config.url + '' + JSON.stringify(config.params)));
+
     }
     return config;
   },
@@ -127,6 +142,7 @@ const transform: AxiosTransform = {
 
 // 定义默认请求配置
 export default new httpRequest({
+  authenticationScheme: '',
   configMethods: transform,
   baseURL: import.meta.env.VITE_API_URL as string,
   requestOption: {
@@ -141,6 +157,7 @@ export default new httpRequest({
     // about FormData
     isFormData: false,
     // add timeStamp
-    joinTime: true
+    joinTime: true,
+    contentType: ContentTypeEnum.JSON
   }
 });

@@ -1,8 +1,9 @@
 import {AxiosError, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig} from "axios";
 import {customRequestOptions} from "/@/api/interface/axios";
 export interface customAxiosRequestConfig extends AxiosRequestConfig{
-  configMethods?: AxiosTransform,
-  requestOption?: customRequestOptions,
+  authenticationScheme?: string;
+  configMethods?: AxiosTransform;
+  requestOption?: customRequestOptions;
 }
 export abstract class AxiosTransform {
   /**

@@ -28,6 +28,7 @@ export interface customRequestOptions {
   isFormData?: boolean;
   // 是否添加时间戳
   joinTime?: boolean;
+  contentType?: string;
 }
 
 export interface Result<T = any> {

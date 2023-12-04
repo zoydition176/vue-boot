@@ -67,32 +67,6 @@ const transform: AxiosTransform = {
     }
     return config;
   },
-  // after response interceptor
-  transformResHook: (res: AxiosResponse<Result>, options: customRequestOptions) => {
-    console.log(res,options,'transformResHook');
-    const { isTransformResponse, isReturnNativeResponse } = options;
-    if(isReturnNativeResponse){
-      return res;
-    }
-    if (!isTransformResponse) {
-      return res.data;
-    }
-    const { data } = res;
-    if(!data){
-      throw new Error('request no data');
-    }
-    const { code, result, message, success } = data;
-    if(!result){
-      throw new Error('后端格式不对！');
-    }
-    if(code === ResultEnum.SUCCESS){
-      return result;
-    }
-
-    success && message && console.log(message, 'response message');
-    httpCheckError(code, message);
-    return res;
-  },
   /**
    * @description: 请求拦截配置
    * @params config axios配置（带headers）
@@ -125,6 +99,32 @@ const transform: AxiosTransform = {
   // 具体的逻辑看需求，后期逐步添加
   responseInterceptors: (res: AxiosResponse<any>) => {
     console.log(res, '响应拦截');
+    return res;
+  },
+  // after response interceptor
+  transformResHook: (res: AxiosResponse<Result>, options: customRequestOptions) => {
+    console.log(res,options,'transformResHook');
+    const { isTransformResponse, isReturnNativeResponse } = options;
+    if(isReturnNativeResponse){
+      return res;
+    }
+    if (!isTransformResponse) {
+      return res.data;
+    }
+    const { data } = res;
+    if(!data){
+      throw new Error('request no data');
+    }
+    const { code, result, message, success } = data;
+    if(!result){
+      throw new Error('后端格式不对！');
+    }
+    if(code === ResultEnum.SUCCESS){
+      return result;
+    }
+
+    success && message && console.log(message, 'response message');
+    httpCheckError(code, message);
     return res;
   },
   // 具体的逻辑看需求，后期逐步添加

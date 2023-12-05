@@ -28,7 +28,10 @@ export interface customRequestOptions {
   isFormData?: boolean;
   // 是否添加时间戳
   joinTime?: boolean;
+  // content type setting
   contentType?: string;
+  // add to the pending list?
+  ignoreCancel?: boolean;
 }
 
 export interface Result<T = any> {

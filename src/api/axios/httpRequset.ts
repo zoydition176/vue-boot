@@ -3,6 +3,7 @@ import {customAxiosRequestConfig} from "/@/api/axios/transform";
 import {customRequestOptions} from "/@/api/interface/axios";
 import {cloneD} from "/@/utils";
 import {isFunction} from "/@/utils/affirm/is";
+import {httpList} from "@/api/axios/httpPendingList";
 
 /*
 * 请求类封装
@@ -30,9 +31,12 @@ export class httpRequest {
   private setupInterceptors(){
     const configMethods = this.getConfigMethods();
     if(!configMethods) return;
+    // init http list to filter repeated request
     const { requestInterceptors, requestInterceptorsCatch, responseInterceptors, responseInterceptorsCatch } = configMethods;
     // 请求拦截
     this.requestInstance.interceptors.request.use((config: InternalAxiosRequestConfig) => {
+      const ignoreCancel = this.options.requestOption?.ignoreCancel;
+      !ignoreCancel && httpList.addPending(config);
       if(requestInterceptors){
         // 通过this.options中的自定义配置，更改config配置里的值
         config = requestInterceptors(config, this.options);
@@ -44,6 +48,7 @@ export class httpRequest {
 
     // 响应拦截
     this.requestInstance.interceptors.response.use((response: AxiosResponse)=>{
+      response && httpList.removePending(response.config);
       if (responseInterceptors) {
         response = responseInterceptors(response);
       }

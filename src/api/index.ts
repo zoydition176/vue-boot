@@ -29,7 +29,7 @@ function httpCheckError(code = 500, msg = ''){
   throw new Error(context || 'this request\'s message does not exist');
 }
 
-// 抽象类实现
+// 抽象类实现，按整个http请求的顺序定义方法
 const transform: AxiosTransform = {
   // before set requestInterceptors
   beforeReqHook: (config: AxiosRequestConfig, options: customRequestOptions) => {
@@ -157,7 +157,8 @@ export default new httpRequest({
     // about FormData
     isFormData: false,
     // add timeStamp
-    joinTime: true,
-    contentType: ContentTypeEnum.JSON
+    joinTime: false,
+    contentType: ContentTypeEnum.JSON,
+    ignoreCancel: false
   }
 });

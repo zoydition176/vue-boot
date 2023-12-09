@@ -16,7 +16,7 @@ const router = createRouter({
   scrollBehavior: () => ({ left: 0, top: 0 }),
 });
 router.beforeEach(async (to, from, next)=>{
-  console.log(to,from,'routerGuard');
+  console.log(to, from, 'routerGuard');
   // const userStore = getUserStore();
   // const token = userStore.token;
   setNProgress().start();

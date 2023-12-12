@@ -1,6 +1,6 @@
-export function isFunction(val: unknown): val is Function {
+export function isFunction(val: unknown) {
   return typeof val === 'function';
 }
-export function isStr(val: unknown): val is string {
+export function isStr(val: unknown) {
   return typeof val === 'string';
 }

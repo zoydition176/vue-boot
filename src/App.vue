@@ -12,7 +12,7 @@ import {onMounted, reactive, ref} from "vue";
 
 const locate = ref();
 const data = reactive({
-  colorPrimary: '#1677ff',
+  colorPrimary: '#428dff',
   borderRadius: 3
 })
 onMounted(()=>{

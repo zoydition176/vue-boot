@@ -11,7 +11,7 @@
     "type:check": "vue-tsc --noEmit --skipLibCheck"
   },
   "dependencies": {
-    "ant-design-vue": "^4.0.0-rc.6",
+    "ant-design-vue": "4.x",
     "axios": "^1.5.1",
     "crypto-js": "^4.1.1",
     "nprogress": "^0.2.0",

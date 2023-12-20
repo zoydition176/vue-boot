@@ -6,7 +6,7 @@
   </a-config-provider>
 </template>
 <script setup lang="ts">
-import httpRequest from '/@/api/index';
+// import httpRequest from '/@/api/index';
 // import { theme } from 'ant-design-vue';
 import {onMounted, reactive, ref} from "vue";
 
@@ -16,9 +16,9 @@ const data = reactive({
   borderRadius: 3
 })
 onMounted(()=>{
-  httpRequest.get({ url: '/user' }).then((res)=>{
-    console.log(res,'dasdd');
-  });
+  // httpRequest.get({ url: '/user' }).then((res)=>{
+  //   console.log(res,'dasdd');
+  // });
 })
 </script>
 <style scoped>

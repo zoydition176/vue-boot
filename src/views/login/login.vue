@@ -4,7 +4,7 @@
   </div>
 </template>
 <script setup lang="ts" name="login">
-import LoginForm from "./loginForm.vue";
+import loginForm from "./loginForm.vue";
 </script>
 <style scoped>
 .login-page{

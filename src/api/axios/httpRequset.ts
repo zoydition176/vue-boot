@@ -96,6 +96,7 @@ export class httpRequest {
       })
     })
   }
+  // AxiosRequestConfig：原生配置  customRequestOptions：自定义配置
   get<T = any>(config: AxiosRequestConfig, options?: customRequestOptions): Promise<T> {
     return this.originRequest({ ...config, method: 'GET' }, options);
   }

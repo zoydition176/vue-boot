@@ -6,9 +6,9 @@ import {createProxy} from "./build/proxy";
 import {createVitePlugins} from "./build/plugin";
 import {OUTPUT_DIR} from "./build/static";
 
-function pathResolve(dir: string) {
-  return resolve(process.cwd(), '.', dir);
-}
+// function pathResolve(dir: string) {
+//   return resolve(process.cwd(), '.', dir);
+// }
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
@@ -26,11 +26,12 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
     root,
     // 转译设置
     resolve: {
-      // alias: {
-      //   '@': resolve(__dirname, "./src"),
-      //   '#': resolve(__dirname, "./types"),
-      // }
-      alias: [
+      alias: {
+        '@': resolve(__dirname, "./src"),
+        '#': resolve(__dirname, "./types"),
+        '/@': resolve(__dirname, "./src"),
+      }
+      /*alias: [
         {
           find: 'vue-i18n',
           replacement: 'vue-i18n/dist/vue-i18n.cjs.js',
@@ -54,7 +55,7 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
           find: /#\//,
           replacement: pathResolve('types') + '/',
         },
-      ],
+      ],*/
     },
     // css公共引入配置
     css: {

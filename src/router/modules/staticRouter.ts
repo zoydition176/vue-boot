@@ -16,4 +16,9 @@ export const staticRouter: RouteRecordRaw[] = [
     name: "login",
     component: () => import("/src/views/login/login.vue"),
   },
+  {
+    path: "/table",
+    name: "table",
+    component: () => import("/src/views/table/index.vue"),
+  },
 ];

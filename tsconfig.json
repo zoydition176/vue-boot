@@ -35,6 +35,7 @@
     "src/**/*.tsx",
     "src/**/*.vue",
     "types/**/*.d.ts",
+    "types/*.d.ts",
     "types/**/*.ts",
     "build/**/*.ts",
     "build/**/*.d.ts",

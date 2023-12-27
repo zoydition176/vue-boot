@@ -14,11 +14,11 @@ export const staticRouter: RouteRecordRaw[] = [
   {
     path: "/login",
     name: "login",
-    component: () => import("/src/views/login/login.vue"),
+    component: () => import("/@/views/login/login.vue"),
   },
   {
-    path: "/table",
-    name: "table",
-    component: () => import("/src/views/table/index.vue"),
+    path: "/tableEdit",
+    name: "tableEdit",
+    component: () => import("/@/views/tableEdit/index.vue"),
   },
 ];

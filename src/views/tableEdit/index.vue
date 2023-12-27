@@ -1,7 +1,7 @@
 <template>
   <div>
     <a-button @click="test">123</a-button>
-    <a-table :columns="columns" :data-source="data">
+    <a-table :columns="columns" :data-source="data" :pagination="false">
       <template #headerCell="{ column }">
         <template v-if="column.key === 'name'">
         <span>
@@ -42,31 +42,35 @@
         </template>
       </template>
     </a-table>
+    <a-pagination v-model:current="current" :total="totalValue" />
   </div>
 </template>
-<script setup lang="ts" name="table">
+<script setup lang="ts" name="tableEdit">
 import { SmileOutlined, DownOutlined } from '@ant-design/icons-vue';
-import {getUserList} from "@/api/modules/table/use";
+import { getUserList } from "@/api/modules/tableEdit/use";
+import {onMounted, ref} from "vue";
+const current = ref(1);
 const columns = [
   {
-    name: 'Name',
-    dataIndex: 'name',
-    key: 'name',
+    title: 'ID',
+    name: 'id',
+    dataIndex: 'id',
+    key: 'id',
   },
   {
-    title: 'Age',
-    dataIndex: 'age',
-    key: 'age',
+    title: 'username',
+    dataIndex: 'username',
+    key: 'username',
   },
   {
-    title: 'Address',
-    dataIndex: 'address',
+    title: 'nickname',
+    dataIndex: 'nickname',
+    key: 'nickname',
+  },
+  {
+    title: 'address',
     key: 'address',
-  },
-  {
-    title: 'Tags',
-    key: 'tags',
-    dataIndex: 'tags',
+    dataIndex: 'address',
   },
   {
     title: 'Action',
@@ -74,38 +78,50 @@ const columns = [
   },
 ];
 
-const data = [
-  {
-    key: '1',
-    name: 'John Brown',
-    age: 32,
-    address: 'New York No. 1 Lake Park',
-    tags: ['nice', 'developer'],
-  },
-  {
-    key: '2',
-    name: 'Jim Green',
-    age: 42,
-    address: 'London No. 1 Lake Park',
-    tags: ['loser'],
-  },
-  {
-    key: '3',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sidney No. 1 Lake Park',
-    tags: ['cool', 'teacher'],
-  },
-];
+const data = ref();
+const totalValue = ref(0);
+// const data = [
+//   {
+//     key: '1',
+//     name: 'John Brown',
+//     age: 32,
+//     address: 'New York No. 1 Lake Park',
+//     tags: ['nice', 'developer'],
+//   },
+//   {
+//     key: '2',
+//     name: 'Jim Green',
+//     age: 42,
+//     address: 'London No. 1 Lake Park',
+//     tags: ['loser'],
+//   },
+//   {
+//     key: '3',
+//     name: 'Joe Black',
+//     age: 32,
+//     address: 'Sidney No. 1 Lake Park',
+//     tags: ['cool', 'teacher'],
+//   },
+// ];
 
 function test() {
   getUserList({
     pageNum: 1,
     pageSize: 10
   }).then((res)=>{
-    console.log(res, '123123123');
+    data.value = res.records;
   });
 }
+onMounted(()=>{
+  getUserList({
+    pageNum: 1,
+    pageSize: 10
+  }).then((res)=>{
+    console.log(res,'1213123123');
+    data.value = res.records;
+    totalValue.value = res.total;
+  });
+})
 
 </script>
 <style scoped lang="scss">

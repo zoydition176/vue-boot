@@ -7,5 +7,7 @@ enum Api {
 }
 
 export const getUserList = (params) => {
-  return requestHttp.get({ url: Api.userList, params });
+  return requestHttp.get({ url: Api.userList, params }, {
+    isTransformResponse: false
+  });
 };

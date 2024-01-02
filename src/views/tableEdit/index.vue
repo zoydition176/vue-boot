@@ -1,108 +1,40 @@
 <template>
   <div>
-    <a-button @click="test">123</a-button>
-    <a-table :columns="columns" :data-source="data" :pagination="false">
-      <template #headerCell="{ column }">
-        <template v-if="column.key === 'name'">
-        <span>
-          <smile-outlined />
-          Name
-        </span>
-        </template>
-      </template>
-
-      <template #bodyCell="{ column, record }">
-        <template v-if="column.key === 'name'">
-          <a>
-            {{ record.name }}
-          </a>
-        </template>
-        <template v-else-if="column.key === 'tags'">
-        <span>
-          <a-tag
-            v-for="tag in record.tags"
-            :key="tag"
-            :color="tag === 'loser' ? 'volcano' : tag.length > 5 ? 'geekblue' : 'green'"
-          >
-            {{ tag.toUpperCase() }}
-          </a-tag>
-        </span>
-        </template>
-        <template v-else-if="column.key === 'action'">
-        <span>
-          <a>Invite 一 {{ record.name }}</a>
-          <a-divider type="vertical" />
-          <a>Delete</a>
-          <a-divider type="vertical" />
-          <a class="ant-dropdown-link">
-            More actions
-            <down-outlined />
-          </a>
-        </span>
-        </template>
-      </template>
-    </a-table>
-    <a-pagination v-model:current="current" :total="totalValue" />
+    <button @click="test">123</button>
   </div>
 </template>
 <script setup lang="ts" name="tableEdit">
-import { SmileOutlined, DownOutlined } from '@ant-design/icons-vue';
 import { getUserList } from "@/api/modules/tableEdit/use";
-import {onMounted, ref} from "vue";
-const current = ref(1);
-const columns = [
-  {
-    title: 'ID',
-    name: 'id',
-    dataIndex: 'id',
-    key: 'id',
-  },
-  {
-    title: 'username',
-    dataIndex: 'username',
-    key: 'username',
-  },
-  {
-    title: 'nickname',
-    dataIndex: 'nickname',
-    key: 'nickname',
-  },
-  {
-    title: 'address',
-    key: 'address',
-    dataIndex: 'address',
-  },
-  {
-    title: 'Action',
-    key: 'action',
-  },
-];
-
-const data = ref();
-const totalValue = ref(0);
-// const data = [
+import { ref } from "vue";
+// const columns = [
 //   {
-//     key: '1',
-//     name: 'John Brown',
-//     age: 32,
-//     address: 'New York No. 1 Lake Park',
-//     tags: ['nice', 'developer'],
+//     title: 'ID',
+//     name: 'id',
+//     dataIndex: 'id',
+//     key: 'id',
 //   },
 //   {
-//     key: '2',
-//     name: 'Jim Green',
-//     age: 42,
-//     address: 'London No. 1 Lake Park',
-//     tags: ['loser'],
+//     title: 'username',
+//     dataIndex: 'username',
+//     key: 'username',
 //   },
 //   {
-//     key: '3',
-//     name: 'Joe Black',
-//     age: 32,
-//     address: 'Sidney No. 1 Lake Park',
-//     tags: ['cool', 'teacher'],
+//     title: 'nickname',
+//     dataIndex: 'nickname',
+//     key: 'nickname',
+//   },
+//   {
+//     title: 'address',
+//     key: 'address',
+//     dataIndex: 'address',
+//   },
+//   {
+//     title: 'Action',
+//     key: 'action',
 //   },
 // ];
+
+const data = ref();
 
 function test() {
   getUserList({
@@ -112,16 +44,6 @@ function test() {
     data.value = res.records;
   });
 }
-onMounted(()=>{
-  getUserList({
-    pageNum: 1,
-    pageSize: 10
-  }).then((res)=>{
-    console.log(res,'1213123123');
-    data.value = res.records;
-    totalValue.value = res.total;
-  });
-})
 
 </script>
 <style scoped lang="scss">

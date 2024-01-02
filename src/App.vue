@@ -1,25 +1,14 @@
 <template>
-  <a-config-provider :locale="locate" :theme="{
-    token: { colorPrimary: data.colorPrimary, borderRadius: `${data.borderRadius}px` }
-  }">
+  <el-config-provider>
     <RouterView />
-  </a-config-provider>
+  </el-config-provider>
 </template>
 <script setup lang="ts">
 // import httpRequest from '/@/api/index';
 // import { theme } from 'ant-design-vue';
-import {onMounted, reactive, ref} from "vue";
+import { onMounted } from "vue";
 
-const locate = ref();
-const data = reactive({
-  colorPrimary: '#428dff',
-  borderRadius: 3
-})
-onMounted(()=>{
-  // httpRequest.get({ url: '/user' }).then((res)=>{
-  //   console.log(res,'dasdd');
-  // });
-})
+onMounted(()=>{})
 </script>
 <style scoped>
 .logo {

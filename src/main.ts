@@ -3,8 +3,8 @@ import './style.css';
 import pinia from "@/stores";
 import router from "@/router";
 import App from './App.vue';
-import Antd from 'ant-design-vue';
-import 'ant-design-vue/dist/reset.css';
+import ElementPlus from 'element-plus';
+import 'element-plus/dist/index.css';
 
 const app = createApp(App);
-app.use(pinia).use(router).use(Antd).mount('#app');
+app.use(pinia).use(router).use(ElementPlus).mount('#app');

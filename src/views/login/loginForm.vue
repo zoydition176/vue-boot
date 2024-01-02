@@ -2,6 +2,7 @@
   <div class="login-form">
     23123login
     {{ formState }}
+    <el-button @click="login">login</el-button>
   </div>
 </template>
 <script setup lang="ts" name="loginForm">
@@ -16,6 +17,9 @@ const formState = reactive<FormState>({
   password: '',
   remember: true,
 });
+function login() {
+  formState.username =
+}
 
 </script>
 <style scoped lang="scss">

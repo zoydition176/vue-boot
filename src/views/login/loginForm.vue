@@ -32,11 +32,20 @@ const formState = reactive<FormState>({
 });
 
 function login() {
-  console.log(formState); 
+  console.log(formState);
+  console.log();
+  loginFormRef.value?.validate((valid)=>{
+    if(valid) {
+      loading.value = true;
+      setTimeout(()=>{
+        loading.value = false;
+      }, 2000);
+    }
+  });
 }
 
 function resetForm() {
-
+  loginFormRef.value?.resetFields();
 }
 
 </script>

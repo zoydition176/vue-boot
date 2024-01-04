@@ -6,9 +6,6 @@
 <script setup lang="ts">
 // import httpRequest from '/@/api/index';
 // import { theme } from 'ant-design-vue';
-import { onMounted } from "vue";
-
-onMounted(()=>{})
 </script>
 <style scoped>
 .logo {

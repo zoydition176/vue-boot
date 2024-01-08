@@ -1,9 +1,8 @@
 <template>
   <!-- 首页默认布局 -->
   <div class="normal-layout">
-    <el-container class="normal-layout-content">
+    <el-container class="layout-content">
       <el-aside width="200px">
-        <h5 class="mb-2">Default colors</h5>
         <el-menu
           default-active="2"
           class="el-menu-vertical-demo"
@@ -12,7 +11,6 @@
         >
           <el-sub-menu index="1">
             <template #title>
-              <el-icon><location /></el-icon>
               <span>Navigator One</span>
             </template>
             <el-menu-item-group title="Group One">
@@ -28,15 +26,12 @@
             </el-sub-menu>
           </el-sub-menu>
           <el-menu-item index="2">
-            <el-icon><icon-menu /></el-icon>
             <span>Navigator Two</span>
           </el-menu-item>
           <el-menu-item index="3" disabled>
-            <el-icon><document /></el-icon>
             <span>Navigator Three</span>
           </el-menu-item>
           <el-menu-item index="4">
-            <el-icon><setting /></el-icon>
             <span>Navigator Four</span>
           </el-menu-item>
         </el-menu>
@@ -55,12 +50,6 @@
   </div>
 </template>
 <script setup lang="ts" name="normal">
-import {
-  Document,
-  Menu as IconMenu,
-  Location,
-  Setting,
-} from '@element-plus/icons-vue';
 import LayoutChange from "@/layouts/blocks/layoutChange.vue";
 const handleOpen = (key: string, keyPath: string[]) => {
   console.log(key, keyPath);

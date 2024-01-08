@@ -1,8 +1,8 @@
 import { defineStore } from "pinia";
+import persistedOptionsConfig from "@/stores/modules/persistedState";
+
 type LayoutType = "vertical" | "normal" | "transverse" | "columns";
-
 type AssemblySizeType = "large" | "default" | "small";
-
 type LanguageType = "zh" | "en" | null;
 interface globalStats {
   layout: LayoutType;
@@ -34,5 +34,6 @@ export const getGlobalStore = defineStore('global', {
     setGlobalLayout(name: LayoutType){
       this.layout = name;
     }
-  }
+  },
+  persist: persistedOptionsConfig("vueboot-global")
 })

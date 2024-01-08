@@ -1,13 +1,12 @@
 <template>
   <div class="vertical-layout">
-    <el-container>
+    <el-container class="layout-content">
       <el-header class="z-header">
         <span>首页垂直布局</span>
         <layout-change />
       </el-header>
       <el-container>
         <el-aside width="200px">
-          <h5 class="mb-2">Default colors</h5>
           <el-menu
             default-active="2"
             class="el-menu-vertical-demo"

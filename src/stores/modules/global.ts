@@ -25,8 +25,14 @@ interface globalStats {
 }
 export const getGlobalStore = defineStore('global', {
   state(): globalStats {
+    // 默认使用normal布局
     return {
       layout: "normal"
     }
   },
+  actions: {
+    setGlobalLayout(name: LayoutType){
+      this.layout = name;
+    }
+  }
 })

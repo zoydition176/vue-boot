@@ -3,22 +3,28 @@ import {RouteRecordRaw} from "vue-router";
 export const staticRouter: RouteRecordRaw[] = [
   {
     path: "/",
-    redirect: "/home",
+    redirect: "/main/index",
+  },
+  {
+    path: "/main/index",
+    name: "layout",
+    component: () => import("@/layouts/index.vue"),
+    children: []
   },
   {
     path: "/home",
     name: "home",
-    component: () => import("/@/views//home.vue"),
+    component: () => import("@/views/home.vue"),
     children: []
   },
   {
     path: "/login",
     name: "login",
-    component: () => import("/@/views/login/login.vue"),
+    component: () => import("@/views/login/login.vue"),
   },
   {
     path: "/tableEdit",
     name: "tableEdit",
-    component: () => import("/@/views/tableEdit/index.vue"),
+    component: () => import("@/views/tableEdit/index.vue"),
   },
 ];

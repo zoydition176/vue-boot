@@ -115,7 +115,7 @@ const transform: AxiosTransform = {
     if(!data){
       throw new Error('request no data');
     }
-    const { code, result, message, success } = data;
+    const { code, result, message, type } = data;
     if(!result){
       throw new Error('后端格式不对！');
     }
@@ -123,7 +123,7 @@ const transform: AxiosTransform = {
       return result;
     }
 
-    success && message && console.log(message, 'response message');
+    type === 'success' && message && console.log(message, 'response message');
     httpCheckError(code, message);
     return res;
   },

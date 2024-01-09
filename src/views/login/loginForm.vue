@@ -10,30 +10,35 @@
         <el-input v-model="formState.username" placeholder="请输入用户名"></el-input>
       </el-form-item>
       <el-form-item label="密码" prop="password">
-        <el-input v-model="formState.password" placeholder="请输入密码"></el-input>
+        <el-input v-model="formState.password" placeholder="请输入密码" type="password"></el-input>
       </el-form-item>
       <el-form-item label="记住密码">
         <el-switch v-model="formState.remember" active-text="是" inactive-text="否"></el-switch>
       </el-form-item>
+      <el-form-item>
+        <div class="login-btn">
+          <el-button :icon="CircleClose" size="large" @click="resetForm(loginFormRef)"> 重置 </el-button>
+          <el-button :icon="UserFilled" size="large" type="primary" :loading="loading" @click="login(loginFormRef)">
+            登录
+          </el-button>
+        </div>
+      </el-form-item>
     </el-form>
-    <div>
-      <el-button :icon="CircleClose" size="large" @click="resetForm()"> 重置 </el-button>
-      <el-button :icon="UserFilled" size="large" type="primary" :loading="loading" @click="login()">
-        登录
-      </el-button>
-    </div>
-
   </div>
 </template>
 <script setup lang="ts" name="loginForm">
 import { reactive, ref } from 'vue';
 import { CircleClose, UserFilled } from "@element-plus/icons-vue";
 import type { FormInstance } from "element-plus";
+import { getUserStore } from "@/stores/modules/user";
+import { useRouter } from "vue-router";
 interface FormState {
   username: string;
   password: string;
   remember: boolean;
 }
+const router = useRouter();
+const userStore = getUserStore();
 const loginFormRef = ref<FormInstance>();
 const loading = ref(false);
 const rules = {
@@ -52,22 +57,30 @@ const formState = reactive<FormState>({
   remember: true,
 });
 
-function login() {
-  console.log(formState);
-  console.log();
+function login(elForm: FormInstance | undefined) {
+  if(!elForm) return;
   loading.value = true;
-  setTimeout(() => {
+  elForm.validate((valid)=>{
+    if(valid){
+      userStore.setToken('this is JWT response');
+      router.push('/main/index');
+    }
     loading.value = false;
-  }, 2000);
+  })
 }
 
-function resetForm() {
-  loginFormRef.value?.resetFields();
+function resetForm(elForm: FormInstance | undefined) {
+  elForm && elForm.resetFields();
 }
 
 </script>
 <style scoped lang="scss">
 .login-form{
   width: 500px;
+  padding: 30px 20px;
+  border-radius: 10px;
+  background: #ffffff;
+  box-shadow: 0 0 10px 0 rgba(0,0,0,0.3);
 }
+.login-btn{}
 </style>

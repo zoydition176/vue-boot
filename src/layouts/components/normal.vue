@@ -34,6 +34,16 @@
           <el-menu-item index="4">
             <span>Navigator Four</span>
           </el-menu-item>
+          <el-sub-menu index="5">
+            <template #title>
+              <span>系统管理</span>
+            </template>
+            <el-menu-item index="5-1" @click="handleMenu('/departmentManager')">机构管理</el-menu-item>
+            <el-menu-item index="5-2" @click="handleMenu('/menuManager')">菜单管理</el-menu-item>
+            <el-menu-item index="5-3" @click="handleMenu('/permissionManager')">权限管理</el-menu-item>
+            <el-menu-item index="5-4" @click="handleMenu('/roleManager')">角色管理</el-menu-item>
+            <el-menu-item index="5-5" @click="handleMenu('/userManager')">用户管理</el-menu-item>
+          </el-sub-menu>
         </el-menu>
       </el-aside>
       <el-container>
@@ -43,7 +53,9 @@
             <layout-change />
           </div>
         </el-header>
-        <el-main>Main</el-main>
+        <el-main>
+          <main-content></main-content>
+        </el-main>
         <el-footer>Footer</el-footer>
       </el-container>
     </el-container>
@@ -51,11 +63,18 @@
 </template>
 <script setup lang="ts" name="normal">
 import LayoutChange from "@/layouts/blocks/layoutChange.vue";
+import { useRouter } from "vue-router";
+import mainContent from "./mainContent/index.vue";
+
+const router = useRouter();
 const handleOpen = (key: string, keyPath: string[]) => {
   console.log(key, keyPath);
 }
 const handleClose = (key: string, keyPath: string[]) => {
   console.log(key, keyPath);
+}
+const handleMenu = (path: string) => {
+  router.push(path);
 }
 </script>
 <style scoped lang="scss">

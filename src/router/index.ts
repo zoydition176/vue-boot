@@ -23,6 +23,7 @@ router.beforeEach(async (to, from, next)=>{
   const token = userStore.token;
   if(to.path === '/login'){
     if(token){
+      // html5模式会默认先跳到"/"路径下
       return next({path: from.fullPath});
     }
     return next();

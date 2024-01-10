@@ -7,10 +7,10 @@
       label-width="100px"
     >
       <el-form-item label="用户名" prop="username">
-        <el-input v-model="formState.username" placeholder="请输入用户名"></el-input>
+        <el-input v-model="formState.username" placeholder="zdx"></el-input>
       </el-form-item>
       <el-form-item label="密码" prop="password">
-        <el-input v-model="formState.password" placeholder="请输入密码" type="password"></el-input>
+        <el-input v-model="formState.password" placeholder="123456" type="password"></el-input>
       </el-form-item>
       <el-form-item label="记住密码">
         <el-switch v-model="formState.remember" active-text="是" inactive-text="否"></el-switch>

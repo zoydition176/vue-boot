@@ -6,3 +6,7 @@ const useStore = getUserStore();
 export function getToken(){
   return decryptByAES(useStore.token);
 }
+
+export function getAsideList(list){
+  return [...list];
+}

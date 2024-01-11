@@ -4,8 +4,11 @@
     <el-container class="layout-content">
       <el-aside width="200px">
         <el-menu
-          default-active="2"
+          active-text-color="#ffd04b"
+          background-color="#545c64"
           class="el-menu-vertical-demo"
+          text-color="#fff"
+          default-active="2"
           @open="handleOpen"
           @close="handleClose"
         >

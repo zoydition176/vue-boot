@@ -3,8 +3,14 @@ import {staticRouter} from "./modules/staticRouter";
 import {errorRouter} from "./modules/errorRouter";
 import {setNProgress} from "./plugin/nprogress";
 import {getUserStore} from "@/stores/modules/user";
-// import {getUserStore} from "/@/stores/modules/user";
-// import {LOGIN_URL} from "/@/router/constant";
+
+/*
+  meta.title: 标题
+  meta.isHidden: 是否隐藏
+  meta.isKeepAlive: 是否缓存
+  meta.isActive: 是否当前页
+  meta.authFor: 对应的角色
+* */
 
 const routeMode = {
   hash: ()=> createWebHashHistory(),
@@ -23,7 +29,9 @@ router.beforeEach(async (to, from, next)=>{
   const token = userStore.token;
   if(to.path === '/login'){
     if(token){
-      // html5模式会默认先跳到"/"路径下
+      // html5模式会默认先跳到"/"路径下，处理方案两种
+      // 1.改成hash模式
+      // 2.写一个中转页，夹带一个原路由的参数做跳转，通过中转页的路由跳回原页面
       return next({path: from.fullPath});
     }
     return next();

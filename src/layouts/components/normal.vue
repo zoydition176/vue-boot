@@ -59,7 +59,7 @@
         <el-main>
           <main-content></main-content>
         </el-main>
-        <el-footer>Footer</el-footer>
+        <el-footer class="normal-footer">vue boot</el-footer>
       </el-container>
     </el-container>
   </div>

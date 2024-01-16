@@ -7,6 +7,6 @@ export function getToken(){
   return decryptByAES(useStore.token);
 }
 
-export function getAsideList(list){
+export function handleAsideList(list){
   return [...list];
 }

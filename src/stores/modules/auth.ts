@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import persistedOptionsConfig from "@/stores/modules/persistedState";
-import { getAsideList } from "@/utils/auth";
+import { handleAsideList } from "@/utils/auth";
 
 export const authStore = defineStore('auth',{
   state: () => ({
@@ -8,7 +8,7 @@ export const authStore = defineStore('auth',{
   }),
   getters: {
     showAsideList: (state) => {
-      return getAsideList(state.asideList);
+      return handleAsideList(state.asideList);
     }
   },
   actions: {},

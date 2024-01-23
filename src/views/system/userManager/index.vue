@@ -1,7 +1,7 @@
 <template>
   <div class="userManager">
     <el-row>
-      <el-button type="primary">新增</el-button>
+      <el-button type="primary" @click="saveUser">新增</el-button>
     </el-row>
     <el-table :data="tableData" style="width: 100%">
       <el-table-column prop="id" label="id" width="180" />
@@ -18,13 +18,16 @@
         </template>
       </el-table-column>
     </el-table>
+
+    <sysDrawer ref="sysDrawerDom"></sysDrawer>
   </div>
 </template>
 <script setup lang="ts" name="userManager">
 import { ref, onMounted } from "vue";
 import { getUserList } from "../api";
+import sysDrawer from "../components/sysDrawer.vue"
 const tableData = ref([]);
-
+const sysDrawerDom = ref();
 function test() {
   getUserList({
     pageNum: 1,
@@ -41,6 +44,13 @@ function handleUpdate(row: any){
 function handleDelete(row: any){
   console.log(row, 'handleDelete');
 }
+
+function saveUser(){
+  sysDrawerDom.value.acceptParams({
+    isEdit: false
+  });
+}
+
 onMounted(()=>{
   test();
 })

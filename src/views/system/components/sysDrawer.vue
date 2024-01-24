@@ -1,6 +1,6 @@
 <template>
-  <el-drawer ref="drawerDom" v-model="editDrawer" :rules="rules" title="编辑" :destroy-on-close="true" append-to-body>
-    <el-form label-width="80px" ref="drawerFormRef">
+  <el-drawer ref="drawerDom" v-model="editDrawer" :title="drawerProps.title" :destroy-on-close="true" append-to-body>
+    <el-form label-width="80px" ref="drawerFormRef" :disabled="drawerProps.isView" :model="drawerProps.row" :rules="rules">
       <el-form-item label="用户名">
         <el-input v-model="drawerProps.row.username" placeholder="请输入用户名"></el-input>
       </el-form-item>
@@ -19,23 +19,29 @@
       <el-form-item label="电话">
         <el-input v-model="drawerProps.row.phone" placeholder="请输入电话"></el-input>
       </el-form-item>
-      <el-form-item>
-        <el-input v-model="drawerProps.row.avatar" placeholder="请输入头像地址"></el-input>
+      <el-form-item label="头像地址">
+        <el-input v-model="drawerProps.row.avatarUrl" placeholder="请输入头像地址"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="handleSave">保存</el-button>
+        <el-button type="primary" @click="handleSave(drawerFormRef)">保存</el-button>
       </el-form-item>
     </el-form>
   </el-drawer>
 </template>
 <script setup lang="ts" name="sysDrawer">
-import { reactive, ref } from "vue";
+import { ref } from "vue";
 import type { FormInstance } from "element-plus";
-
-const drawerDom = ref<FormInstance>();
+import type { userInfo } from "@/typing/base";
+interface DrawerProps<T> {
+  title: string;
+  isView: boolean;
+  row: T;
+  api?: (params: T) => Promise<any>;
+}
+const drawerDom = ref();
 const drawerFormRef = ref<FormInstance>();
 const editDrawer = ref(false);
-const drawerProps = ref({
+const drawerProps = ref<DrawerProps<userInfo>>({
   isView: false,
   title: "",
   row: {
@@ -45,7 +51,7 @@ const drawerProps = ref({
     address: '',
     email: '',
     phone: '',
-    avatar: ''
+    avatarUrl: ''
   }
 });
 const rules = {
@@ -70,21 +76,28 @@ const rules = {
   phone: [
     { min: 2, max: 20, message: '长度在 2 到 20 个字符', trigger: 'blur' },
   ],
-  avatar: [
+  avatarUrl: [
     { min: 2, max: 20, message: '长度在 2 到 20 个字符', trigger: 'blur' },
   ],
 };
-function handleSave(){
+function handleSave(formEl: FormInstance | undefined){
   console.log(drawerFormRef, 'form');
+  if (!formEl) return
+  formEl.validate((valid) => {
+    if (valid) {
+      drawerProps.value.api!(drawerProps.value.row).then((res)=>{
+        console.log(res);
+      });
+    } else {
+      console.log('error submit!')
+      return false
+    }
+  })
 }
 function acceptParams(params: any){
   console.log(params, 'params');
   editDrawer.value = true;
-  if(!params.isEdit){
-    drawerFormRef.value?.resetFields();
-  }else{
-
-  }
+  drawerProps.value = params;
 }
 defineExpose({
   acceptParams

@@ -6,10 +6,6 @@ import {createProxy} from "./build/proxy";
 import {createVitePlugins} from "./build/plugin";
 import {OUTPUT_DIR} from "./build/static";
 
-// function pathResolve(dir: string) {
-//   return resolve(process.cwd(), '.', dir);
-// }
-
 // https://vitejs.dev/config/
 export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
   // 获取文件目录
@@ -31,31 +27,6 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
         '#': resolve(__dirname, "./types"),
         '/@': resolve(__dirname, "./src"),
       }
-      /*alias: [
-        {
-          find: 'vue-i18n',
-          replacement: 'vue-i18n/dist/vue-i18n.cjs.js',
-        },
-        // /@/xxxx => src/xxxx
-        {
-          find: /\/@\//,
-          replacement: pathResolve('src') + '/',
-        },
-        // /#/xxxx => types/xxxx
-        {
-          find: /\/#\//,
-          replacement: pathResolve('types') + '/',
-        },
-        {
-          find: /@\//,
-          replacement: pathResolve('src') + '/',
-        },
-        // /#/xxxx => types/xxxx
-        {
-          find: /#\//,
-          replacement: pathResolve('types') + '/',
-        },
-      ],*/
     },
     // css公共引入配置
     css: {

@@ -37,4 +37,4 @@ declare interface ViteEnvPluginConfig extends ViteEnv {
   VITE_LEGACY: boolean;
 }
 
-declare type Recordable<T = any> = Record<string, any>;
+declare type Recordable<T = any> = Record<string, T>;

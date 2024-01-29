@@ -9,6 +9,7 @@ import {getUserStore} from "@/stores/modules/user";
   meta.isHidden: 是否隐藏
   meta.isKeepAlive: 是否缓存
   meta.isActive: 是否当前页
+  meta.isAffix: 标签页是否能关闭
   meta.authFor: 对应的角色
 * */
 

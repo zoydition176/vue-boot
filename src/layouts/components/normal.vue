@@ -57,6 +57,7 @@
           </div>
         </el-header>
         <el-main>
+          <tabs></tabs>
           <main-content></main-content>
         </el-main>
         <el-footer class="normal-footer">vue boot</el-footer>
@@ -68,6 +69,7 @@
 import LayoutChange from "@/layouts/blocks/layoutChange.vue";
 import { useRouter } from "vue-router";
 import mainContent from "./mainContent/index.vue";
+import tabs from "@/layouts/components/tabs/index.vue";
 
 const router = useRouter();
 const handleOpen = (key: string, keyPath: string[]) => {

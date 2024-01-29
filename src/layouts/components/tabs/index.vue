@@ -1,6 +1,8 @@
 <template>
   <div class="tabs">
-    <div v-for="(item, index) in tabStore.tabsList"></div>
+    <div v-for="(item, index) in tabStore.tabsList" :key="index">
+      {{ item.fullPath }}
+    </div>
   </div>
 </template>
 <script setup lang="ts" name="tabs">

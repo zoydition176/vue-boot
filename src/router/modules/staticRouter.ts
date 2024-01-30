@@ -4,7 +4,7 @@ export const staticRouter: RouteRecordRaw[] = [
   {
     path: "/",
     name: "main",
-    redirect: "/main/index",
+    redirect: "/home",
   },
   {
     path: "/login",
@@ -18,6 +18,7 @@ export const staticRouter: RouteRecordRaw[] = [
     path: "/main/index",
     name: "layout",
     component: () => import("@/layouts/index.vue"),
+    redirect: '/home',
     children: [
       {
         path: "/home",
@@ -29,7 +30,8 @@ export const staticRouter: RouteRecordRaw[] = [
           isHidden: false,
           isKeepAlive: true,
           isActive: false,
-          authFor: []
+          authFor: [],
+          isAffix: true
         }
       },
       {

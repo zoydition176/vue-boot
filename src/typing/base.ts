@@ -7,3 +7,13 @@ export interface userInfo {
   phone: string;
   avatarUrl: string;
 }
+
+export interface routeTabs{
+  name: string;
+  fullPath: string;
+  title: string;
+  isHidden?: boolean;
+  isKeepAlive?: boolean;
+  isActive?: boolean;
+  isAffix?: boolean;
+}

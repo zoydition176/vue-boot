@@ -20,9 +20,9 @@ export const useTabStore = defineStore('tabs',{
         this.tabsMap[routeParams.name] = routeParams;
       }
     },
-    removeTabs(routeParams: routeTabs){
-      if(!this.tabsMap[routeParams.name]){
-        delete this.tabsMap[routeParams.name];
+    removeTabs(name: string){
+      if(!this.tabsMap[name]){
+        delete this.tabsMap[name];
       }
     },
     initTabs(){

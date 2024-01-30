@@ -31,6 +31,7 @@ const handleClick = (tab: TabsPaneContext, event: Event) => {
 }
 const tabRemove = (name: TabPaneName) => {
   console.log(name, 'tabRemove');
+  tabStore.removeTabs(name);
 }
 watch(() => route.fullPath, () => {
   activeName.value = route.name;

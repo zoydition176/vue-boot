@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import persistedOptionsConfig from "@/stores/modules/persistedState";
 import { routeTabs } from "@/typing/base";
+import { TabPaneName } from "element-plus";
 export const useTabStore = defineStore('tabs',{
   state: () => ({
     tabsMap: {}
@@ -8,21 +9,26 @@ export const useTabStore = defineStore('tabs',{
   getters: {
     tabsList: state => {
       const temp: routeTabs[] = [];
-      for(const key in state.tabsMap){
-        temp.push(state.tabsMap[key]);
+      const arr = Object.getOwnPropertySymbols(state.tabsMap);
+      for(let i = 0;i<arr.length;i++){
+        temp.push(state.tabsMap[arr[i]]);
       }
+      console.log(state.tabsMap, temp, '123456');
       return temp;
     }
   },
   actions: {
     addTabs(routeParams: routeTabs){
+      // keep the order of keys
       if(!this.tabsMap[routeParams.name]){
-        this.tabsMap[routeParams.name] = routeParams;
+        const tempProperty = Symbol(routeParams.name);
+        this.tabsMap[tempProperty] = routeParams;
       }
     },
-    removeTabs(name: string){
-      if(!this.tabsMap[name]){
-        delete this.tabsMap[name];
+    removeTabs(name: TabPaneName){
+      if(this.tabsMap[name]){
+        const tempProperty = Symbol(name);
+        delete this.tabsMap[tempProperty];
       }
     },
     initTabs(){

@@ -34,8 +34,8 @@
           <el-menu-item index="3" disabled>
             <span>Navigator Three</span>
           </el-menu-item>
-          <el-menu-item index="4">
-            <span>Navigator Four</span>
+          <el-menu-item index="4" @click="handleMenu('/table')">
+            <span>abc</span>
           </el-menu-item>
           <el-sub-menu index="5">
             <template #title>

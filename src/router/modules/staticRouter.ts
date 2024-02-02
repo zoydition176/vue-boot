@@ -35,8 +35,8 @@ export const staticRouter: RouteRecordRaw[] = [
         }
       },
       {
-        path: "/tableEdit",
-        name: "tableEdit",
+        path: "/table",
+        name: "table",
         component: () => import("@/views/tableEdit/index.vue"),
         meta: {
           title: '表格'

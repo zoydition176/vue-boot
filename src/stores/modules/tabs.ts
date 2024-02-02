@@ -2,18 +2,19 @@ import { defineStore } from "pinia";
 import persistedOptionsConfig from "@/stores/modules/persistedState";
 import { routeTabs } from "@/typing/base";
 import { TabPaneName } from "element-plus";
+import router from "@/router"
+
 export const useTabStore = defineStore('tabs',{
-  state: () => ({
-    tabsMap: {}
+  // Using Map to manage tabs list, But the order of object properties may be a problem
+  state: (): any => ({
+    tabsMap: {},
   }),
   getters: {
     tabsList: state => {
       const temp: routeTabs[] = [];
-      const arr = Object.getOwnPropertySymbols(state.tabsMap);
-      for(let i = 0;i<arr.length;i++){
-        temp.push(state.tabsMap[arr[i]]);
+      for(const key in state.tabsMap){
+        temp.push(state.tabsMap[key]);
       }
-      console.log(state.tabsMap, temp, '123456');
       return temp;
     }
   },
@@ -21,18 +22,30 @@ export const useTabStore = defineStore('tabs',{
     addTabs(routeParams: routeTabs){
       // keep the order of keys
       if(!this.tabsMap[routeParams.name]){
-        const tempProperty = Symbol(routeParams.name);
-        this.tabsMap[tempProperty] = routeParams;
+        this.tabsMap[routeParams.name] = routeParams;
       }
     },
     removeTabs(name: TabPaneName){
       if(this.tabsMap[name]){
-        const tempProperty = Symbol(name);
-        delete this.tabsMap[tempProperty];
+        delete this.tabsMap[name];
+        const temp = this.tabsList[this.tabsList.length - 1];
+        router.push({
+          name: temp.name
+        })
       }
     },
     initTabs(){
-      return this.tabsList;
+      this.tabsMap = {
+        'home': {
+          name: 'home',
+          fullPath: '',
+          title: '首页',
+          isHidden: false,
+          isKeepAlive: false,
+          isActive: true,
+          isAffix: true,
+        }
+      };
     }
   },
   persist: persistedOptionsConfig('tabs')

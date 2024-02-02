@@ -30,7 +30,6 @@ const handleClick = (tab: TabsPaneContext, event: Event) => {
   }
 }
 const tabRemove = (name: TabPaneName) => {
-  console.log(name, 'tabRemove');
   tabStore.removeTabs(name);
 }
 watch(() => route.fullPath, () => {
@@ -45,7 +44,6 @@ watch(() => route.fullPath, () => {
     isAffix: route.meta.isAffix as boolean
   }
   tabStore.addTabs(routeDetail);
-  console.log(route, router, tabStore.tabsList, 'route router');
 },{ immediate: true });
 </script>
 <style scoped lang="scss">

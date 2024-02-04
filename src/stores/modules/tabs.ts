@@ -25,11 +25,11 @@ export const useTabStore = defineStore('tabs',{
         this.tabsMap[routeParams.name] = routeParams;
       }
     },
-    removeTabs(name: TabPaneName){
+    async removeTabs(name: TabPaneName){
       if(this.tabsMap[name]){
         delete this.tabsMap[name];
         const temp = this.tabsList[this.tabsList.length - 1];
-        router.push({
+        await router.push({
           name: temp.name
         })
       }

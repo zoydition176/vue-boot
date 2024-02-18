@@ -23,12 +23,19 @@
         <el-menu-item index="5-5" @click="handleMenu('/userManager')">用户管理</el-menu-item>
       </el-sub-menu>
     </el-menu>
+    <menuItem :menu-data="authMenuList"></menuItem>
   </el-aside>
 </template>
 <script setup lang="ts" name="asideBar">
 import {useRouter} from "vue-router";
+import {useAuthStore} from "@/stores/modules/auth";
+import { computed } from "vue";
+import menuItem from "@/layouts/components/menuItem/index";
 
 const router = useRouter();
+const authStore = useAuthStore();
+const authMenuList = computed(() => authStore.showAsideList);
+
 const handleOpen = (key: string, keyPath: string[]) => {
   console.log(key, keyPath);
 }

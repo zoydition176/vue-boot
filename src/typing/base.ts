@@ -17,3 +17,13 @@ export interface routeTabs{
   isActive?: boolean;
   isAffix?: boolean;
 }
+
+export interface menuTypes{
+  path: string;
+  name: string;
+  component?: string | (() => Promise<unknown>);
+  redirect?: string;
+  meta: any;
+  children?: menuTypes[];
+  symbol?: string;
+}

@@ -24,7 +24,6 @@ export const staticRouter: RouteRecordRaw[] = [
         path: "/home",
         name: "home",
         component: () => import("@/views/home.vue"),
-        children: [],
         meta: {
           title: '首页',
           isHidden: false,

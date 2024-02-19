@@ -32,6 +32,7 @@ import { CircleClose, UserFilled } from "@element-plus/icons-vue";
 import type { FormInstance } from "element-plus";
 import { getUserStore } from "@/stores/modules/user";
 import { useRouter } from "vue-router";
+import {useAuthStore} from "@/stores/modules/auth";
 interface FormState {
   username: string;
   password: string;
@@ -39,6 +40,7 @@ interface FormState {
 }
 const router = useRouter();
 const userStore = getUserStore();
+const authStore = useAuthStore();
 const loginFormRef = ref<FormInstance>();
 const loading = ref(false);
 const rules = {
@@ -60,10 +62,11 @@ const formState = reactive<FormState>({
 function login(elForm: FormInstance | undefined) {
   if(!elForm) return;
   loading.value = true;
-  elForm.validate((valid)=>{
+  elForm.validate(async (valid)=>{
     if(valid){
       userStore.setToken('this is JWT response');
-      router.push('/main/index');
+      await authStore.getAuthAsideList();
+      await router.push('/main/index');
     }
     loading.value = false;
   })

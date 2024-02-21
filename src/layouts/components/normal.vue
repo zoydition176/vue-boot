@@ -9,12 +9,12 @@
             <span>首页默认布局</span>
             <layout-change />
           </div>
-        </el-header>
-        <el-main>
           <tabs></tabs>
+        </el-header>
+        <el-main class="main">
           <main-content></main-content>
         </el-main>
-        <el-footer class="normal-footer">vue boot</el-footer>
+<!--        <el-footer class="normal-footer">vue boot</el-footer>-->
       </el-container>
     </el-container>
   </div>

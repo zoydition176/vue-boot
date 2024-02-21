@@ -14,6 +14,12 @@
 </script>
 <style scoped lang="scss">
 .main-content{
+  box-sizing: border-box;
   width: 100%;
+  height: 100%;
+  background: #ffffff;
+  border-radius: 5px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.05);
+  padding: 20px;
 }
 </style>

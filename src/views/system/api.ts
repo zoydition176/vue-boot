@@ -2,7 +2,9 @@ import requestHttp from '@/api/index';
 enum Api {
   userList = '/user/page',
   updateUserList = '/user/save',
-  deleteUser = '/user/id='
+  deleteUser = '/user/id=',
+  exportUserList = '/user/export',
+  importUserList = '/user/import'
 }
 export const getUserList = (params) => {
   return requestHttp.get({ url: Api.userList, params }, {
@@ -21,3 +23,15 @@ export const deleteUser = (data) => {
     isTransformResponse: false
   });
 };
+
+export const exportUserList = () => {
+  return requestHttp.get({ url: Api.exportUserList }, {
+    isTransformResponse: false
+  });
+}
+
+export const importUserList = () => {
+  return requestHttp.post({ url: Api.importUserList }, {
+    isTransformResponse: false
+  });
+}

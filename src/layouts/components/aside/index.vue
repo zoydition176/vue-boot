@@ -1,5 +1,6 @@
 <template>
-  <el-aside width="200px">
+  <el-aside class="boot-aside" width="200px">
+    <Logo></Logo>
     <el-menu
       active-text-color="#ffd04b"
       background-color="#545c64"
@@ -18,6 +19,7 @@
 import {useAuthStore} from "@/stores/modules/auth";
 import { computed } from "vue";
 import menuItem from "./menuItem.vue";
+import Logo from "./logo.vue";
 import {useRoute} from "vue-router";
 
 const authStore = useAuthStore();
@@ -33,5 +35,11 @@ const handleClose = (key: string, keyPath: string[]) => {
 }
 </script>
 <style scoped lang="scss">
-
+.boot-aside{
+  background: #545c64;
+  //border-right: solid 1px var(--el-menu-border-color);
+}
+:deep(.el-menu){
+  border-right: none;
+}
 </style>

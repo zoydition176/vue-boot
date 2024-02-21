@@ -2,5 +2,9 @@
 //#e61517
 :root{
   --web-theme:#e61517;
+  --web-block-gutter:20px;
+  --web-border-color: #dcdfe6;
 }
 $theme-color: var(--web-theme);
+$border-color: var(--web-border-color);
+$block-gutter: var(--web-block-gutter);

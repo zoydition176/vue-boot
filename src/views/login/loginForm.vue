@@ -7,7 +7,7 @@
       label-width="100px"
     >
       <el-form-item label="用户名" prop="username">
-        <el-input v-model="formState.username" placeholder="zdx"></el-input>
+        <el-input v-model="formState.username" placeholder="user4"></el-input>
       </el-form-item>
       <el-form-item label="密码" prop="password">
         <el-input v-model="formState.password" placeholder="123456" type="password"></el-input>
@@ -29,14 +29,15 @@
 <script setup lang="ts" name="loginForm">
 import { reactive, ref } from 'vue';
 import { CircleClose, UserFilled } from "@element-plus/icons-vue";
-import type { FormInstance } from "element-plus";
+import {ElMessage, FormInstance} from "element-plus";
 import { getUserStore } from "@/stores/modules/user";
 import { useRouter } from "vue-router";
 import {useAuthStore} from "@/stores/modules/auth";
+import {httpLogin} from "@/api/modules/common";
 interface FormState {
   username: string;
   password: string;
-  remember: boolean;
+  remember?: boolean;
 }
 const router = useRouter();
 const userStore = getUserStore();
@@ -65,8 +66,17 @@ function login(elForm: FormInstance | undefined) {
   elForm.validate(async (valid)=>{
     if(valid){
       userStore.setToken('this is JWT response');
-      await authStore.getAuthAsideList();
-      await router.push('/main/index');
+      const res = await httpLogin({
+        username: formState.username,
+        password: formState.password
+      });
+      console.log(res, 'login res');
+      if(res){
+        await authStore.getAuthAsideList();
+        await router.push('/main/index');
+      }else{
+        ElMessage.error('登录失败！');
+      }
     }
     loading.value = false;
   })

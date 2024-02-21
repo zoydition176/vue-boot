@@ -3,12 +3,12 @@
     <el-container class="layout-content">
       <el-header class="z-header">
         <layout-change />
+        <tabs></tabs>
       </el-header>
       <el-container>
         <asideBar />
         <el-container>
-          <el-main>
-            <tabs></tabs>
+          <el-main class="main">
             <main-content></main-content>
           </el-main>
           <el-footer>Footer</el-footer>

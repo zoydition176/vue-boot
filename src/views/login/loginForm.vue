@@ -29,11 +29,11 @@
 <script setup lang="ts" name="loginForm">
 import { reactive, ref } from 'vue';
 import { CircleClose, UserFilled } from "@element-plus/icons-vue";
-import {ElMessage, FormInstance} from "element-plus";
+import { ElMessage, FormInstance } from "element-plus";
 import { getUserStore } from "@/stores/modules/user";
 import { useRouter } from "vue-router";
-import {useAuthStore} from "@/stores/modules/auth";
-import {httpLogin} from "@/api/modules/common";
+import { useAuthStore } from "@/stores/modules/auth";
+import { httpLogin } from "@/api/modules/common";
 interface FormState {
   username: string;
   password: string;

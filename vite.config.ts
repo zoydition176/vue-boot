@@ -1,7 +1,6 @@
 import {ConfigEnv, defineConfig, loadEnv, UserConfig} from 'vite';
 import {wrapperEnv} from "./build/configEnv";
 import {resolve} from "path";
-// import {path} from "path"
 import {createProxy} from "./build/proxy";
 import {createVitePlugins} from "./build/plugin";
 import {OUTPUT_DIR} from "./build/static";

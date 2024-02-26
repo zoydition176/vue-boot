@@ -103,7 +103,7 @@ const transform: AxiosTransform = {
   },
   // after response interceptor
   transformResHook: (res: AxiosResponse<Result>, options: customRequestOptions) => {
-    console.log(res,options,'transformResHook');
+    console.log(res, options, 'transformResHook');
     const { isTransformResponse, isReturnNativeResponse } = options;
     if(isReturnNativeResponse){
       return res;

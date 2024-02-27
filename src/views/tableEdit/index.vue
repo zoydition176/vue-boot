@@ -1,14 +1,12 @@
 <template>
   <div>
-    <button @click="test">123</button>
+    <el-button @click="test">test</el-button>
   </div>
 </template>
 <script setup lang="ts" name="tableEdit">
 import { getUserList } from "@/api/modules/tableEdit/use";
 import { ref } from "vue";
-
 const data = ref();
-
 function test() {
   getUserList({
     pageNum: 1,
@@ -17,7 +15,6 @@ function test() {
     data.value = res.records;
   });
 }
-
 </script>
 <style scoped lang="scss">
 

@@ -65,17 +65,19 @@ function login(elForm: FormInstance | undefined) {
   loading.value = true;
   elForm.validate(async (valid)=>{
     if(valid){
-      userStore.setToken('this is JWT response');
-      const res = await httpLogin({
-        username: formState.username,
-        password: formState.password
-      });
-      console.log(res, 'login res');
-      if(res){
-        await authStore.getAuthAsideList();
-        await router.push('/main/index');
-      }else{
-        ElMessage.error('登录失败！');
+      try {
+        const res = await httpLogin({
+          username: formState.username,
+          password: formState.password
+        });
+        console.log(res, 'login res');
+        if(res){
+          userStore.setToken('this is JWT response');
+          await authStore.getAuthAsideList();
+          await router.push('/main/index');
+        }
+      } catch (error) {
+        ElMessage.error(error + '登录失败！');
       }
     }
     loading.value = false;

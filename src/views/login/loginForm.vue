@@ -71,7 +71,7 @@ function login(elForm: FormInstance | undefined) {
           password: formState.password
         });
         console.log(res, 'login res');
-        if(res){
+        if(res.code === '200'){
           userStore.setToken('this is JWT response');
           await authStore.getAuthAsideList();
           await router.push('/main/index');

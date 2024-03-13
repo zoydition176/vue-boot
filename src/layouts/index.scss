@@ -9,21 +9,6 @@
 .main{
   background: #f5f5f5;
 }
-.z-header{
-  display: flex;
-  height: 32px;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 20px;
-  border-bottom: 1px solid var(--el-border-color-light);
-}
-.example-showcase .el-dropdown-link {
-  cursor: pointer;
-  color: var(--el-color-primary);
-  display: flex;
-  align-items: center;
-}
 .normal-footer{
   background: #545c64;
   color: #ffffff;

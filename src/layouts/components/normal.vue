@@ -5,27 +5,24 @@
       <asideBar />
       <el-container>
         <el-header>
-          <div class="z-header">
-            <span>首页默认布局</span>
-            <layout-change />
-          </div>
-          <tabs></tabs>
+          <headerContent />
         </el-header>
         <el-main class="main">
-          <main-content></main-content>
+          <main-content />
         </el-main>
-<!--        <el-footer class="normal-footer">vue boot</el-footer>-->
+        <el-footer>
+          <footerContent />
+        </el-footer>
       </el-container>
     </el-container>
   </div>
 </template>
 <script setup lang="ts" name="normal">
-import LayoutChange from "@/layouts/blocks/layoutChange.vue";
 import asideBar from "./aside/index.vue";
 import mainContent from "./mainContent/index.vue";
-import tabs from "@/layouts/components/tabs/index.vue";
-
+import headerContent from "./header/header.vue";
+import footerContent from "./footer/footer.vue";
 </script>
-<style scoped lang="scss">
+<style lang="scss" scoped>
 @import "@/layouts/index.scss";
 </style>

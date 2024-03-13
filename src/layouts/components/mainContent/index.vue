@@ -1,16 +1,19 @@
 <template>
   <div class="main-content">
-    <router-view v-slot="{ Component, route }">
-      <transition appear name="fade-transform" mode="out-in">
-        <keep-alive>
-          <component :is="Component" v-if="!route.meta.link" :key="route.fullPath"></component>
-        </keep-alive>
-      </transition>
-    </router-view>
+    <tabs></tabs>
+    <div class="core-box">
+      <router-view v-slot="{ Component, route }">
+        <transition appear name="fade-transform" mode="out-in">
+          <keep-alive>
+            <component :is="Component" v-if="!route.meta.link" :key="route.fullPath"></component>
+          </keep-alive>
+        </transition>
+      </router-view>
+    </div>
   </div>
 </template>
 <script setup lang="ts" name="mainContent">
-
+import tabs from "@/layouts/components/tabs/index.vue";
 </script>
 <style scoped lang="scss">
 .main-content{
@@ -21,5 +24,8 @@
   border-radius: 5px;
   box-shadow: 0 0 12px rgba(0, 0, 0, 0.05);
   padding: 20px;
+}
+.core-box{
+  padding-top: 10px;
 }
 </style>

@@ -1,9 +1,8 @@
 <template>
   <div class="vertical-layout">
     <el-container class="layout-content">
-      <el-header class="z-header">
-        <layout-change />
-        <tabs></tabs>
+      <el-header>
+        <headerContent />
       </el-header>
       <el-container>
         <asideBar />
@@ -11,7 +10,9 @@
           <el-main class="main">
             <main-content></main-content>
           </el-main>
-          <el-footer>Footer</el-footer>
+          <el-footer>
+            <footerContent />
+          </el-footer>
         </el-container>
       </el-container>
     </el-container>
@@ -19,9 +20,9 @@
 </template>
 <script setup lang="ts" name="vertical">
 import asideBar from "./aside/index.vue";
-import LayoutChange from "@/layouts/blocks/layoutChange.vue";
 import mainContent from "./mainContent/index.vue";
-import tabs from "@/layouts/components/tabs/index.vue";
+import headerContent from "./header/header.vue";
+import footerContent from "./footer/footer.vue";
 </script>
 <style scoped lang="scss">
 @import "@/layouts/index.scss";

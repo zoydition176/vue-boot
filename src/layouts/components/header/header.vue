@@ -7,7 +7,7 @@
   </div>
 </template>
 <script setup lang="ts" name="headerContent">
-import LayoutChange from "@/layouts/blocks/layoutChange.vue";
+import LayoutChange from "./layoutChange.vue";
 import { getUserStore } from "@/stores/modules/user";
 import { computed } from "vue";
 

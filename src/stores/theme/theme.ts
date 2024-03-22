@@ -1,5 +1,5 @@
 import {defineStore} from "pinia";
-export const getUserStore = defineStore('theme',{
+export const useThemeStore = defineStore('theme',{
   state: () => ({
     loginBackground: "",
     themeColor: ""

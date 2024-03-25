@@ -5,11 +5,11 @@ import router from "@/router";
 interface UserState {
   token: string;
   userInfo: {
-    name: string,
-    nickname: string,
-    id: string,
-    avatar: string,
-   };
+    name: string;
+    nickname: string;
+    id: string;
+    avatar: string;
+  };
 }
 export const getUserStore = defineStore('user',{
   state: (): UserState => ({

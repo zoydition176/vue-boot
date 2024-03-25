@@ -25,7 +25,7 @@ export const deleteUser = (data) => {
 };
 
 export const exportUserList = () => {
-  return requestHttp.get({ url: Api.exportUserList }, {
+  return requestHttp.blobDownload('GET', { url: Api.exportUserList }, {
     isTransformResponse: false
   });
 }

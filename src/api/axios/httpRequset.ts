@@ -112,9 +112,13 @@ export class httpRequest {
   delete<T = any>(config: AxiosRequestConfig, options?: customRequestOptions): Promise<T> {
     return this.originRequest({ ...config, method: 'DELETE' }, options);
   }
-  // 需要重新封装
-  download(){
-    return Promise.reject();
+  // blob类型下载
+  blobDownload<T = any>(methods: 'GET'|'POST', config: AxiosRequestConfig, options?: customRequestOptions): Promise<T>{
+    const downloadConfig: AxiosRequestConfig = Object.assign(config, {
+      responseType: 'blob',
+      method: methods ? methods : 'GET'
+    })
+    return this.originRequest({ ...downloadConfig }, options);
   }
 }
 

@@ -81,6 +81,8 @@ function login(elForm: FormInstance | undefined) {
           });
           await authStore.getAuthAsideList();
           await router.push('/main/index');
+        }else{
+          ElMessage.error(res.message);
         }
       } catch (error) {
         ElMessage.error(error + '登录失败！');

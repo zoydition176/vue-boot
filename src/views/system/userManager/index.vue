@@ -29,6 +29,7 @@
 import { ref, onMounted } from "vue";
 import {deleteUser, getUserList, updateUserList, exportUserList} from "../api";
 import sysDrawer from "../components/sysDrawer.vue";
+import sysDialog from "../components/sysDialog.vue";
 import {fileDownload} from "@/utils";
 
 const tableData = ref([]);
@@ -40,8 +41,8 @@ function getList() {
     pageNum: 1,
     pageSize: 10
   }).then((res)=>{
-    tableData.value = res.records;
-    listTotal.value = res.total;
+    tableData.value = res.data.records;
+    listTotal.value = res.data.total;
   });
 }
 

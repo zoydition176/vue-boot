@@ -2,32 +2,37 @@ import type {AxiosTransform} from "./axios/transform";
 import {AxiosError, AxiosResponse, InternalAxiosRequestConfig} from "axios";
 import {customAxiosRequestConfig} from "./axios/transform";
 import {httpRequest} from "/@/api/axios/httpRequset";
-// import {getUserStore} from "/@/stores/modules/user";
 import {AxiosRequestConfig} from "axios";
 import {customRequestOptions, Result} from "/@/api/interface/axios";
 import {ContentTypeEnum, RequestEnum, ResultEnum} from "@/api/enum/httpEnum";
 import {isStr} from "@/utils/affirm/is";
 import {getToken} from "@/utils/auth";
-// import {customResponseOptions} from "/@/api/interface/axios";
-// import {customResponseOptions} from "/@/api/interface/axios";
+// import { ElMessage } from "element-plus";
+// import {getUserStore} from "@/stores/modules/user";
 
-function httpCheckError(code = 500, msg = ''){
-  let context = '';
-  switch (code) {
-    case ResultEnum.ERROR:
-      context = '请求失败了';
-      break;
-    case ResultEnum.TIMEOUT:
-      context = '请求超时了';
-      // 退出登录逻辑
-      break;
-    default:
-      if(msg){
-        context = msg;
-      }
-  }
-  throw new Error(context || 'this request\'s message does not exist');
-}
+// function httpCheckError(code = 500, msg = ''){
+//   let context = '';
+//   const userStore = getUserStore();
+//   switch (code) {
+//     case ResultEnum.ERROR:
+//       context = '请求失败';
+//       break;
+//     case ResultEnum.TIMEOUT:
+//       context = '请求超时';
+//       // 退出登录逻辑
+//       break;
+//     case ResultEnum.TOKEN_FAIL:
+//       context = "token验证失败";
+//       userStore.userLogout();
+//       break;
+//     default:
+//       if(msg){
+//         context = msg;
+//       }
+//   }
+//   ElMessage.error(context);
+//   throw new Error(context);
+// }
 
 // 抽象类实现，按整个http请求的顺序定义方法
 const transform: AxiosTransform = {
@@ -124,7 +129,6 @@ const transform: AxiosTransform = {
     }
 
     type === 'success' && message && console.log(message, 'response message');
-    httpCheckError(code, message);
     return res;
   },
   // 具体的逻辑看需求，后期逐步添加
@@ -135,7 +139,10 @@ const transform: AxiosTransform = {
   // 具体的逻辑看需求，后期逐步添加
   responseInterceptorsCatch: (error: AxiosError) => {
     const { response, code, message } = error;
-    console.log(response, code, message, 'responseInterceptorsCatch');
+    console.log(error, response, code, message, 'responseInterceptorsCatch');
+    // if(res.data.code !== "200"){
+    //   httpCheckError(res.data.code, res.data.message);
+    // }
     return Promise.reject(error);
   }
 }

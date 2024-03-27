@@ -7,32 +7,37 @@ import {customRequestOptions, Result} from "/@/api/interface/axios";
 import {ContentTypeEnum, RequestEnum, ResultEnum} from "@/api/enum/httpEnum";
 import {isStr} from "@/utils/affirm/is";
 import {getToken} from "@/utils/auth";
-// import { ElMessage } from "element-plus";
-// import {getUserStore} from "@/stores/modules/user";
+import { ElMessage } from "element-plus";
+import {getUserStore} from "@/stores/modules/user";
 
-// function httpCheckError(code = 500, msg = ''){
-//   let context = '';
-//   const userStore = getUserStore();
-//   switch (code) {
-//     case ResultEnum.ERROR:
-//       context = '请求失败';
-//       break;
-//     case ResultEnum.TIMEOUT:
-//       context = '请求超时';
-//       // 退出登录逻辑
-//       break;
-//     case ResultEnum.TOKEN_FAIL:
-//       context = "token验证失败";
-//       userStore.userLogout();
-//       break;
-//     default:
-//       if(msg){
-//         context = msg;
-//       }
-//   }
-//   ElMessage.error(context);
-//   throw new Error(context);
-// }
+function httpCheckCode(code="500", msg = ''){
+  let context = '';
+  const userStore = getUserStore();
+  switch (code) {
+    case ResultEnum.SUCCESS:
+      context = '请求成功';
+      return true;
+    case ResultEnum.ERROR:
+      context = '请求失败';
+      break;
+    case ResultEnum.TIMEOUT:
+      context = '请求超时';
+      // 退出登录逻辑
+      break;
+    case ResultEnum.TOKEN_FAIL:
+      context = "token验证失败，请重新登录";
+      ElMessage.error(context);
+      userStore.userLogout();
+      break;
+    default:
+      if(msg){
+        context = msg;
+      }
+      ElMessage.error(context);
+      break;
+  }
+  return false;
+}
 
 // 抽象类实现，按整个http请求的顺序定义方法
 const transform: AxiosTransform = {
@@ -80,6 +85,7 @@ const transform: AxiosTransform = {
   requestInterceptors: (config: InternalAxiosRequestConfig, options: customAxiosRequestConfig) => {
     console.log(config, options, '请求拦截');
     const token = getToken();
+    console.log(token, "token");
     const contentType = options.requestOption?.contentType;
     if(contentType){
       config.headers.set("Content-Type", contentType);
@@ -116,18 +122,14 @@ const transform: AxiosTransform = {
     if (!isTransformResponse) {
       return res.data;
     }
-    const { data } = res;
-    if(!data){
-      throw new Error('request no data');
+    const { code, data, message, type } = res.data;
+    if(httpCheckCode(code, message)){
+      if(!data){
+        throw new Error('后端数据为空！');
+      }else{
+        return data;
+      }
     }
-    const { code, result, message, type } = data;
-    if(!result){
-      throw new Error('后端格式不对！');
-    }
-    if(code === ResultEnum.SUCCESS){
-      return result;
-    }
-
     type === 'success' && message && console.log(message, 'response message');
     return res;
   },
@@ -140,9 +142,6 @@ const transform: AxiosTransform = {
   responseInterceptorsCatch: (error: AxiosError) => {
     const { response, code, message } = error;
     console.log(error, response, code, message, 'responseInterceptorsCatch');
-    // if(res.data.code !== "200"){
-    //   httpCheckError(res.data.code, res.data.message);
-    // }
     return Promise.reject(error);
   }
 }

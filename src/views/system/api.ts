@@ -7,9 +7,7 @@ enum Api {
   importUserList = '/user/import'
 }
 export const getUserList = (params) => {
-  return requestHttp.get({ url: Api.userList, params }, {
-    isTransformResponse: false
-  });
+  return requestHttp.get({ url: Api.userList, params });
 };
 
 export const updateUserList = (params) => {

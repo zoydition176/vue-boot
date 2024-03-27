@@ -35,8 +35,8 @@ export interface customRequestOptions {
 }
 
 export interface Result<T = any> {
-  code: number;
+  code: string;
   type: 'success' | 'error' | 'warning';
   message: string;
-  result: T;
+  data: T;
 }

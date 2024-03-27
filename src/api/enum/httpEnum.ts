@@ -5,10 +5,10 @@ export enum RequestEnum {
   DELETE = 'DELETE',
 }
 export enum ResultEnum {
-  SUCCESS = 200,
-  ERROR = 500,
-  TIMEOUT = 401,
-  TOKEN_FAIL = 403,
+  SUCCESS = "200",
+  ERROR = "500",
+  TIMEOUT = "401",
+  TOKEN_FAIL = "403",
 }
 export enum ContentTypeEnum {
   // json

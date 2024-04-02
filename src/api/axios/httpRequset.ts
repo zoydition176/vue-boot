@@ -36,10 +36,11 @@ export class httpRequest {
     // 请求拦截
     this.requestInstance.interceptors.request.use((config: InternalAxiosRequestConfig) => {
       const ignoreCancel = this.options.requestOption?.ignoreCancel;
+      const checkOpt: customAxiosRequestConfig = Object.assign({}, this.options, config);
       !ignoreCancel && httpList.addPending(config);
       if(requestInterceptors){
         // 通过this.options中的自定义配置，更改config配置里的值
-        config = requestInterceptors(config, this.options);
+        config = requestInterceptors(config, checkOpt);
       }
       // 额外处理逻辑
 
@@ -68,7 +69,7 @@ export class httpRequest {
     // 获取提前配置设定的默认配置
     const { requestOption } = this.options;
     // 合并成新配置
-    const newOptions = Object.assign({},requestOption,options);
+    const newOptions = Object.assign({}, requestOption, options);
     // 重新处理请求
     if(beforeReqHook && isFunction(beforeReqHook)){
       conf = beforeReqHook(conf, newOptions);

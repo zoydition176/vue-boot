@@ -3,6 +3,7 @@
     <el-row>
       <el-button type="primary" @click="saveUser(0, {})">新增</el-button>
       <el-button type="primary" @click="handleExport()">导出</el-button>
+      <el-button type="primary" @click="commonFileUpload">上传文件</el-button>
     </el-row>
     <el-table :data="tableData" style="width: 100%">
       <el-table-column prop="id" label="id" width="80" />
@@ -67,6 +68,10 @@ function handleExport(){
   exportUserList().then((res)=>{
     fileDownload(res, '用户列表');
   });
+}
+
+function commonFileUpload(){
+  sysDialogDom.value.acceptParams({});
 }
 
 onMounted(()=>{

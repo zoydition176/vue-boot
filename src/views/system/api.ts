@@ -4,7 +4,8 @@ enum Api {
   updateUserList = '/user/save',
   deleteUser = '/user/id=',
   exportUserList = '/user/export',
-  importUserList = '/user/import'
+  importUserList = '/user/import',
+  fileUpload = '/file/upload',
 }
 export const getUserList = (params) => {
   return requestHttp.get({ url: Api.userList, params });
@@ -32,4 +33,10 @@ export const importUserList = () => {
   return requestHttp.post({ url: Api.importUserList }, {
     isTransformResponse: false
   });
+}
+
+export const httpUpload = (params) => {
+  return requestHttp.post({ url: Api.fileUpload, params }, {
+    contentType: 'multipart/form-data;charset=UTF-8'
+  })
 }

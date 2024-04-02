@@ -2,11 +2,11 @@
   <div class="uploadBoot">
     <el-upload
       ref="chunkUploadDom"
-      :http-request="fileChunkUpload"
+      :http-request="fileUpload"
       :before-upload="bfChunkUpload"
       :drag="isDrag"
       accept=".zip"
-      :disabled="disable || uploadStatus.isUploading"
+      :disabled="disabled || uploadStatus.isUploading"
       :list-type="listType"
     >
       <template #default>
@@ -21,7 +21,7 @@
             </div>
           </div>
           <div v-else>
-            <el-button type="primary" :disabled="disable || uploadStatus.isUploading" :loading="uploadStatus.isProcessing">
+            <el-button type="primary" :disabled="disabled || uploadStatus.isUploading" :loading="uploadStatus.isProcessing">
               {{ btnMessage }}
             </el-button>
           </div>
@@ -30,7 +30,7 @@
       <template #file="{ file }">
         <div class="custom-file-block" v-if="listType === 'picture-card'">
           <img :src="filesIcon" alt="" />
-          <p>{{checkFileType(file)}}</p>
+          <p>{{ checkFileType(file) }}</p>
         </div>
       </template>
     </el-upload>
@@ -48,36 +48,53 @@ import filesIcon from '@/assets/appIcons/shellscript.png';
 import { checkFile } from "@/utils";
 
 const props = defineProps({
+  // 普通上传
+  uploadApi: {
+    type: Function,
+    default: ()=> Promise.resolve()
+  },
+  // 分片上传
   uploadChunk: {
     type: Function,
     default: ()=> Promise.resolve()
   },
+  // 分片上传-合并
   uploadMerge: {
     type: Function,
     default: ()=> Promise.resolve()
   },
-  disable: {
+  // 禁用属性
+  disabled: {
     type: Boolean,
     default: false
   },
+  // 是否显示进度条
   showProgress: {
     type: Boolean,
     default: true
   },
+  // 上传组件类型
   listType: {
     type: String,
     default: 'text'
   },
+  // 上传文件类型列表
   accept: {
     type: Array,
     default: () => []
   },
+  // 是否可拖拽
   isDrag: {
+    type: Boolean,
+    default: false
+  },
+  // 是否分片上传
+  isChunk: {
     type: Boolean,
     default: false
   }
 });
-const emits = defineEmits(['afterChunkUpload']);
+const emits = defineEmits(['afterUpload']);
 const chunkUploadDom = ref();
 const fileName = ref('');
 const fileHash = ref('');
@@ -163,7 +180,7 @@ const chunkUploadComplete = async (totalFile) => {
     if(res.success){
       // 文件上传状态结束
       uploadStatus.isUploading = false;
-      emits('afterChunkUpload', res);
+      emits('afterUpload', res);
     }
   } catch (e) {
     ElMessage.error("文件上传失败，请重新上传!");
@@ -233,6 +250,23 @@ const reset = () => {
 function checkFileType(file){
   const fileType = file.name.split('.');
   return file.name + '' + fileType[fileType.length - 1];
+}
+
+function fileGeneralUpload(file){
+  const formData = new FormData();
+  formData.append('file', file.file);
+  props.uploadApi(formData).then((res: any)=>{
+    console.log(res, 'uploadApi');
+    emits('afterUpload', res);
+  });
+}
+
+function fileUpload(file){
+  if(props.isChunk){
+    return fileChunkUpload(file);
+  }else{
+    return fileGeneralUpload(file);
+  }
 }
 
 /*function filePreviewDownload(file: any){

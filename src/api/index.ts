@@ -43,7 +43,7 @@ function httpCheckCode(code="500", msg = ''){
 const transform: AxiosTransform = {
   // before set requestInterceptors
   beforeReqHook: (config: AxiosRequestConfig, options: customRequestOptions) => {
-    console.log(config,options,'beforeReqHook');
+    console.log(config, options, 'beforeReqHook');
     const { addPrefix, joinTime } = options;
     const timestamp = new Date().getTime();
     if(addPrefix){
@@ -87,6 +87,7 @@ const transform: AxiosTransform = {
     const token = getToken();
     console.log(token, "token");
     const contentType = options.requestOption?.contentType;
+    console.log(contentType, "contentTypecontentType");
     if(contentType){
       config.headers.set("Content-Type", contentType);
     }else{
@@ -105,6 +106,7 @@ const transform: AxiosTransform = {
       config.headers.set("X-Sign", (config.url + '' + JSON.stringify(config.params)));
 
     }
+    console.log(config, "asdaszzzz");
     return config;
   },
   // 具体的逻辑看需求，后期逐步添加

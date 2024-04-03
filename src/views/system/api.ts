@@ -1,4 +1,5 @@
 import requestHttp from '@/api/index';
+
 enum Api {
   userList = '/user/page',
   updateUserList = '/user/save',
@@ -35,8 +36,11 @@ export const importUserList = () => {
   });
 }
 
-export const httpUpload = (params) => {
-  return requestHttp.post({ url: Api.fileUpload, params }, {
+export const httpUpload = (data) => {
+  console.log(data, 'withCredentials');
+  return requestHttp.post({ url: Api.fileUpload, data: data, transformRequest: [
+      (data) => data,
+    ] }, {
     contentType: 'multipart/form-data;charset=UTF-8'
   })
 }

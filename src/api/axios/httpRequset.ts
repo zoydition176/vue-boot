@@ -121,5 +121,9 @@ export class httpRequest {
     })
     return this.originRequest({ ...downloadConfig }, options);
   }
+
+  // upload<T = any>(methods: 'GET'|'POST', config: AxiosRequestConfig, options?: customRequestOptions): Promise<T> {
+  //   return this.this.requestInstance.request()
+  // }
 }
 

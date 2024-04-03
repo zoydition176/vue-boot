@@ -198,7 +198,7 @@ const uploadChunks = async (chunks: any[], totalFile: any) => {
     // filePreviewDownload(chunkItem.file);
     // 已经上传过的
     if (uploadStatus.alreadyList.length > 0 && uploadStatus.alreadyList.includes(chunkItem.filename)) {
-      chunkUploadComplete(totalFile);
+      await chunkUploadComplete(totalFile);
       continue;
     }
     const formData = new FormData();
@@ -255,6 +255,7 @@ function checkFileType(file){
 function fileGeneralUpload(file){
   const formData = new FormData();
   formData.append('file', file.file);
+  console.log(formData.get('file'), 'formData');
   props.uploadApi(formData).then((res: any)=>{
     console.log(res, 'uploadApi');
     emits('afterUpload', res);

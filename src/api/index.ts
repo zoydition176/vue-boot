@@ -4,41 +4,10 @@ import {customAxiosRequestConfig} from "./axios/transform";
 import {httpRequest} from "/@/api/axios/httpRequset";
 import {AxiosRequestConfig} from "axios";
 import {customRequestOptions, Result} from "/@/api/interface/axios";
-import {ContentTypeEnum, RequestEnum, ResultEnum} from "@/api/enum/httpEnum";
+import {ContentTypeEnum, RequestEnum} from "@/api/enum/httpEnum";
 import {isStr} from "@/utils/affirm/is";
 import {getToken} from "@/utils/auth";
-import { ElMessage } from "element-plus";
-import {getUserStore} from "@/stores/modules/user";
-
-function httpCheckCode(code="500", msg = ''){
-  let context = '';
-  const userStore = getUserStore();
-  switch (code) {
-    case ResultEnum.SUCCESS:
-      context = '请求成功';
-      return true;
-    case ResultEnum.ERROR:
-      context = '请求失败';
-      break;
-    case ResultEnum.TIMEOUT:
-      context = '请求超时';
-      // 退出登录逻辑
-      break;
-    case ResultEnum.TOKEN_FAIL:
-      context = "token验证失败，请重新登录";
-      ElMessage.error(context);
-      userStore.userLogout();
-      break;
-    default:
-      if(msg){
-        context = msg;
-      }
-      ElMessage.error(context);
-      break;
-  }
-  return false;
-}
-
+import {httpCheckCode} from "@/api/helper/checkCode";
 // 抽象类实现，按整个http请求的顺序定义方法
 const transform: AxiosTransform = {
   // before set requestInterceptors
@@ -49,6 +18,12 @@ const transform: AxiosTransform = {
     if(addPrefix){
       config.url = addPrefix + '' + config.url;
     }
+    /*
+    * 这一段 有几把大问题 直接导致老子请求配置和默认配置出现问题。
+    * 这里axios应该有个默认的逻辑，不设置params/data就他妈指定不了headers，post方法全你妈报错了。
+    * 设置了params/data就不能改动contentType，所有的上传方法都没法用。
+    * */
+    /* 有毒代码开始 */
     const params = config.params || {};
     const data = config.data || false;
     // get方法加入时间戳
@@ -75,6 +50,7 @@ const transform: AxiosTransform = {
         }
       }
     }
+    /* 有毒代码结束 */
     return config;
   },
   /**

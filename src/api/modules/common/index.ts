@@ -1,11 +1,12 @@
 import requestHttp from '@/api/index';
+import httpVb from "@/api/axios/httpVb";
 enum Api {
   userLogin = '/user/login',
   userAuth = '/user/auth',
 }
 
 export function httpLogin(params){
-  return requestHttp.post({ url: Api.userLogin, params }, {
+  return httpVb.post({ url: Api.userLogin, params }, {
     isTransformResponse: false
   });
 }

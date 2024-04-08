@@ -1,4 +1,4 @@
-import requestHttp from '@/api/index';
+import httpVb from "@/api/axios/httpVb";
 
 enum Api {
   userList = '/user/page',
@@ -9,36 +9,37 @@ enum Api {
   fileUpload = '/file/upload',
 }
 export const getUserList = (params) => {
-  return requestHttp.get({ url: Api.userList, params });
+  return httpVb.get({ url: Api.userList, params });
 };
 
 export const updateUserList = (params) => {
-  return requestHttp.post({ url: Api.updateUserList, params }, {
-    isTransformResponse: false
+  return httpVb.post({ url: Api.updateUserList, params }, {
+    isTransformResponse: false,
+    // contentType: 'application/json;charset=UTF-8'
   });
 };
 
 export const deleteUser = (data) => {
-  return requestHttp.delete({ url: Api.deleteUser + data }, {
+  return httpVb.delete({ url: Api.deleteUser + data }, {
     isTransformResponse: false
   });
 };
 
 export const exportUserList = () => {
-  return requestHttp.blobDownload('GET', { url: Api.exportUserList }, {
+  return httpVb.blobDownload('GET', { url: Api.exportUserList }, {
     isTransformResponse: false
   });
 }
 
 export const importUserList = () => {
-  return requestHttp.post({ url: Api.importUserList }, {
+  return httpVb.post({ url: Api.importUserList }, {
     isTransformResponse: false
   });
 }
 
 export const httpUpload = (data) => {
   console.log(data, 'withCredentials');
-  return requestHttp.post({ url: Api.fileUpload, data: data, transformRequest: [
+  return httpVb.post({ url: Api.fileUpload, data: data, transformRequest: [
       (data) => data,
     ] }, {
     contentType: 'multipart/form-data;charset=UTF-8'

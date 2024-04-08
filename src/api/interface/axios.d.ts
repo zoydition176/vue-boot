@@ -13,8 +13,6 @@ export interface customRequestOptions {
   // errorMessageMode?: ErrorMessageMode;
   // // 成功消息提示类型
   // successMessageMode?: SuccessMessageMode;
-  // // 是否添加时间戳
-  // joinTime?: boolean;
   // ignoreCancelToken?: boolean;
   //是否在标头中发送令牌
   withToken?: boolean;
@@ -36,7 +34,7 @@ export interface customRequestOptions {
 
 export interface Result<T = any> {
   code: string;
-  type: 'success' | 'error' | 'warning';
+  type?: 'success' | 'error' | 'warning';
   message: string;
   data: T;
 }

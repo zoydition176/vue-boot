@@ -3,6 +3,7 @@ import {customRequestOptions, Result} from "@/api/interface/axios";
 import {getToken} from "@/utils/auth";
 import {ContentTypeEnum} from "@/api/enum/httpEnum";
 import {httpCheckCode} from "@/api/helper/checkCode";
+import {httpList} from "@/api/axios/httpPendingList";
 
 type httpVbAxiosConfig = InternalAxiosRequestConfig & customRequestOptions;
 
@@ -28,7 +29,7 @@ function tansParams(params: any) {
   return result
 }
 
-export class httpVb {
+class httpVb {
   private readonly defaultConfig: AxiosRequestConfig;
   private service: AxiosInstance;
   public defaultOptions: customRequestOptions = {
@@ -59,8 +60,9 @@ export class httpVb {
   setupInterceptors(){
     this.service.interceptors.request.use((config: httpVbAxiosConfig)=>{
       const token = getToken();
-      const { addPrefix, contentType} = config;
+      const { addPrefix, contentType, ignoreCancel } = config;
       const timestamp = new Date().getTime();
+      !ignoreCancel && httpList.addPending(config);
       if(addPrefix){
         config.url = addPrefix + '' + config.url;
       }
@@ -80,10 +82,6 @@ export class httpVb {
         config.params = {};
         config.url = url;
       }
-      // if (config.method === 'post' || config.method === 'put') {
-      //
-      // }
-      console.log(config, 'config');
       return config;
     });
 
@@ -113,7 +111,7 @@ export class httpVb {
   }
 
   public request<T>(config: AxiosRequestConfig, customConfig: customRequestOptions): Promise<T>{
-    const opt = Object.assign({}, this.defaultOptions, customConfig)
+    const opt = Object.assign({}, this.defaultOptions, customConfig);
     const conf = Object.assign({}, config, opt);
     return new Promise<T>((resolve, reject)=>{
       this.service.request<any, AxiosResponse<any>>(conf).then((response: AxiosResponse<Result>)=>{
@@ -126,22 +124,23 @@ export class httpVb {
   }
 
   get<T = any>(config: AxiosRequestConfig, options?: customRequestOptions): Promise<T>{
-    return this.request({...config, method: 'GET'}, { ...options })
+    return this.request({...config, method: 'GET'}, { ...options });
   }
 
   post<T = any>(config: AxiosRequestConfig, options?: customRequestOptions): Promise<T>{
-    return this.request({...config, method: 'POST'}, { ...options })
+    return this.request({...config, method: 'POST'}, { ...options });
   }
 
   delete<T = any>(config: AxiosRequestConfig, options?: customRequestOptions): Promise<T> {
     return this.request({ ...config, method: 'DELETE' }, { ...options });
   }
+
   // blob类型下载
   blobDownload<T = any>(methods: 'GET'|'POST', config: AxiosRequestConfig, options?: customRequestOptions): Promise<T>{
     const downloadConfig: AxiosRequestConfig = Object.assign(config, {
       responseType: 'blob',
       method: methods ? methods : 'GET'
-    })
+    });
     return this.request({ ...downloadConfig }, { ...options });
   }
 }

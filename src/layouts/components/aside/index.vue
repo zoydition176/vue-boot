@@ -28,10 +28,10 @@ const authMenuList = computed(() => authStore.showAsideList);
 const defaultActive = computed(() => route.fullPath);
 
 const handleOpen = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath);
+  console.log(key, keyPath, 'handleOpen');
 }
 const handleClose = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath);
+  console.log(key, keyPath, 'handleClose');
 }
 </script>
 <style scoped lang="scss">

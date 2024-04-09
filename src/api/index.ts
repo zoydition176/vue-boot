@@ -1,3 +1,4 @@
+/* 已废弃 */
 import type {AxiosTransform} from "./axios/transform";
 import {AxiosError, AxiosResponse, InternalAxiosRequestConfig} from "axios";
 import {customAxiosRequestConfig} from "./axios/transform";
@@ -10,7 +11,6 @@ import {getToken} from "@/utils/auth";
 import {httpCheckCode} from "@/api/helper/checkCode";
 /*
 * 抽象类实现，按整个http请求的顺序定义方法
-* 已经废弃，问题出在data赋值
 * */
 const transform: AxiosTransform = {
   // before set requestInterceptors
@@ -126,7 +126,6 @@ const transform: AxiosTransform = {
     return Promise.reject(error);
   }
 }
-
 // 定义默认请求配置
 export default new httpRequest({
   authenticationScheme: '',

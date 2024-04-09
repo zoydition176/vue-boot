@@ -1,12 +1,13 @@
 <template>
   <div>
-    <el-dialog v-model="dialogVisible" title="Shipping address" width="800">
+    <el-dialog v-model="dialogVisible" title="文件上传" width="800">
       <upload-boot
         @after-upload="afterUpload"
         :uploadApi="httpUpload"
         :accept="['application/x-zip-compressed','application/zip','application/octet-stream']"
         :show-progress="true"
         :isChunk="false"
+        :list-type="'picture-card'"
         class="customUpload-btn"
       ></upload-boot>
     </el-dialog>

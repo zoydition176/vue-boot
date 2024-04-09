@@ -1,19 +1,18 @@
-import requestHttp from '@/api/index';
 import httpVb from "@/api/axios/httpVb";
 enum Api {
   userLogin = '/user/login',
   userAuth = '/user/auth',
 }
 
-export function httpLogin(params){
-  return httpVb.post({ url: Api.userLogin, params }, {
+export function httpLogin(data){
+  return httpVb.post({ url: Api.userLogin, data: data }, {
     isTransformResponse: false
   });
 }
 
 // 这个接口验证token就可以了
 export function httpGetAuthList(){
-  return requestHttp.get({ url: Api.userAuth }, {
+  return httpVb.get({ url: Api.userAuth }, {
     isTransformResponse: false
   });
 }

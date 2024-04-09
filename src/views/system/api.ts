@@ -12,8 +12,8 @@ export const getUserList = (params) => {
   return httpVb.get({ url: Api.userList, params });
 };
 
-export const updateUserList = (params) => {
-  return httpVb.post({ url: Api.updateUserList, params }, {
+export const updateUserList = (data) => {
+  return httpVb.post({ url: Api.updateUserList, data: data }, {
     isTransformResponse: false,
     // contentType: 'application/json;charset=UTF-8'
   });
@@ -38,10 +38,7 @@ export const importUserList = () => {
 }
 
 export const httpUpload = (data) => {
-  console.log(data, 'withCredentials');
-  return httpVb.post({ url: Api.fileUpload, data: data, transformRequest: [
-      (data) => data,
-    ] }, {
+  return httpVb.post({ url: Api.fileUpload, data: data }, {
     contentType: 'multipart/form-data;charset=UTF-8'
   })
 }

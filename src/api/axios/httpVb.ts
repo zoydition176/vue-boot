@@ -1,11 +1,33 @@
 import axios, {AxiosInstance, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig} from "axios";
 import {customRequestOptions, Result} from "@/api/interface/axios";
 import {getToken} from "@/utils/auth";
-import {ContentTypeEnum, RequestEnum} from "@/api/enum/httpEnum";
+import {ContentTypeEnum} from "@/api/enum/httpEnum";
 import {httpCheckCode} from "@/api/helper/checkCode";
-import {isStr} from "@/utils/affirm/is";
 
 type httpVbAxiosConfig = InternalAxiosRequestConfig & customRequestOptions;
+
+function tansParams(params: any) {
+  let result = ''
+  for (const propName of Object.keys(params)) {
+    const value = params[propName];
+    const part = encodeURIComponent(propName) + "=";
+    if (value !== null && value !== "" && typeof (value) !== "undefined") {
+      if (typeof value === 'object') {
+        for (const key of Object.keys(value)) {
+          if (value[key] !== null && value[key] !== "" && typeof (value[key]) !== 'undefined') {
+            const params = propName + '[' + key + ']';
+            const subPart = encodeURIComponent(params) + "=";
+            result += subPart + encodeURIComponent(value[key]) + "&";
+          }
+        }
+      } else {
+        result += part + encodeURIComponent(value) + "&";
+      }
+    }
+  }
+  return result
+}
+
 export class httpVb {
   private readonly defaultConfig: AxiosRequestConfig;
   private service: AxiosInstance;
@@ -17,7 +39,7 @@ export class httpVb {
     // 是否返回原生网络响应
     isReturnNativeResponse: false,
     // 是否添加前缀
-    // addPrefix: '',
+    addPrefix: '',
     // about FormData
     isFormData: false,
     // add timeStamp
@@ -37,36 +59,12 @@ export class httpVb {
   setupInterceptors(){
     this.service.interceptors.request.use((config: httpVbAxiosConfig)=>{
       const token = getToken();
-      const { addPrefix, joinTime } = config;
+      const { addPrefix, contentType} = config;
       const timestamp = new Date().getTime();
-      const params = config.params || {};
-      const data = config.data || false;
       if(addPrefix){
         config.url = addPrefix + '' + config.url;
       }
-      if(config.method?.toUpperCase() === RequestEnum.GET){
-        if(isStr(params)){
-          // restful style
-          config.params = joinTime ? `${config.url}${params}${timestamp}` : `${config.url}${params}`;
-          config.params = undefined;
-        }else{
-          config.params = Object.assign(params || {}, joinTime ? { _t: timestamp } : {});
-        }
-      }else{
-        if(isStr(params)){
-          // restful style
-          config.params = joinTime ? `${config.url}${params}${timestamp}` : `${config.url}${params}`;
-          config.params = undefined;
-        }else{
-          if(Reflect.has(config, 'data') && config.data && Object.keys(config.data).length > 0){
-            config.data = data;
-            config.params = params;
-          }else{
-            config.data = params;
-            config.params = undefined;
-          }
-        }
-      }
+      config.headers["Content-Type"] = contentType;
       if(config.withToken && token && config.headers && typeof config.headers.set === "function"){
         config.headers.Authorization = token;
         config.headers.set("x-access-token", token);
@@ -75,8 +73,17 @@ export class httpVb {
         // 暂时不用加密
         config.headers.set("X-Sign", (config.url + '&' + JSON.stringify(config.params)));
       }
-      config.headers.set("Content-Type", config.contentType);
-      console.log(config.headers.getContentType(), 's11szz44466adasd');
+      // get请求映射params参数
+      if (config.method === 'get' && config.params) {
+        let url = config.url + '?' + tansParams(config.params);
+        url = url.slice(0, -1);
+        config.params = {};
+        config.url = url;
+      }
+      // if (config.method === 'post' || config.method === 'put') {
+      //
+      // }
+      console.log(config, 'config');
       return config;
     });
 
@@ -138,12 +145,14 @@ export class httpVb {
     return this.request({ ...downloadConfig }, { ...options });
   }
 }
-// http.get({url: url, ...data}:AxiosRequestConfig, { a: 'a', b: 'b'}:customRequestOptions)
 
 export default new httpVb({
   baseURL: import.meta.env.VITE_API_URL as string,
   timeout: 8000,
   // 跨域时候允许携带凭证
   withCredentials: true,
+  headers: {
+    Accept: "application/json, text/plain, */*",
+  },
 });
 

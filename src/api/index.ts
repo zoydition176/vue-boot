@@ -8,7 +8,10 @@ import {ContentTypeEnum, RequestEnum} from "@/api/enum/httpEnum";
 import {isStr} from "@/utils/affirm/is";
 import {getToken} from "@/utils/auth";
 import {httpCheckCode} from "@/api/helper/checkCode";
-// 抽象类实现，按整个http请求的顺序定义方法
+/*
+* 抽象类实现，按整个http请求的顺序定义方法
+* 已经废弃，问题出在data赋值
+* */
 const transform: AxiosTransform = {
   // before set requestInterceptors
   beforeReqHook: (config: AxiosRequestConfig, options: customRequestOptions) => {
@@ -21,7 +24,7 @@ const transform: AxiosTransform = {
     /*
     * 这一段 有几把大问题 直接导致老子请求配置和默认配置出现问题。
     * 这里axios应该有个默认的逻辑，不设置params/data就他妈指定不了headers，post方法全你妈报错了。
-    * 设置了params/data就不能改动contentType，所有的上传方法都没法用。
+    * 但如果设置了params/data就不能改动contentType，所有的上传方法都没法用。
     * */
     /* 有毒代码开始 */
     const params = config.params || {};

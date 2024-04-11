@@ -21,7 +21,7 @@
       </el-table-column>
     </el-table>
     <!--element自带的分页真的很垃圾-->
-<!--    <el-pagination layout="prev, pager, next" :total="listTotal" />-->
+    <!--<el-pagination layout="prev, pager, next" :total="listTotal" />-->
     <sysDrawer ref="sysDrawerDom"></sysDrawer>
     <sysDialog ref="sysDialogDom"></sysDialog>
   </div>

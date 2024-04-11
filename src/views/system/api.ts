@@ -7,9 +7,14 @@ enum Api {
   exportUserList = '/user/export',
   importUserList = '/user/import',
   fileUpload = '/file/upload',
+  fileList = '/file/page'
 }
 export const getUserList = (params) => {
   return httpVb.get({ url: Api.userList, params });
+};
+
+export const getFileList = (params) => {
+  return httpVb.get({ url: Api.fileList, params });
 };
 
 export const updateUserList = (data) => {
@@ -41,4 +46,10 @@ export const httpUpload = (data) => {
   return httpVb.post({ url: Api.fileUpload, data: data }, {
     contentType: 'multipart/form-data;charset=UTF-8'
   })
+}
+
+export const httpFileDownload = (url) => {
+  return httpVb.blobDownload('GET', { url: Api.exportUserList + url }, {
+    isTransformResponse: false
+  });
 }

@@ -88,6 +88,14 @@ export const staticRouter: RouteRecordRaw[] = [
               title: '权限列表'
             }
           },
+          {
+            path: "/fileManager",
+            name: "fileManager",
+            component: () => import("@/views/system/fileManager/index.vue"),
+            meta: {
+              title: '资源管理'
+            }
+          },
         ]
       },
     ],

@@ -4,12 +4,21 @@
       <el-button type="primary" @click="BatchDelete">批量删除</el-button>
       <el-button type="primary" @click="commonFileUpload">上传文件</el-button>
     </el-row>
-    <el-table :data="tableData" style="width: 100%">
-      <el-table-column prop="id" label="id" width="80" />
-      <el-table-column prop="name" label="文件名" width="180" />
-      <el-table-column prop="type" label="文件类型" width="180" />
+    <el-table :data="tableData" style="width: 100%" @selection-change="handleSelect">
+      <el-table-column type="selection" width="55" />
+      <el-table-column prop="id" label="id" />
+      <el-table-column prop="name" label="文件名" />
+      <el-table-column prop="type" label="文件类型" />
       <el-table-column prop="size" label="文件大小" />
-      <el-table-column label="下载" width="200" fixed="right">
+      <el-table-column prop="isDelete" label="启用">
+        <template #default="scope">
+          <el-switch
+            v-model="scope.row.isDelete"
+            @change="handleDelete(scope.row)"
+          />
+        </template>
+      </el-table-column>
+      <el-table-column label="下载" fixed="right">
         <template #default="scope">
           <el-button type="primary" @click="handleDownload(scope.row)">文件下载</el-button>
         </template>
@@ -21,13 +30,17 @@
 <script setup lang="ts" name="fileManager">
 import sysDialog from "../components/sysDialog.vue";
 import { onMounted, ref } from "vue";
-import { getFileList, httpFileDownload } from "@/views/system/api";
-import {fileDownload} from "@/utils";
+import {getFileList, httpFileBatchDel, httpFileDel} from "@/views/system/api";
 
 const tableData = ref([]);
 const sysDialogDom = ref();
+const multipleSelection = ref([]);
 function commonFileUpload(){
   sysDialogDom.value.acceptParams({});
+}
+function handleSelect(val){
+  multipleSelection.value = val;
+  console.log(multipleSelection.value, 'multipleSelection.value');
 }
 function getList() {
   getFileList({
@@ -37,14 +50,23 @@ function getList() {
     tableData.value = res.records;
   });
 }
+function handleDelete(row){
+  httpFileDel(row.id).then((res)=>{
+    console.log(res, 'handleDelete');
+    getList();
+  })
+}
 function BatchDelete(){
-
+  const ids = multipleSelection.value.map((item)=>{
+    return item.id;
+  })
+  httpFileBatchDel(ids).then((res)=>{
+    console.log(res, 'hppp');
+    getList();
+  });
 }
 function handleDownload(row){
-  console.log(row, 'handleDl');
-  httpFileDownload(row.url).then((res)=>{
-    fileDownload(res, row.name);
-  })
+  window.open(row.url);
 }
 onMounted(()=>{
   getList();

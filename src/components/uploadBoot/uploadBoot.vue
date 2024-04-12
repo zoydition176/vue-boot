@@ -34,7 +34,7 @@
         </div>
       </template>
     </el-upload>
-    <div>
+    <div class="progress">
       <el-progress v-if="showProgress" v-show="uploadStatus.isUploading" :percentage="uploadStatus.uploadPercent" />
     </div>
   </div>
@@ -293,5 +293,7 @@ function fileUpload(file){
 onMounted(()=>{})
 </script>
 <style scoped lang="scss">
+.progress{
 
+}
 </style>

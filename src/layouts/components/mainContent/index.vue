@@ -18,6 +18,8 @@ import tabs from "@/layouts/components/tabs/index.vue";
 <style scoped lang="scss">
 .main-content{
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
   width: 100%;
   height: 100%;
   background: #ffffff;
@@ -27,5 +29,8 @@ import tabs from "@/layouts/components/tabs/index.vue";
 }
 .core-box{
   padding-top: 10px;
+  box-sizing: border-box;
+  flex: 1;
+  min-height: 0;
 }
 </style>

@@ -4,27 +4,29 @@
       <el-button type="primary" @click="BatchDelete">批量删除</el-button>
       <el-button type="primary" @click="commonFileUpload">上传文件</el-button>
     </el-row>
-    <el-table :data="tableData" style="width: 100%" @selection-change="handleSelect">
-      <el-table-column type="selection" width="55" />
-      <el-table-column prop="id" label="id" />
-      <el-table-column prop="name" label="文件名" />
-      <el-table-column prop="type" label="文件类型" />
-      <el-table-column prop="size" label="文件大小" />
-      <el-table-column prop="isDelete" label="启用">
-        <template #default="scope">
-          <el-switch
-            v-model="scope.row.isDelete"
-            @change="handleDelete(scope.row)"
-          />
-        </template>
-      </el-table-column>
-      <el-table-column label="下载" fixed="right">
-        <template #default="scope">
-          <el-button type="primary" @click="handleDownload(scope.row)">文件下载</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-    <sysDialog ref="sysDialogDom"></sysDialog>
+    <div class="table-slot">
+      <el-table :data="tableData" style="width: 100%" height="100%" @selection-change="handleSelect">
+        <el-table-column type="selection" width="55" />
+        <el-table-column prop="id" label="id" />
+        <el-table-column prop="name" label="文件名" />
+        <el-table-column prop="type" label="文件类型" />
+        <el-table-column prop="size" label="文件大小" />
+        <el-table-column prop="isDelete" label="启用">
+          <template #default="scope">
+            <el-switch
+                v-model="scope.row.isDelete"
+                @change="handleDelete(scope.row)"
+            />
+          </template>
+        </el-table-column>
+        <el-table-column label="下载" fixed="right">
+          <template #default="scope">
+            <el-button type="primary" @click="handleDownload(scope.row)">文件下载</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      <sysDialog ref="sysDialogDom"></sysDialog>
+    </div>
   </div>
 </template>
 <script setup lang="ts" name="fileManager">
@@ -73,5 +75,9 @@ onMounted(()=>{
 });
 </script>
 <style scoped lang="scss">
-
+.fileManager{
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+}
 </style>

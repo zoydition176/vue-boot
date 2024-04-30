@@ -11,15 +11,12 @@
         <el-table-column prop="name" label="文件名" />
         <el-table-column prop="type" label="文件类型" />
         <el-table-column prop="size" label="文件大小" />
-        <el-table-column prop="isDelete" label="启用">
+        <el-table-column prop="isDelete" label="状态">
           <template #default="scope">
-            <el-switch
-                v-model="scope.row.isDelete"
-                @change="handleDelete(scope.row)"
-            />
+            <el-switch v-model="scope.row.isDelete" @change="handleDelete(scope.row)"/>
           </template>
         </el-table-column>
-        <el-table-column label="下载" fixed="right">
+        <el-table-column label="操作" fixed="right">
           <template #default="scope">
             <el-button type="primary" @click="handleDownload(scope.row)">文件下载</el-button>
           </template>
@@ -33,7 +30,6 @@
 import sysDialog from "../components/sysDialog.vue";
 import { onMounted, ref } from "vue";
 import {getFileList, httpFileBatchDel, httpFileDel} from "@/views/system/api";
-
 const tableData = ref([]);
 const sysDialogDom = ref();
 const multipleSelection = ref([]);

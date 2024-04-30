@@ -8,6 +8,11 @@ import {httpList} from "@/api/axios/httpPendingList";
 /*
 * 请求类封装
 * 已废弃，问题出在data赋值
+* 已废弃，问题出在data赋值
+* 已废弃，问题出在data赋值
+* 已废弃，问题出在data赋值
+* 已废弃，问题出在data赋值
+* 已废弃，问题出在data赋值
 * */
 export class httpRequest {
   // axios实例

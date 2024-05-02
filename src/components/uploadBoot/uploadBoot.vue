@@ -5,7 +5,7 @@
       :http-request="fileUpload"
       :before-upload="bfChunkUpload"
       :drag="isDrag"
-      accept=".zip"
+      accept=".zip, .pdf, .jpg, .png"
       :disabled="disabled || uploadStatus.isUploading"
       :list-type="listType"
     >

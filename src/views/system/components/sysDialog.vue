@@ -4,7 +4,7 @@
       <upload-boot
         @after-upload="afterUpload"
         :uploadApi="httpUpload"
-        :accept="['application/x-zip-compressed','application/zip','application/octet-stream']"
+        :accept="['application/x-zip-compressed', 'application/zip', 'application/octet-stream', 'image/jpeg', 'image/png', 'application/pdf']"
         :show-progress="true"
         :isChunk="false"
         :list-type="'picture-card'"
@@ -30,6 +30,7 @@ function acceptParams(params: any){
   dialogVisible.value = true;
   dialogProps.value = params;
 }
+
 defineExpose({
   acceptParams
 })

@@ -9,7 +9,8 @@ enum Api {
   fileUpload = '/file/upload',
   fileList = '/file/page',
   fileDel = '/file/del/id=',
-  fileBatchDel = '/file/del/batch'
+  fileBatchDel = '/file/del/batch',
+  fileUpdate = '/file/update',
 }
 export const getUserList = (params) => {
   return httpVb.get({ url: Api.userList, params });
@@ -62,6 +63,12 @@ export const httpFileDel = (id) => {
 
 export const httpFileBatchDel = (data) => {
   return httpVb.post({ url: Api.fileBatchDel, data: data }, {
+    isTransformResponse: false
+  })
+}
+
+export const httpFileUpdate = (data) => {
+  return httpVb.post({ url: Api.fileUpdate, data: data }, {
     isTransformResponse: false
   })
 }

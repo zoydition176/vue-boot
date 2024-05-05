@@ -13,12 +13,13 @@
         <el-table-column prop="size" label="文件大小" />
         <el-table-column prop="isDelete" label="状态">
           <template #default="scope">
-            <el-switch v-model="scope.row.isDelete" @change="handleDelete(scope.row)"/>
+            <el-switch v-model="scope.row.enable" @change="handleEnable(scope.row)"/>
           </template>
         </el-table-column>
         <el-table-column label="操作" fixed="right">
           <template #default="scope">
             <el-button type="primary" @click="handleDownload(scope.row)">文件下载</el-button>
+            <el-button type="primary" @click="handleDelete(scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -29,7 +30,7 @@
 <script setup lang="ts" name="fileManager">
 import sysDialog from "../components/sysDialog.vue";
 import { onMounted, ref } from "vue";
-import {getFileList, httpFileBatchDel, httpFileDel} from "@/views/system/api";
+import {getFileList, httpFileBatchDel, httpFileDel, httpFileUpdate} from "@/views/system/api";
 const tableData = ref([]);
 const sysDialogDom = ref();
 const multipleSelection = ref([]);
@@ -46,6 +47,12 @@ function getList() {
     pageSize: 10
   }).then((res)=>{
     tableData.value = res.records;
+  });
+}
+function handleEnable(row){
+  console.log(row, 'handleEnable');
+  httpFileUpdate(row).then((res)=>{
+    console.log(res, 'handleEnable');
   });
 }
 function handleDelete(row){

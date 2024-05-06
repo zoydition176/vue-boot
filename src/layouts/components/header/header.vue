@@ -2,6 +2,9 @@
 	<div>
     <div class="z-header">
       <span class="user-info">hello! {{ userInfo.nickname }}</span>
+      <span class="user-avatar">
+        <img :src="userInfo.avatar" />
+      </span>
       <layout-change />
     </div>
   </div>
@@ -18,7 +21,7 @@ const userInfo = computed(() => userStore.userInfo);
 <style lang="scss" scoped>
 .z-header{
   display: flex;
-  height: 32px;
+  height: 40px;
   flex-direction: row;
   justify-content: end;
   align-items: center;
@@ -26,6 +29,16 @@ const userInfo = computed(() => userStore.userInfo);
   border-bottom: 1px solid var(--el-border-color-light);
   .user-info{
     font-size: 14px;
+  }
+  .user-avatar{
+    display: flex;
+    img{
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #f0f0f0;
+      margin-left: 10px;
+    }
   }
 }
 </style>

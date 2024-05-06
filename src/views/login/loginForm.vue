@@ -74,10 +74,10 @@ function login(elForm: FormInstance | undefined) {
         if(res.code === '200'){
           userStore.setToken(res.data.token);
           userStore.setUserInfo({
-            name: res.data.name,
+            name: res.data.username,
             nickname: res.data.nickname,
             id: res.data.id,
-            avatar: res.data.avatar
+            avatar: res.data.avatarUrl
           });
           await authStore.getAuthAsideList();
           await router.push('/main/index');

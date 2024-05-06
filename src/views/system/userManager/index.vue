@@ -13,7 +13,6 @@
         <el-table-column prop="address" label="地址" />
         <el-table-column prop="email" label="邮箱" />
         <el-table-column prop="phone" label="电话" />
-        <el-table-column prop="avatarUrl" label="头像地址" />
         <el-table-column label="操作" width="200" fixed="right">
           <template #default="scope">
             <el-button type="primary" @click="saveUser(1, scope.row)">修改</el-button>

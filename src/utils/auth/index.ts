@@ -1,6 +1,6 @@
 import { getUserStore } from "@/stores/modules/user";
 import { decryptByAES } from "@/utils/cipher/crypto";
-import {menuTypes} from "@/typing/base";
+import { menuTypes } from "@/typing/base";
 
 const useStore = getUserStore();
 

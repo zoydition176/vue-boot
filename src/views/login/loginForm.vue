@@ -6,19 +6,48 @@
       ref="loginFormRef"
       label-width="100px"
     >
-      <el-form-item label="用户名" prop="username">
-        <el-input v-model="formState.username" placeholder="user4"></el-input>
+      <el-form-item
+        label="用户名"
+        prop="username"
+      >
+        <el-input
+          v-model="formState.username"
+          placeholder="user4"
+        ></el-input>
       </el-form-item>
-      <el-form-item label="密码" prop="password">
-        <el-input v-model="formState.password" placeholder="123456" type="password"></el-input>
+      <el-form-item
+        label="密码"
+        prop="password"
+      >
+        <el-input
+          v-model="formState.password"
+          placeholder="123456"
+          type="password"
+        ></el-input>
       </el-form-item>
       <el-form-item label="记住密码">
-        <el-switch v-model="formState.remember" active-text="是" inactive-text="否"></el-switch>
+        <el-switch
+          v-model="formState.remember"
+          active-text="是"
+          inactive-text="否"
+        ></el-switch>
       </el-form-item>
       <el-form-item>
         <div class="login-btn">
-          <el-button :icon="CircleClose" size="large" @click="resetForm(loginFormRef)"> 重置 </el-button>
-          <el-button :icon="UserFilled" size="large" type="primary" :loading="loading" @click="login(loginFormRef)">
+          <el-button
+            :icon="CircleClose"
+            size="large"
+            @click="resetForm(loginFormRef)"
+          >
+            重置
+          </el-button>
+          <el-button
+            :icon="UserFilled"
+            size="large"
+            type="primary"
+            :loading="loading"
+            @click="login(loginFormRef)"
+          >
             登录
           </el-button>
         </div>
@@ -27,23 +56,24 @@
   </div>
 </template>
 <script setup lang="ts" name="loginForm">
-import { reactive, ref } from 'vue';
-import { CircleClose, UserFilled } from "@element-plus/icons-vue";
-import { ElMessage, FormInstance } from "element-plus";
-import { getUserStore } from "@/stores/modules/user";
-import { useRouter } from "vue-router";
-import { useAuthStore } from "@/stores/modules/auth";
-import { httpLogin } from "@/api/modules/common";
+import { reactive, ref } from 'vue'
+import md5 from 'md5'
+import { CircleClose, UserFilled } from '@element-plus/icons-vue'
+import { ElMessage, FormInstance } from 'element-plus'
+import { getUserStore } from '@/stores/modules/user'
+import { useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/modules/auth'
+import { httpLogin } from '@/api/modules/common'
 interface FormState {
-  username: string;
-  password: string;
-  remember?: boolean;
+  username: string
+  password: string
+  remember?: boolean
 }
-const router = useRouter();
-const userStore = getUserStore();
-const authStore = useAuthStore();
-const loginFormRef = ref<FormInstance>();
-const loading = ref(false);
+const router = useRouter()
+const userStore = getUserStore()
+const authStore = useAuthStore()
+const loginFormRef = ref<FormInstance>()
+const loading = ref(false)
 const rules = {
   username: [
     { required: true, message: '请输入用户名', trigger: 'blur' },
@@ -53,57 +83,57 @@ const rules = {
     { required: true, message: '请输入密码', trigger: 'blur' },
     { min: 1, max: 10, message: '长度在 1 到 10 个字符', trigger: 'blur' },
   ],
-};
+}
 const formState = reactive<FormState>({
   username: '',
   password: '',
   remember: true,
-});
+})
 
 function login(elForm: FormInstance | undefined) {
-  if(!elForm) return;
-  loading.value = true;
-  elForm.validate(async (valid)=>{
-    if(valid){
+  if (!elForm) return
+  loading.value = true
+  elForm.validate(async (valid) => {
+    if (valid) {
       try {
         const res = await httpLogin({
           username: formState.username,
-          password: formState.password
-        });
-        console.log(res, 'login res');
-        if(res.code === '200'){
-          userStore.setToken(res.data.token);
+          password: md5(formState.password),
+        })
+        console.log(res, 'login res')
+        if (res.code === '200') {
+          userStore.setToken(res.data.token)
           userStore.setUserInfo({
             name: res.data.username,
             nickname: res.data.nickname,
             id: res.data.id,
-            avatar: res.data.avatarUrl
-          });
-          await authStore.getAuthAsideList();
-          await router.push('/main/index');
-        }else{
-          ElMessage.error(res.message);
+            avatar: res.data.avatarUrl,
+          })
+          await authStore.getAuthAsideList()
+          await router.push('/main/index')
+        } else {
+          ElMessage.error(res.message)
         }
       } catch (error) {
-        ElMessage.error(error + '登录失败！');
+        ElMessage.error(error + '登录失败！')
       }
     }
-    loading.value = false;
+    loading.value = false
   })
 }
 
 function resetForm(elForm: FormInstance | undefined) {
-  elForm && elForm.resetFields();
+  elForm && elForm.resetFields()
 }
-
 </script>
 <style scoped lang="scss">
-.login-form{
+.login-form {
   width: 500px;
   padding: 30px 20px;
   border-radius: 10px;
   background: #ffffff;
-  box-shadow: 0 0 10px 0 rgba(0,0,0,0.3);
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
 }
-.login-btn{}
+.login-btn {
+}
 </style>

@@ -15,26 +15,33 @@ export interface customRequestOptions {
   // successMessageMode?: SuccessMessageMode;
   // ignoreCancelToken?: boolean;
   //是否在标头中发送令牌
-  withToken?: boolean;
+  withToken?: boolean
   // 是否处理请求结果
-  isTransformResponse?: boolean;
+  isTransformResponse?: boolean
   // 是否返回本地响应头,需要获取响应头时使用此属性
-  isReturnNativeResponse?: boolean;
+  isReturnNativeResponse?: boolean
   // add prefix
-  addPrefix?: string;
+  addPrefix?: string
   // deal with formData
-  isFormData?: boolean;
+  isFormData?: boolean
   // 是否添加时间戳
-  joinTime?: boolean;
+  joinTime?: boolean
   // content type setting
-  contentType?: string;
+  contentType?: string
   // add to the pending list?
-  ignoreCancel?: boolean;
+  ignoreCancel?: boolean
+  // mock
+  mock?: mockConfig
+}
+
+export interface mockConfig {
+  isMock: boolean
+  data?: any
 }
 
 export interface Result<T = any> {
-  code: string;
-  type?: 'success' | 'error' | 'warning';
-  message: string;
-  data: T;
+  code: string
+  type?: 'success' | 'error' | 'warning'
+  message: string
+  data: T
 }

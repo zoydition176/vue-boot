@@ -112,6 +112,9 @@ devDependencies:
   lint-staged:
     specifier: 14.0.1
     version: 14.0.1
+  mockjs:
+    specifier: ^1.1.0
+    version: 1.1.0
   prettier:
     specifier: ^3.0.3
     version: 3.0.3
@@ -5813,6 +5816,13 @@ packages:
     dependencies:
       for-in: 1.0.2
       is-extendable: 1.0.1
+    dev: true
+
+  /mockjs@1.1.0:
+    resolution: {integrity: sha512-eQsKcWzIaZzEZ07NuEyO4Nw65g0hdWAyurVol1IPl1gahRwY+svqzfgfey8U8dahLwG44d6/RwEzuK52rSa/JQ==}
+    hasBin: true
+    dependencies:
+      commander: 11.0.0
     dev: true
 
   /ms@2.0.0:

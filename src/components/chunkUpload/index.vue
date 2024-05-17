@@ -8,9 +8,5 @@
 // import httpRequest from '../../api/index';
 // import { InboxOutlined } from '@ant-design/icons-vue';
 // import SparkMD5 from "spark-md5";
-
-
 </script>
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>

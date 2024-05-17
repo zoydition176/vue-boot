@@ -1,13 +1,7 @@
-<script setup lang="ts" name="menuManager">
-
-</script>
+<script setup lang="ts" name="menuManager"></script>
 
 <template>
-  <div>
-    菜单列表
-  </div>
+  <div>菜单列表</div>
 </template>
 
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>

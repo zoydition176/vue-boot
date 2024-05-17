@@ -1,7 +1,7 @@
-import { defineStore } from "pinia";
-import persistedOptionsConfig from "@/stores/modules/persistedState";
-import { encryptByAES } from "@/utils/cipher/crypto";
-import router from "@/router";
+import { defineStore } from 'pinia';
+import persistedOptionsConfig from '@/stores/modules/persistedState';
+import { encryptByAES } from '@/utils/cipher/crypto';
+import router from '@/router';
 interface UserState {
   token: string;
   userInfo: {
@@ -11,35 +11,35 @@ interface UserState {
     avatar: string;
   };
 }
-export const getUserStore = defineStore('user',{
+export const getUserStore = defineStore('user', {
   state: (): UserState => ({
-    token: "",
+    token: '',
     userInfo: {
-      name: "",
-      nickname: "",
-      id: "",
-      avatar: "",
-    }
+      name: '',
+      nickname: '',
+      id: '',
+      avatar: '',
+    },
   }),
   getters: {},
   actions: {
-    setToken(token: string){
+    setToken(token: string) {
       this.token = encryptByAES(token);
     },
-    setUserInfo(data: UserState["userInfo"]){
+    setUserInfo(data: UserState['userInfo']) {
       this.userInfo = data;
     },
-    async userLogout(){
+    async userLogout() {
       // const router = useRouter();
-      this.token = "";
+      this.token = '';
       this.userInfo = {
-        name: "",
-        nickname: "",
-        id: "",
-        avatar: "",
+        name: '',
+        nickname: '',
+        id: '',
+        avatar: '',
       };
       await router.push('/login');
-    }
+    },
   },
-  persist: persistedOptionsConfig("vueboot-user")
-})
+  persist: persistedOptionsConfig('vueboot-user'),
+});

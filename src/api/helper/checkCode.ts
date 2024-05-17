@@ -1,8 +1,8 @@
-import {getUserStore} from "@/stores/modules/user";
-import {ResultEnum} from "@/api/enum/httpEnum";
-import {ElMessage} from "element-plus";
+import { getUserStore } from '@/stores/modules/user';
+import { ResultEnum } from '@/api/enum/httpEnum';
+import { ElMessage } from 'element-plus';
 
-export function httpCheckCode(code="500", msg = ''){
+export function httpCheckCode(code = '500', msg = '') {
   let context = '';
   const userStore = getUserStore();
   switch (code) {
@@ -17,12 +17,12 @@ export function httpCheckCode(code="500", msg = ''){
       // 退出登录逻辑
       break;
     case ResultEnum.TOKEN_FAIL:
-      context = "token验证失败，请重新登录";
+      context = 'token验证失败，请重新登录';
       ElMessage.error(context);
       userStore.userLogout();
       break;
     default:
-      if(msg){
+      if (msg) {
         context = msg;
       }
       ElMessage.error(context);

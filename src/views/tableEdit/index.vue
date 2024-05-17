@@ -8,6 +8,4 @@ function test() {
   console.log('btn');
 }
 </script>
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>

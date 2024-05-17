@@ -1,5 +1,5 @@
-import SparkMD5 from "spark-md5";
-import {ElMessage} from "element-plus";
+import SparkMD5 from 'spark-md5';
+import { ElMessage } from 'element-plus';
 
 interface largeFileOptions {
   fileName: string;
@@ -14,7 +14,7 @@ export class largeFileUpload {
     successNum: 0,
     uploadPercent: 0,
     isUploading: false,
-    isProcessing: false
+    isProcessing: false,
   };
   //private chunkUploadDom = null;
   public fileName = '';
@@ -28,19 +28,19 @@ export class largeFileUpload {
     this.options = options;
   }
 
-  async fileChunkUpload(file: any){
+  async fileChunkUpload(file: any) {
     // 文件解析状态
     this.uploadStatus.isProcessing = true;
     // 分片上传状态
     this.uploadStatus.isUploading = true;
     this.fileHash = await this.getFileHash(file.file);
-    this.chunkNum = Math.ceil(file.file.size/this.chunkSize);
+    this.chunkNum = Math.ceil(file.file.size / this.chunkSize);
     this.suffix = /\.([\w]+)$/.exec(file.file.name)![1];
     this.fileName = file.file.name;
     const isAlready = false;
-    if(isAlready){
+    if (isAlready) {
       console.log('文件已经存在');
-    }else{
+    } else {
       const chunksList = this.createChunks(file.file);
       // 文件解析状态结束
       this.uploadStatus.isProcessing = false;
@@ -48,32 +48,32 @@ export class largeFileUpload {
     }
   }
 
-  createChunks(file: File){
+  createChunks(file: File) {
     const chunks = Array.from({ length: this.chunkNum }, (_: unknown, index: number) => {
       return {
         file: file.slice(index * this.chunkSize, (index + 1) * this.chunkSize),
-        filename: `${this.fileHash}_${index + 1}.${this.suffix}`
-      }
+        filename: `${this.fileHash}_${index + 1}.${this.suffix}`,
+      };
     });
     return chunks;
   }
 
-  getFileHash(file: File): Promise<string>{
+  getFileHash(file: File): Promise<string> {
     return new Promise((resolve, reject) => {
-      if(!file){
+      if (!file) {
         reject();
       }
       const fileReader = new FileReader();
       fileReader.readAsArrayBuffer(file);
-      fileReader.onload = ev => {
+      fileReader.onload = (ev) => {
         const buffer = ev.target?.result;
         const hash = new SparkMD5.ArrayBuffer().append(buffer! as ArrayBuffer).end();
         resolve(hash);
-      }
-    })
+      };
+    });
   }
 
-  async chunkUploadComplete(totalFile){
+  async chunkUploadComplete(totalFile) {
     this.uploadStatus.successNum++;
     // console.log(uploadStatus.successNum);
     this.uploadStatus.uploadPercent = Math.round((this.uploadStatus.successNum / this.chunkNum) * 100);
@@ -85,10 +85,10 @@ export class largeFileUpload {
       const res = await this.options.uploadMerge({
         fileName: this.fileName,
         md5: this.fileHash,
-        total: this.chunkNum
+        total: this.chunkNum,
       });
       // console.log(res, 'await uploadMerge');
-      if(res.success){
+      if (res.success) {
         // 文件上传状态结束
         this.uploadStatus.isUploading = false;
         return res;
@@ -96,15 +96,15 @@ export class largeFileUpload {
       }
     } catch (e) {
       // console.log('文件合并失败');
-      ElMessage.error("文件上传失败，请重新上传!");
-      console.log(totalFile,'totalFile');
+      ElMessage.error('文件上传失败，请重新上传!');
+      console.log(totalFile, 'totalFile');
       // chunkUploadDom.value.handleRemove(totalFile);
     } finally {
       this.reset();
     }
   }
 
-  async uploadChunks(chunks: any[], totalFile: any){
+  async uploadChunks(chunks: any[], totalFile: any) {
     for (let index = 0; index < chunks.length; index++) {
       const chunkItem = chunks[index];
       // 已经上传过的
@@ -121,33 +121,35 @@ export class largeFileUpload {
       // formData.append('fileSize', chunkItem.file.size);
       const task = this.options.uploadChunk(formData);
       this.taskPool.push(task);
-      task.then(res => {
-        if (res) {
-          this.chunkUploadComplete(totalFile);
-        }
-        // 执行完成,从池中移除
-        const item = this.taskPool.findIndex(x => x === task);
-        this.taskPool.splice(item);
-      }).catch(() => {
-        ElMessage.error("文件上传中断，请重新上传!");
-        // this.chunkUploadDom.handleRemove(totalFile);
-        return Promise.reject();
-      });
+      task
+        .then((res) => {
+          if (res) {
+            this.chunkUploadComplete(totalFile);
+          }
+          // 执行完成,从池中移除
+          const item = this.taskPool.findIndex((x) => x === task);
+          this.taskPool.splice(item);
+        })
+        .catch(() => {
+          ElMessage.error('文件上传中断，请重新上传!');
+          // this.chunkUploadDom.handleRemove(totalFile);
+          return Promise.reject();
+        });
 
       if (this.taskPool.length >= this.maxPoolsSize) {
         // 等待并发池执行完一个任务后
-        await Promise.race(this.taskPool)
+        await Promise.race(this.taskPool);
       }
     }
   }
 
-  reset(){
+  reset() {
     Object.assign(this.uploadStatus, {
       alreadyList: [] as string[],
       successNum: 0,
       uploadPercent: 0,
       isUploading: false,
-      isProcessing: false
-    })
+      isProcessing: false,
+    });
   }
 }

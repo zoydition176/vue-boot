@@ -1,9 +1,9 @@
-import { defineStore } from "pinia";
-import persistedOptionsConfig from "@/stores/modules/persistedState";
+import { defineStore } from 'pinia';
+import persistedOptionsConfig from '@/stores/modules/persistedState';
 
-type LayoutType = "vertical" | "normal" | "transverse" | "columns";
-type AssemblySizeType = "large" | "default" | "small";
-type LanguageType = "zh" | "en" | null;
+type LayoutType = 'vertical' | 'normal' | 'transverse' | 'columns';
+type AssemblySizeType = 'large' | 'default' | 'small';
+type LanguageType = 'zh' | 'en' | null;
 interface globalStats {
   layout: LayoutType;
   assemblySize?: AssemblySizeType;
@@ -27,13 +27,13 @@ export const getGlobalStore = defineStore('global', {
   state(): globalStats {
     // 默认使用normal布局
     return {
-      layout: "normal"
-    }
+      layout: 'normal',
+    };
   },
   actions: {
-    setGlobalLayout(name: LayoutType){
+    setGlobalLayout(name: LayoutType) {
       this.layout = name;
-    }
+    },
   },
-  persist: persistedOptionsConfig("vueboot-global")
-})
+  persist: persistedOptionsConfig('vueboot-global'),
+});

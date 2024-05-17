@@ -16,83 +16,95 @@
         <div v-else>
           <div v-if="isDrag">
             <el-icon class="el-icon--upload"><upload-filled /></el-icon>
-            <div class="el-upload__text">
-              点击重新上传压缩包
-            </div>
+            <div class="el-upload__text">点击重新上传压缩包</div>
           </div>
           <div v-else>
-            <el-button type="primary" :disabled="disabled || uploadStatus.isUploading" :loading="uploadStatus.isProcessing">
+            <el-button
+              type="primary"
+              :disabled="disabled || uploadStatus.isUploading"
+              :loading="uploadStatus.isProcessing"
+            >
               {{ btnMessage }}
             </el-button>
           </div>
         </div>
       </template>
       <template #file="{ file }">
-        <div class="custom-file-block" v-if="listType === 'picture-card'">
-          <img :src="filesIcon" alt="" />
+        <div
+          class="custom-file-block"
+          v-if="listType === 'picture-card'"
+        >
+          <img
+            :src="filesIcon"
+            alt=""
+          />
           <p>{{ checkFileType(file) }}</p>
         </div>
       </template>
     </el-upload>
     <div class="progress">
-      <el-progress v-if="showProgress" v-show="uploadStatus.isUploading" :percentage="uploadStatus.uploadPercent" />
+      <el-progress
+        v-if="showProgress"
+        v-show="uploadStatus.isUploading"
+        :percentage="uploadStatus.uploadPercent"
+      />
     </div>
   </div>
 </template>
 <script setup lang="ts" name="uploadBoot">
-import {computed, onMounted, reactive, ref} from "vue";
+import { computed, onMounted, reactive, ref } from 'vue';
 import SparkMD5 from 'spark-md5';
-import { Upload, UploadFilled } from "@element-plus/icons-vue";
-import { ElMessage } from "element-plus";
+import { Upload, UploadFilled } from '@element-plus/icons-vue';
+import { ElMessage } from 'element-plus';
 import filesIcon from '@/assets/appIcons/shellscript.png';
-import { checkFile } from "@/utils";
+import { checkFile } from '@/utils';
 
 const props = defineProps({
   // 普通上传
   uploadApi: {
     type: Function,
-    default: ()=> Promise.resolve()
+    default: () => Promise.resolve(),
   },
   // 分片上传
   uploadChunk: {
     type: Function,
-    default: ()=> Promise.resolve()
+    default: () => Promise.resolve(),
   },
   // 分片上传-合并
   uploadMerge: {
     type: Function,
-    default: ()=> Promise.resolve()
+    default: () => Promise.resolve(),
   },
   // 禁用属性
   disabled: {
     type: Boolean,
-    default: false
+    default: false,
   },
   // 是否显示进度条
   showProgress: {
     type: Boolean,
-    default: true
+    default: true,
   },
   // 上传组件类型
   listType: {
     type: String,
-    default: 'text'
+    default: 'text',
   },
   // 上传文件类型列表
   accept: {
     type: Array,
-    default: () => []
+    default: () => [],
   },
   // 是否可拖拽
   isDrag: {
     type: Boolean,
-    default: false
+    default: false,
   },
   // 是否分片上传
   isChunk: {
     type: Boolean,
-    default: false
-  }
+    default: false,
+  },
 });
 const emits = defineEmits(['afterUpload']);
 const chunkUploadDom = ref();
@@ -109,16 +121,20 @@ const uploadStatus = reactive({
   uploadPercent: 0,
   isUploading: false,
   isProcessing: false,
-  timeStamp: ''
+  timeStamp: '',
 });
-const btnMessage = computed(()=>{
-  return uploadStatus.isProcessing ? '文件解析中，请等待' : '上传压缩包'
+const btnMessage = computed(() => {
+  return uploadStatus.isProcessing ? '文件解析中，请等待' : '上传压缩包';
 });
 
 const bfChunkUpload = (file: any) => {
   // 最大4G
-  return checkFile({ size: file.size, type: file.type }, { size: 2048, accept: props.accept }, "上传文件的格式必须为.zip类型。");
-}
+  return checkFile(
+    { size: file.size, type: file.type },
+    { size: 2048, accept: props.accept },
+    '上传文件的格式必须为.zip类型。'
+  );
+};
 
 const fileChunkUpload = async (file: any) => {
   // 文件解析状态
@@ -126,43 +142,43 @@ const fileChunkUpload = async (file: any) => {
   // 分片上传状态
   uploadStatus.isUploading = true;
   fileHash.value = await getFileHash(file.file);
-  chunkNum.value = Math.ceil(file.file.size/chunkSize.value);
+  chunkNum.value = Math.ceil(file.file.size / chunkSize.value);
   suffix.value = /\.([\w]+)$/.exec(file.file.name)![1];
   fileName.value = file.file.name;
   uploadStatus.timeStamp = new Date().getTime() + '';
   const isAlready = false;
-  if(isAlready){
+  if (isAlready) {
     console.log('文件已经存在');
-  }else{
+  } else {
     const chunksList = createChunks(file.file);
     // 文件解析状态结束
     uploadStatus.isProcessing = false;
     await uploadChunks(chunksList, file);
   }
-}
+};
 const createChunks = (file: File) => {
   const chunks = Array.from({ length: chunkNum.value }, (_: unknown, index: number) => {
     return {
       file: file.slice(index * chunkSize.value, (index + 1) * chunkSize.value),
-      filename: `${fileHash.value}${uploadStatus.timeStamp}_${index + 1}.${suffix.value}`
-    }
+      filename: `${fileHash.value}${uploadStatus.timeStamp}_${index + 1}.${suffix.value}`,
+    };
   });
   return chunks;
-}
+};
 const getFileHash = (file: File): Promise<string> => {
   return new Promise((resolve, reject) => {
-    if(!file){
+    if (!file) {
       reject();
     }
     const fileReader = new FileReader();
     fileReader.readAsArrayBuffer(file);
-    fileReader.onload = ev => {
+    fileReader.onload = (ev) => {
       let buffer = ev.target?.result;
       const hash = new SparkMD5.ArrayBuffer().append(buffer! as ArrayBuffer).end();
       resolve(hash);
-    }
-  })
-}
+    };
+  });
+};
 const chunkUploadComplete = async (totalFile) => {
   uploadStatus.successNum++;
   uploadStatus.uploadPercent = Math.round((uploadStatus.successNum / chunkNum.value) * 100);
@@ -174,21 +190,21 @@ const chunkUploadComplete = async (totalFile) => {
     const res = await props.uploadMerge({
       fileName: fileName.value,
       md5: fileHash.value + '' + uploadStatus.timeStamp,
-      total: chunkNum.value
+      total: chunkNum.value,
     });
     console.log(res, 'await uploadMerge');
-    if(res.success){
+    if (res.success) {
       // 文件上传状态结束
       uploadStatus.isUploading = false;
       emits('afterUpload', res);
     }
   } catch (e) {
-    ElMessage.error("文件上传失败，请重新上传!");
+    ElMessage.error('文件上传失败，请重新上传!');
     chunkUploadDom.value.handleRemove(totalFile);
   } finally {
     reset();
   }
-}
+};
 const uploadChunks = async (chunks: any[], totalFile: any) => {
   for (let index = 0; index < chunks.length; index++) {
     const chunkItem = chunks[index];
@@ -210,32 +226,34 @@ const uploadChunks = async (chunks: any[], totalFile: any) => {
     // formData.append('fileSize', chunkItem.file.size);
     const task = props.uploadChunk(formData);
     taskPool.value.push(task);
-    task.then(res => {
-      // console.log(res, 'task res');
-      // isUp.value++;
-      // console.log(isUp.value, 'isUp.value');
-      if (res) {
-        chunkUploadComplete(totalFile);
-      }
-      // if(isUp.value === chunkNum.value){
-      //   chunkUploadComplete();
-      // }
-      // 执行完成,从池中移除
-      const item = taskPool.value.findIndex(x => x === task);
-      taskPool.value.splice(item);
-    }).catch(() => {
-      // console.log('单个切片上传失败');
-      ElMessage.error("文件上传中断，请重新上传!");
-      chunkUploadDom.value.handleRemove(totalFile);
-      return Promise.reject();
-    });
+    task
+      .then((res) => {
+        // console.log(res, 'task res');
+        // isUp.value++;
+        // console.log(isUp.value, 'isUp.value');
+        if (res) {
+          chunkUploadComplete(totalFile);
+        }
+        // if(isUp.value === chunkNum.value){
+        //   chunkUploadComplete();
+        // }
+        // 执行完成,从池中移除
+        const item = taskPool.value.findIndex((x) => x === task);
+        taskPool.value.splice(item);
+      })
+      .catch(() => {
+        // console.log('单个切片上传失败');
+        ElMessage.error('文件上传中断，请重新上传!');
+        chunkUploadDom.value.handleRemove(totalFile);
+        return Promise.reject();
+      });
 
     if (taskPool.value.length >= maxPoolsSize.value) {
       // 等待并发池执行完一个任务后
-      await Promise.race(taskPool.value)
+      await Promise.race(taskPool.value);
     }
   }
-}
+};
 const reset = () => {
   Object.assign(uploadStatus, {
     alreadyList: [] as string[],
@@ -243,29 +261,29 @@ const reset = () => {
     uploadPercent: 0,
     isUploading: false,
     isProcessing: false,
-    timeStamp: ''
-  })
+    timeStamp: '',
+  });
 };
 
-function checkFileType(file){
+function checkFileType(file) {
   const fileType = file.name.split('.');
   return file.name + '' + fileType[fileType.length - 1];
 }
 
-function fileGeneralUpload(file){
+function fileGeneralUpload(file) {
   const formData = new FormData();
   formData.append('file', file.file);
   console.log(formData.get('file'), 'formData');
-  props.uploadApi(formData).then((res: any)=>{
+  props.uploadApi(formData).then((res: any) => {
     console.log(res, 'uploadApi');
     emits('afterUpload', res);
   });
 }
 
-function fileUpload(file){
-  if(props.isChunk){
+function fileUpload(file) {
+  if (props.isChunk) {
     return fileChunkUpload(file);
-  }else{
+  } else {
     return fileGeneralUpload(file);
   }
 }
@@ -290,10 +308,9 @@ function fileUpload(file){
     reader.onerror = (error) => reject(error);
   });
 }*/
-onMounted(()=>{})
+onMounted(() => {});
 </script>
 <style scoped lang="scss">
-.progress{
-
+.progress {
 }
 </style>

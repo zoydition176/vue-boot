@@ -3,13 +3,13 @@ module.exports = {
     {
       files: '.prettierrc',
       options: {
-        parser: 'json'
-      }
-    }
+        parser: 'json',
+      },
+    },
   ],
   printWidth: 120, // 一行最多 120 字符
   tabWidth: 2, // 使用 2 个空格缩进
-  semi: false, // 句尾省略分号
+  semi: true, // 句尾省略分号
   singleQuote: true, // 使用单引号而不是双引号
   singleAttributePerLine: true, // 多个 attribute 的元素应该分多行撰写，每个 attribute 一行；只有一个 attribute 的一行显示
   useTabs: false, // 用制表符而不是空格缩进行
@@ -27,5 +27,5 @@ module.exports = {
   htmlWhitespaceSensitivity: 'css', // 根据显示样式决定 html 要不要折行
   vueIndentScriptAndStyle: false, //（默认值）对于 .vue 文件，不缩进 <script> 和 <style> 里的内容
   endOfLine: 'auto', // 换行符使用
-  embeddedLanguageFormatting: 'auto' //（默认值）允许自动格式化内嵌的代码块,
-}
+  embeddedLanguageFormatting: 'auto', //（默认值）允许自动格式化内嵌的代码块,
+};

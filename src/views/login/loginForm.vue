@@ -56,24 +56,24 @@
   </div>
 </template>
 <script setup lang="ts" name="loginForm">
-import { reactive, ref } from 'vue'
-import md5 from 'md5'
-import { CircleClose, UserFilled } from '@element-plus/icons-vue'
-import { ElMessage, FormInstance } from 'element-plus'
-import { getUserStore } from '@/stores/modules/user'
-import { useRouter } from 'vue-router'
-import { useAuthStore } from '@/stores/modules/auth'
-import { httpLogin } from '@/api/modules/common'
+import { reactive, ref } from 'vue';
+import md5 from 'md5';
+import { CircleClose, UserFilled } from '@element-plus/icons-vue';
+import { ElMessage, FormInstance } from 'element-plus';
+import { getUserStore } from '@/stores/modules/user';
+import { useRouter } from 'vue-router';
+import { useAuthStore } from '@/stores/modules/auth';
+import { httpLogin } from '@/api/modules/common';
 interface FormState {
-  username: string
-  password: string
-  remember?: boolean
+  username: string;
+  password: string;
+  remember?: boolean;
 }
-const router = useRouter()
-const userStore = getUserStore()
-const authStore = useAuthStore()
-const loginFormRef = ref<FormInstance>()
-const loading = ref(false)
+const router = useRouter();
+const userStore = getUserStore();
+const authStore = useAuthStore();
+const loginFormRef = ref<FormInstance>();
+const loading = ref(false);
 const rules = {
   username: [
     { required: true, message: '请输入用户名', trigger: 'blur' },
@@ -83,47 +83,47 @@ const rules = {
     { required: true, message: '请输入密码', trigger: 'blur' },
     { min: 1, max: 10, message: '长度在 1 到 10 个字符', trigger: 'blur' },
   ],
-}
+};
 const formState = reactive<FormState>({
   username: '',
   password: '',
   remember: true,
-})
+});
 
 function login(elForm: FormInstance | undefined) {
-  if (!elForm) return
-  loading.value = true
+  if (!elForm) return;
+  loading.value = true;
   elForm.validate(async (valid) => {
     if (valid) {
       try {
         const res = await httpLogin({
           username: formState.username,
           password: md5(formState.password),
-        })
-        console.log(res, 'login res')
+        });
+        console.log(res, 'login res');
         if (res.code === '200') {
-          userStore.setToken(res.data.token)
+          userStore.setToken(res.data.token);
           userStore.setUserInfo({
             name: res.data.username,
             nickname: res.data.nickname,
             id: res.data.id,
             avatar: res.data.avatarUrl,
-          })
-          await authStore.getAuthAsideList()
-          await router.push('/main/index')
+          });
+          await authStore.getAuthAsideList();
+          await router.push('/main/index');
         } else {
-          ElMessage.error(res.message)
+          ElMessage.error(res.message);
         }
       } catch (error) {
-        ElMessage.error(error + '登录失败！')
+        ElMessage.error(error + '登录失败！');
       }
     }
-    loading.value = false
-  })
+    loading.value = false;
+  });
 }
 
 function resetForm(elForm: FormInstance | undefined) {
-  elForm && elForm.resetFields()
+  elForm && elForm.resetFields();
 }
 </script>
 <style scoped lang="scss">

@@ -1,4 +1,4 @@
-import httpVb from '@/api/axios/httpVb'
+import httpVb from '@/api/axios/httpVb';
 enum Api {
   userLogin = '/user/login',
   userAuth = '/user/auth',
@@ -10,7 +10,7 @@ export function httpLogin(data) {
     {
       isTransformResponse: false,
     }
-  )
+  );
 }
 
 // 这个接口验证token就可以了
@@ -26,5 +26,5 @@ export function httpGetAuthList() {
         },
       },
     }
-  )
+  );
 }

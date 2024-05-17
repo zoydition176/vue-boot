@@ -1,42 +1,42 @@
-import { defineStore } from "pinia";
-import persistedOptionsConfig from "@/stores/modules/persistedState";
-import { routeTabs } from "@/typing/base";
-import { TabPaneName } from "element-plus";
-import router from "@/router"
+import { defineStore } from 'pinia';
+import persistedOptionsConfig from '@/stores/modules/persistedState';
+import { routeTabs } from '@/typing/base';
+import { TabPaneName } from 'element-plus';
+import router from '@/router';
 
-export const useTabStore = defineStore('tabs',{
+export const useTabStore = defineStore('tabs', {
   // Using Map to manage tabs list, But the order of object properties may be a problem
   state: (): any => ({
     tabsMap: {},
   }),
   getters: {
-    tabsList: state => {
+    tabsList: (state) => {
       const temp: routeTabs[] = [];
-      for(const key in state.tabsMap){
+      for (const key in state.tabsMap) {
         temp.push(state.tabsMap[key]);
       }
       return temp;
-    }
+    },
   },
   actions: {
-    addTabs(routeParams: routeTabs){
+    addTabs(routeParams: routeTabs) {
       // keep the order of keys
-      if(!this.tabsMap[routeParams.name]){
+      if (!this.tabsMap[routeParams.name]) {
         this.tabsMap[routeParams.name] = routeParams;
       }
     },
-    async removeTabs(name: TabPaneName){
-      if(this.tabsMap[name]){
+    async removeTabs(name: TabPaneName) {
+      if (this.tabsMap[name]) {
         delete this.tabsMap[name];
         const temp = this.tabsList[this.tabsList.length - 1];
         await router.push({
-          name: temp.name
-        })
+          name: temp.name,
+        });
       }
     },
-    initTabs(){
+    initTabs() {
       this.tabsMap = {
-        'home': {
+        home: {
           name: 'home',
           fullPath: '',
           title: '首页',
@@ -44,9 +44,9 @@ export const useTabStore = defineStore('tabs',{
           isKeepAlive: false,
           isActive: true,
           isAffix: true,
-        }
+        },
       };
-    }
+    },
   },
-  persist: persistedOptionsConfig('tabs')
-})
+  persist: persistedOptionsConfig('tabs'),
+});

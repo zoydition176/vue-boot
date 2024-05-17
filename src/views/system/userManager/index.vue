@@ -77,32 +77,32 @@
   </div>
 </template>
 <script setup lang="ts" name="userManager">
-import { ref, onMounted } from 'vue'
-import { deleteUser, getUserList, updateUserList, exportUserList } from '../api'
-import sysDrawer from '../components/sysDrawer.vue'
-import sysDialog from '../components/sysDialog.vue'
-import { fileDownload } from '@/utils'
+import { ref, onMounted } from 'vue';
+import { deleteUser, getUserList, updateUserList, exportUserList } from '../api';
+import sysDrawer from '../components/sysDrawer.vue';
+import sysDialog from '../components/sysDialog.vue';
+import { fileDownload } from '@/utils';
 
-const tableData = ref([])
-const sysDrawerDom = ref()
-const sysDialogDom = ref()
-const listTotal = ref(0)
+const tableData = ref([]);
+const sysDrawerDom = ref();
+const sysDialogDom = ref();
+const listTotal = ref(0);
 function getList() {
   getUserList({
     pageNum: 1,
     pageSize: 10,
   }).then((res) => {
-    console.log(res, 'res')
-    tableData.value = res.records
-    listTotal.value = res.total
-  })
+    console.log(res, 'res');
+    tableData.value = res.records;
+    listTotal.value = res.total;
+  });
 }
 
 function handleDelete(row: any) {
-  console.log(row, 'handleDelete')
+  console.log(row, 'handleDelete');
   deleteUser(row.id).then(() => {
-    getList()
-  })
+    getList();
+  });
 }
 
 function saveUser(type: number, row: any) {
@@ -111,23 +111,23 @@ function saveUser(type: number, row: any) {
     title: type ? '编辑' : '新增',
     row: { ...row },
     api: updateUserList,
-  })
+  });
 }
 
 function handleExport() {
-  console.log('导出')
+  console.log('导出');
   exportUserList().then((res) => {
-    fileDownload(res, '用户列表')
-  })
+    fileDownload(res, '用户列表');
+  });
 }
 
 function commonFileUpload() {
-  sysDialogDom.value.acceptParams({})
+  sysDialogDom.value.acceptParams({});
 }
 
 onMounted(() => {
-  getList()
-})
+  getList();
+});
 </script>
 <style scoped lang="scss">
 .userManager {

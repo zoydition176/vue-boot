@@ -1,5 +1,5 @@
 <template>
-	<div>
+  <div>
     <div class="z-header">
       <span class="user-info">hello! {{ userInfo.nickname }}</span>
       <span class="user-avatar">
@@ -10,16 +10,16 @@
   </div>
 </template>
 <script setup lang="ts" name="headerContent">
-import LayoutChange from "./layoutChange.vue";
-import { getUserStore } from "@/stores/modules/user";
-import { computed } from "vue";
+import LayoutChange from './layoutChange.vue';
+import { getUserStore } from '@/stores/modules/user';
+import { computed } from 'vue';
 
 const userStore = getUserStore();
 const userInfo = computed(() => userStore.userInfo);
 // console.log(userInfo, 'userInfo');
 </script>
 <style lang="scss" scoped>
-.z-header{
+.z-header {
   display: flex;
   height: 40px;
   flex-direction: row;
@@ -27,12 +27,12 @@ const userInfo = computed(() => userStore.userInfo);
   align-items: center;
   padding: 0 20px;
   border-bottom: 1px solid var(--el-border-color-light);
-  .user-info{
+  .user-info {
     font-size: 14px;
   }
-  .user-avatar{
+  .user-avatar {
     display: flex;
-    img{
+    img {
       width: 32px;
       height: 32px;
       border-radius: 50%;

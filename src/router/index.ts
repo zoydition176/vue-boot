@@ -1,9 +1,10 @@
-import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router'
-import { staticRouter } from './modules/staticRouter'
-import { errorRouter } from './modules/errorRouter'
-import { setNProgress } from './plugin/nprogress'
-import { getUserStore } from '@/stores/modules/user'
-// import {useAuthStore} from "@/stores/modules/auth";
+import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router';
+import { staticRouter } from './modules/staticRouter';
+import { errorRouter } from './modules/errorRouter';
+import { setNProgress } from './plugin/nprogress';
+import { getUserStore } from '@/stores/modules/user';
+import { useAuthStore } from '@/stores/modules/auth';
+// import {getToken} from "@/utils/auth";
 
 /*
   meta.title: 标题
@@ -17,39 +18,39 @@ import { getUserStore } from '@/stores/modules/user'
 const routeMode = {
   hash: () => createWebHashHistory(),
   history: () => createWebHistory(),
-}
+};
 const router = createRouter({
   history: routeMode[import.meta.env.VITE_ROUTER_MODE](),
   routes: [...staticRouter, ...errorRouter],
   strict: false,
   scrollBehavior: () => ({ left: 0, top: 0 }),
-})
+});
 router.beforeEach(async (to, from, next) => {
-  setNProgress().start()
-  console.log(to, from, 'routerGuard')
-  // const authStore = useAuthStore();
-  const userStore = getUserStore()
-
-  const token = userStore.token
+  setNProgress().start();
+  console.log(to, from, 'routerGuard');
+  const authStore = useAuthStore();
+  const userStore = getUserStore();
+  // const token = getToken();
+  const token = userStore.token;
   if (to.path === '/login') {
     if (token) {
-      return next({ path: from.fullPath })
+      return next({ path: from.fullPath });
     }
-    return next()
+    return next();
   }
   if (!token) {
-    return next({ path: '/login', replace: true })
+    return next({ path: '/login', replace: true });
   }
   // 加载动态路由
-  // authStore.getAuthRoute();
-  next()
-})
+  authStore.getAuthRoute();
+  next();
+});
 router.onError((err) => {
-  setNProgress().done()
-  console.error(err, '前端路由跳转错误')
-})
+  setNProgress().done();
+  console.error(err, '前端路由跳转错误');
+});
 router.afterEach(() => {
-  setNProgress().done()
-  console.log('前端路由跳转完成')
-})
-export default router
+  setNProgress().done();
+  console.log('前端路由跳转完成');
+});
+export default router;

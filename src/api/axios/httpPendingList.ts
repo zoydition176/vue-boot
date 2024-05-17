@@ -8,33 +8,35 @@ class httpPendingList {
     this.pendingMap = new Map<string, Canceler>();
   }
 
-  getHttpName(config: AxiosRequestConfig){
+  getHttpName(config: AxiosRequestConfig) {
     return config.url + '&&' + config.method;
   }
-  addPending(config: AxiosRequestConfig){
+  addPending(config: AxiosRequestConfig) {
     this.removePending(config);
     const url = this.getHttpName(config);
-    config.cancelToken = config.cancelToken || new axios.CancelToken((Canceler)=>{
-      if(!this.pendingMap.has(url)){
-        this.pendingMap.set(url,Canceler);
-      }
-    })
+    config.cancelToken =
+      config.cancelToken ||
+      new axios.CancelToken((Canceler) => {
+        if (!this.pendingMap.has(url)) {
+          this.pendingMap.set(url, Canceler);
+        }
+      });
   }
-  removePending(config: AxiosRequestConfig){
+  removePending(config: AxiosRequestConfig) {
     const url = this.getHttpName(config);
-    if(this.pendingMap.has(url)){
+    if (this.pendingMap.has(url)) {
       const cancel = this.pendingMap.get(url);
       cancel && cancel(url);
       this.pendingMap.delete(url);
     }
   }
-  removeAllPending(){
-    this.pendingMap.forEach((func,key)=>{
+  removeAllPending() {
+    this.pendingMap.forEach((func, key) => {
       key && func && func();
     });
     this.pendingMap.clear();
   }
-  reset(){
+  reset() {
     this.pendingMap = new Map<string, Canceler>();
   }
 }

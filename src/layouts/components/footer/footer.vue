@@ -1,11 +1,5 @@
 <template>
-  <div>
-    vue boot
-  </div>
+  <div>vue boot</div>
 </template>
-<script setup lang="ts" name="footerContent">
-
-</script>
-<style scoped lang="scss">
-
-</style>
+<script setup lang="ts" name="footerContent"></script>
+<style scoped lang="scss"></style>

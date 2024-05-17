@@ -18,11 +18,11 @@
   </div>
 </template>
 <script setup lang="ts" name="normal">
-import asideBar from "./aside/index.vue";
-import mainContent from "./mainContent/index.vue";
-import headerContent from "./header/header.vue";
-import footerContent from "./footer/footer.vue";
+import asideBar from './aside/index.vue';
+import mainContent from './mainContent/index.vue';
+import headerContent from './header/header.vue';
+import footerContent from './footer/footer.vue';
 </script>
 <style lang="scss" scoped>
-@import "@/layouts/index.scss";
+@import '@/layouts/index.scss';
 </style>

@@ -8,7 +8,11 @@
         <el-dropdown-menu>
           <el-dropdown-item @click="chooseLayout('normal')">normal</el-dropdown-item>
           <el-dropdown-item @click="chooseLayout('vertical')">vertical</el-dropdown-item>
-          <el-dropdown-item divided @click="logout">退出登录</el-dropdown-item>
+          <el-dropdown-item
+            divided
+            @click="logout"
+            >退出登录</el-dropdown-item
+          >
         </el-dropdown-menu>
       </template>
     </el-dropdown>
@@ -16,21 +20,21 @@
 </template>
 <script setup lang="ts" name="layoutChange">
 import { Setting } from '@element-plus/icons-vue';
-import { getGlobalStore } from "@/stores/modules/global";
-import { getUserStore } from "@/stores/modules/user";
+import { getGlobalStore } from '@/stores/modules/global';
+import { getUserStore } from '@/stores/modules/user';
 
 const globalStore = getGlobalStore();
 const useStore = getUserStore();
-function chooseLayout(item: "vertical" | "normal" | "transverse" | "columns"){
+function chooseLayout(item: 'vertical' | 'normal' | 'transverse' | 'columns') {
   console.log(item, 'chooseLayout');
   globalStore.setGlobalLayout(item);
 }
-function logout(){
+function logout() {
   useStore.userLogout();
 }
 </script>
 <style scoped lang="scss">
-.layout-dropdown{
+.layout-dropdown {
   display: flex;
   height: 100%;
   align-items: center;
@@ -42,7 +46,7 @@ function logout(){
   display: flex;
   align-items: center;
 }
-.el-dropdown-link{
+.el-dropdown-link {
   outline: none;
   border: none;
 }

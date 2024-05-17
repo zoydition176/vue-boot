@@ -1,4 +1,4 @@
-import httpVb from '@/api/axios/httpVb'
+import httpVb from '@/api/axios/httpVb';
 
 enum Api {
   userList = '/user/page',
@@ -24,12 +24,12 @@ export const getUserList = (params) => {
         },
       },
     }
-  )
-}
+  );
+};
 
 export const getFileList = (params) => {
-  return httpVb.get({ url: Api.fileList, params })
-}
+  return httpVb.get({ url: Api.fileList, params });
+};
 
 export const updateUserList = (data) => {
   return httpVb.post(
@@ -38,8 +38,8 @@ export const updateUserList = (data) => {
       isTransformResponse: false,
       // contentType: 'application/json;charset=UTF-8'
     }
-  )
-}
+  );
+};
 
 export const deleteUser = (data) => {
   return httpVb.delete(
@@ -47,8 +47,8 @@ export const deleteUser = (data) => {
     {
       isTransformResponse: false,
     }
-  )
-}
+  );
+};
 
 export const exportUserList = () => {
   return httpVb.blobDownload(
@@ -57,8 +57,8 @@ export const exportUserList = () => {
     {
       isTransformResponse: false,
     }
-  )
-}
+  );
+};
 
 export const importUserList = () => {
   return httpVb.post(
@@ -66,8 +66,8 @@ export const importUserList = () => {
     {
       isTransformResponse: false,
     }
-  )
-}
+  );
+};
 
 export const httpUpload = (data) => {
   return httpVb.post(
@@ -75,8 +75,8 @@ export const httpUpload = (data) => {
     {
       contentType: 'multipart/form-data;charset=UTF-8',
     }
-  )
-}
+  );
+};
 
 export const httpFileDownload = (url) => {
   return httpVb.blobDownload(
@@ -85,12 +85,12 @@ export const httpFileDownload = (url) => {
     {
       isTransformResponse: false,
     }
-  )
-}
+  );
+};
 
 export const httpFileDel = (id) => {
-  return httpVb.delete({ url: Api.fileDel + id })
-}
+  return httpVb.delete({ url: Api.fileDel + id });
+};
 
 export const httpFileBatchDel = (data) => {
   return httpVb.post(
@@ -98,8 +98,8 @@ export const httpFileBatchDel = (data) => {
     {
       isTransformResponse: false,
     }
-  )
-}
+  );
+};
 
 export const httpFileUpdate = (data) => {
   return httpVb.post(
@@ -107,5 +107,5 @@ export const httpFileUpdate = (data) => {
     {
       isTransformResponse: false,
     }
-  )
-}
+  );
+};

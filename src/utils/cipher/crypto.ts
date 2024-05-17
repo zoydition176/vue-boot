@@ -5,14 +5,14 @@ import ECB from 'crypto-js/mode-ecb';
 
 const cipherKey = {
   key: 'this is common key',
-  iv: 'this is test iv'
-}
+  iv: 'this is test iv',
+};
 
 function getOptions() {
   return {
     mode: ECB,
     padding: pkcs7,
-    iv: cipherKey.iv
+    iv: cipherKey.iv,
   };
 }
 

@@ -1,13 +1,13 @@
-import {defineStore} from "pinia";
-export const useThemeStore = defineStore('theme',{
+import { defineStore } from 'pinia';
+export const useThemeStore = defineStore('theme', {
   state: () => ({
-    loginBackground: "",
-    themeColor: ""
+    loginBackground: '',
+    themeColor: '',
   }),
   getters: {},
   actions: {
-    setLoginBackground(url:string){
+    setLoginBackground(url: string) {
       this.loginBackground = url;
-    }
-  }
-})
+    },
+  },
+});

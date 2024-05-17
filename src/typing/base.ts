@@ -8,7 +8,7 @@ export interface userInfo {
   avatarUrl: string;
 }
 
-export interface routeTabs{
+export interface routeTabs {
   name: string;
   fullPath: string;
   title: string;
@@ -18,7 +18,7 @@ export interface routeTabs{
   isAffix?: boolean;
 }
 
-export interface menuTypes{
+export interface menuTypes {
   path: string;
   name: string;
   component?: string | (() => Promise<unknown>);

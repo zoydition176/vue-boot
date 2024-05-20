@@ -15,6 +15,14 @@ export const staticRouter: RouteRecordRaw[] = [
     },
   },
   {
+    path: '/test',
+    name: 'test',
+    component: () => import('@/views/tableEdit/index.vue'),
+    meta: {
+      title: 'cessss',
+    },
+  },
+  {
     path: '/main/index',
     name: 'layout',
     component: () => import('@/layouts/index.vue'),

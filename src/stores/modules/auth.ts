@@ -33,7 +33,10 @@ export const useAuthStore = defineStore('auth', {
     },
     // 跳转时加载权限路由
     getAuthRoute() {
-      console.log('getAuthRoute');
+      return new Promise((resolve) => {
+        console.log('getAuthRoute');
+        resolve([]);
+      });
     },
   },
   persist: persistedOptionsConfig('auth'),

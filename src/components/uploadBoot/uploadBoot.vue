@@ -266,8 +266,9 @@ const reset = () => {
 };
 
 function checkFileType(file) {
-  const fileType = file.name.split('.');
-  return file.name + '' + fileType[fileType.length - 1];
+  // const fileType = file.name.split('.');
+  // return file.name + '' + fileType[fileType.length - 1];
+  return file.name;
 }
 
 function fileGeneralUpload(file) {

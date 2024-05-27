@@ -79,7 +79,7 @@ class httpVb {
         // 暂时不用加密
         config.headers.set('X-TIMESTAMP', timestamp);
         // 暂时不用加密
-        config.headers.set('X-Sign', config.url + '&' + JSON.stringify(config.params));
+        config.headers.set('X-Sign', config.url + '&' + encodeURIComponent(JSON.stringify(config.params)));
       }
       // get请求映射params参数
       if (config.method === 'get' && config.params) {

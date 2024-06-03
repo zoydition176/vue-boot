@@ -28,3 +28,12 @@ export function httpGetAuthList() {
     }
   );
 }
+
+export function httpUserInfo() {
+  return httpVb.post(
+    { url: Api.userLogin },
+    {
+      isTransformResponse: false,
+    }
+  );
+}

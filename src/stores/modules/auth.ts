@@ -17,6 +17,10 @@ export const useAuthStore = defineStore('auth', {
   actions: {
     // 登录加载权限菜单
     async getAuthAsideList() {
+      console.log('登录回调');
+    },
+    // 跳转时加载权限路由
+    async getAuthRoute() {
       const res: any[] = staticRouter;
       let tempRoute: menuTypes[] | undefined = [];
       const list = await httpGetAuthList();
@@ -30,13 +34,6 @@ export const useAuthStore = defineStore('auth', {
        * 插入菜单
        * */
       this.asideList = [...tempRoute];
-    },
-    // 跳转时加载权限路由
-    getAuthRoute() {
-      return new Promise((resolve) => {
-        console.log('getAuthRoute');
-        resolve([]);
-      });
     },
   },
   persist: persistedOptionsConfig('auth'),

@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 import persistedOptionsConfig from '@/stores/modules/persistedState';
 import { encryptByAES } from '@/utils/cipher/crypto';
 import router from '@/router';
+import { httpUserInfo } from '@/api/modules/common';
 interface UserState {
   token: string;
   userInfo: {
@@ -41,9 +42,7 @@ export const getUserStore = defineStore('user', {
       await router.replace('/login');
     },
     getInfo() {
-      return new Promise((resolve) => {
-        resolve('success');
-      });
+      return httpUserInfo();
     },
   },
   persist: persistedOptionsConfig('vueboot-user'),

@@ -109,6 +109,7 @@ function login(elForm: FormInstance | undefined) {
             id: res.data.id,
             avatar: res.data.avatarUrl,
           });
+          // 登录调用
           await authStore.getAuthAsideList();
           await router.push('/main/index');
         } else {

@@ -27,6 +27,7 @@ export const staticRouter: RouteRecordRaw[] = [
     name: 'layout',
     component: () => import('@/layouts/index.vue'),
     redirect: '/home',
+    // layout下子路由为内容框内显示的页面
     children: [
       {
         path: '/home',
@@ -105,6 +106,14 @@ export const staticRouter: RouteRecordRaw[] = [
             },
           },
         ],
+      },
+      {
+        path: '/profile',
+        name: 'profile',
+        component: () => import('@/views/system/profile/index.vue'),
+        meta: {
+          title: '个人中心',
+        },
       },
     ],
   },

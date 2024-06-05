@@ -1,11 +1,13 @@
 export interface userInfo {
+  id?: number;
   username: string;
-  password: string;
+  password?: string;
   nickname: string;
   address: string;
   email: string;
   phone: string;
   avatarUrl: string;
+  role: number;
 }
 
 export interface routeTabs {

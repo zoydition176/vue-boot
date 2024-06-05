@@ -8,6 +8,7 @@ import { httpGetAuthList } from '@/api/modules/common';
 export const useAuthStore = defineStore('auth', {
   state: () => ({
     asideList: [] as menuTypes[],
+    routerList: [] as menuTypes[],
   }),
   getters: {
     showAsideList: (state) => {

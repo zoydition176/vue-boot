@@ -98,6 +98,7 @@ class httpVb {
 
   private transformResHook(res: AxiosResponse<Result>, opt: customRequestOptions) {
     const { isTransformResponse, isReturnNativeResponse } = opt;
+    // debugger
     if (isReturnNativeResponse) {
       return res;
     }

@@ -22,16 +22,30 @@ export function httpGetAuthList() {
       isTransformResponse: false,
       mock: {
         isMock: true,
-        data: {
-          list: [1, 2, 3],
-        },
+        data: [
+          {
+            name: 'System',
+            path: '/system',
+            redirect: 'noRedirect',
+            component: 'Layout',
+            meta: {
+              title: 'sadzxcc',
+              isHidden: 'system',
+              isKeepAlive: false,
+              isActive: null,
+              isAffix: false,
+              authFor: [],
+              isTab: false,
+            },
+          },
+        ],
       },
     }
   );
 }
 
 export function httpUserInfo(id: string) {
-  return httpVb.post(
+  return httpVb.get(
     { url: Api.userInfo + id },
     {
       isTransformResponse: false,

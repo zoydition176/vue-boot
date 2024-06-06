@@ -41,8 +41,8 @@ export const getUserStore = defineStore('user', {
       };
       await router.replace('/login');
     },
-    getInfo(id: string) {
-      return httpUserInfo(id);
+    getInfo() {
+      return httpUserInfo();
     },
   },
   persist: persistedOptionsConfig('vueboot-user'),

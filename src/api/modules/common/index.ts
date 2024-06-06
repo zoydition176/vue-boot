@@ -2,7 +2,7 @@ import httpVb from '@/api/axios/httpVb';
 enum Api {
   userLogin = '/user/login',
   userAuth = '/user/auth',
-  userInfo = '/user/info/',
+  userInfo = '/user/info',
 }
 
 export function httpLogin(data) {
@@ -44,9 +44,9 @@ export function httpGetAuthList() {
   );
 }
 
-export function httpUserInfo(id: string) {
+export function httpUserInfo() {
   return httpVb.get(
-    { url: Api.userInfo + id },
+    { url: Api.userInfo },
     {
       isTransformResponse: false,
     }

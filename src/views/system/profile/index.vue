@@ -38,7 +38,6 @@
 import { getUserStore } from '@/stores/modules/user';
 import { onMounted, ref } from 'vue';
 import { userInfo } from '@/typing/base';
-const useId = getUserStore().userInfo.id;
 const data = ref<userInfo>({
   id: 0,
   username: '',
@@ -52,10 +51,10 @@ const data = ref<userInfo>({
 });
 onMounted(() => {
   getUserStore()
-    .getInfo(useId)
+    .getInfo()
     .then((res) => {
-      data.value = res.data;
-      console.log(data.value, 'data');
+      data.value = res;
+      console.log(res, 'data');
     });
 });
 </script>

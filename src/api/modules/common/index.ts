@@ -45,10 +45,5 @@ export function httpGetAuthList() {
 }
 
 export function httpUserInfo() {
-  return httpVb.get(
-    { url: Api.userInfo },
-    {
-      isTransformResponse: false,
-    }
-  );
+  return httpVb.get({ url: Api.userInfo });
 }
